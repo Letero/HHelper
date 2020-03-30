@@ -26,10 +26,6 @@ void KeystrokesSender::SendMessage(QString message)
     QByteArray ba = message.toUtf8();
     const char *thefile = ba.constData();
 
-    while (thefile--)
-    {
-        qDebug() <<"";
-    }
 
 }
 
