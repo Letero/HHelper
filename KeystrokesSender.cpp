@@ -1,8 +1,12 @@
-#include "KeySender.h"
+#include "KeystrokesSender.h"
 
-KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent)
+KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), targetWindow("")
 {
 
+}
+void KeystrokesSender::setupTargetWindow(QString target)
+{
+    this->targetWindow = target;
 }
 
 void KeystrokesSender::SendMessage(QString message)
@@ -34,7 +38,6 @@ void KeystrokesSender::SendMessage(QString message)
         }
         else {
             SendKey(thefile[i]);
-            qDebug() << thefile[i];
         }
     }
 }
@@ -48,11 +51,11 @@ void KeystrokesSender::SendKey(BYTE virtualKey)
     Event.ki.dwFlags = KEYEVENTF_SCANCODE;
     Event.ki.wScan = mappedKey;
     SendInput( 1, &Event, sizeof( Event ) );
+    Sleep(15);
 }
 
 void KeystrokesSender::SendKeyUppercase(BYTE virtualKey)
 {
-
     INPUT Event = {};
     const SHORT key = VkKeyScan(virtualKey);
     const UINT mappedKey = MapVirtualKey( LOBYTE( key ), 0 );
@@ -78,7 +81,9 @@ void KeystrokesSender::SendKeyUppercase(BYTE virtualKey)
 
 void KeystrokesSender::sendKeystroke(const QString &message)
 {
-    HWND hWndTarget = FindWindowW(nullptr, L"Stars Slots");
+    const wchar_t *window = (const wchar_t *)targetWindow.utf16();
+    QTextStream() << this->text();
+    HWND hWndTarget = FindWindowW(nullptr, window);
     if (SetForegroundWindow(hWndTarget))
     {
         SendMessage(message);

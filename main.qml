@@ -1,6 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Controls 2.5
+import com.company.keystrokessender 1.0
 
 Window {
     visible: true
@@ -8,9 +9,28 @@ Window {
     height: 480
     title: qsTr("Hello World")
 
+    KeystrokesSender{
+        id: keysender
+    }
+
+    TextField {
+        id: serverField1
+        x: 15
+        y: 46
+        width: 120
+        height: 45
+        topPadding: 8
+        font.pointSize: 14
+        bottomPadding: 16
+        placeholderText: "Server Ip"
+        renderType: Text.QtRendering
+        onTextChanged: keysender.setupTargetWindow(text)
+    }
     Row {
         id: row1
         spacing: 10
+        x: 100
+        y: 100
         Button {
             id: button1
             text: "Disconnect"

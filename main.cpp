@@ -2,7 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QQmlContext>
-#include "KeySender.h"
+#include <QQmlProperty>
+#include "KeystrokesSender.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +11,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    QScopedPointer<KeystrokesSender> keysender(new KeystrokesSender);
+    qmlRegisterType<KeystrokesSender>("com.company.keystrokessender",1,0,"KeystrokesSender");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
-    engine.rootContext()->setContextProperty("keysender", keysender.data());
+//    engine.rootContext()->setContextProperty("keysender", keysender.data());
 
     return app.exec();
 }
