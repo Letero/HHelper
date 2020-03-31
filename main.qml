@@ -10,18 +10,21 @@ Window {
 
     Row {
         id: row1
-
+        spacing: 10
         Button {
             id: button1
-            text: "button1"
+            text: "Disconnect"
             onClicked: {
+                keysender.sendKeystroke("`")
+                keysender.sendKeystroke("disconnect")
+                keysender.sendKeystroke("VK_RETURN")
                 keysender.sendKeystroke("`")
             }
         }
 
         Button {
             id: button2
-            text: "button2"
+            text: "+10 lev +1000 diamonds"
             onClicked: {
 
             }

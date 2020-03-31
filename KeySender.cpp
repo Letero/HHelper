@@ -25,14 +25,46 @@ void KeystrokesSender::SendMessage(QString message)
 
     QByteArray ba = message.toUtf8();
     const char *thefile = ba.constData();
-
-
+    for (int i = 0; thefile[i] != '\0'; ++i )
+    {
+        if ((thefile[i] >= 'A') && (thefile[i] <= 'Z'))
+        {
+            SendKeyUppercase(thefile[i]);
+        }
+        else {
+            SendKey(thefile[i]);
+        }
+    }
 }
 
 void KeystrokesSender::SendKey(BYTE virtualKey)
 {
-    keybd_event(virtualKey, 0, 0, 0);
-    keybd_event(virtualKey, 0, KEYEVENTF_KEYUP, 0);
+    keybd_event(VkKeyScan(virtualKey), 0, 0, 0);
+    keybd_event(VkKeyScan(virtualKey), 0, KEYEVENTF_KEYUP, 0);
+}
+
+void KeystrokesSender::SendKeyUppercase(BYTE virtualKey)
+{
+
+    INPUT Event = { 0 };
+    const SHORT key = VkKeyScan(virtualKey);
+    const UINT mappedKey = MapVirtualKey( LOBYTE( key ), 0 );
+    Event.type = INPUT_KEYBOARD;
+    Event.ki.dwFlags = KEYEVENTF_SCANCODE;
+    Event.ki.wScan = MapVirtualKey( VK_LSHIFT, 0 );
+    SendInput( 1, &Event, sizeof( Event ) );
+
+    // upper case 'virtualKey' (press down)
+    Event.type = INPUT_KEYBOARD;
+    Event.ki.dwFlags = KEYEVENTF_SCANCODE;
+    Event.ki.wScan = mappedKey;
+    SendInput( 1, &Event, sizeof( Event ) );
+
+    // Release shift key
+    Event.type = INPUT_KEYBOARD;
+    Event.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
+    Event.ki.wScan = MapVirtualKey( VK_LSHIFT, 0 );
+    SendInput( 1, &Event, sizeof( Event ) );
 }
 
 void KeystrokesSender::sendKeystroke(const QString &message)

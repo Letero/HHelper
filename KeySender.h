@@ -10,6 +10,7 @@ class KeystrokesSender : public QObject
     Q_OBJECT
 private:
     void SendKey(BYTE virtualKey);
+    void SendKeyUppercase(BYTE virtualKey);
     void SendMessage(QString message);
 public:
     explicit KeystrokesSender(QObject *parent = nullptr);
