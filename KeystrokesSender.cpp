@@ -82,7 +82,7 @@ void KeystrokesSender::SendKeyUppercase(BYTE virtualKey)
 void KeystrokesSender::sendKeystroke(const QString &message)
 {
     const wchar_t *window = (const wchar_t *)targetWindow.utf16();
-    QTextStream() << this->text();
+    qDebug() << window;
     HWND hWndTarget = FindWindowW(nullptr, window);
     if (SetForegroundWindow(hWndTarget))
     {

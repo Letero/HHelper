@@ -3,28 +3,57 @@ import QtQuick.Window 2.14
 import QtQuick.Controls 2.5
 import com.company.keystrokessender 1.0
 
+
 Window {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("HHelper")
 
     KeystrokesSender{
         id: keysender
     }
 
+    QMLJsonParser {
+        id: parser
+    }
+
+    Button {
+        id: test1
+        x: 400
+        y: 12
+        text: "test"
+        onClicked: {
+            parser.jso()
+        }
+
+    }
+
+    Component.onCompleted: {
+        keysender.setupTargetWindow(targetWindow.text)
+    }
+
     TextField {
-        id: serverField1
-        x: 15
-        y: 46
-        width: 120
+        id: targetWindow
+        x: 10
+        y: 10
+        width: 200
         height: 45
         topPadding: 8
         font.pointSize: 14
         bottomPadding: 16
-        placeholderText: "Server Ip"
+        text: parser.getTargetName()
         renderType: Text.QtRendering
         onTextChanged: keysender.setupTargetWindow(text)
+    }
+    Button {
+        id: buttonSetTarget
+        x: 220
+        y: 12
+        text: "Set as default"
+        onClicked: {
+            parser.setTargetName(targetWindow.text)
+        }
     }
     Row {
         id: row1
@@ -35,10 +64,11 @@ Window {
             id: button1
             text: "Disconnect"
             onClicked: {
-                keysender.sendKeystroke("`")
+                keysender.sendKeystroke("VK_BACK_QUOTE")
                 keysender.sendKeystroke("disconnect")
                 keysender.sendKeystroke("VK_RETURN")
-                keysender.sendKeystroke("`")
+                keysender.sendKeystroke("VK_BACK_QUOTE")
+                keysender.sendKeystroke("VK_RETURN")
             }
         }
 
@@ -57,14 +87,18 @@ Window {
                 keysender.sendKeystroke("nect")
                 keysender.sendKeystroke("VK_RETURN")
                 keysender.sendKeystroke("`")
+                keysender.sendKeystroke("VK_RETURN")
             }
         }
 
         Button {
             id: button3
-            text: "test"
+            text: "GoCats"
             onClicked: {
-                keysender.sendKeystroke("`aaaaaaaaaaaaaaaaaaaa")
+                keysender.sendKeystroke("`launchGame SlotsBigCats")
+                keysender.sendKeystroke("VK_RETURN")
+                keysender.sendKeystroke("`")
+                keysender.sendKeystroke("VK_RETURN")
             }
         }
     }
