@@ -10,9 +10,12 @@
 class JsonParser : public QObject
 {
     Q_OBJECT
-    QJsonObject settings;
-    QJsonObject readFile();
+    QJsonObject m_config;
+    QJsonObject m_mainSettings;
+    QJsonObject m_buttonSettings;
     void writeToFile();
+    bool loadConfig(QString filename);
+    bool saveConfig(QString filename);
 public:
     explicit JsonParser(QObject *parent = nullptr);
     Q_INVOKABLE QString getTargetWindowName();
@@ -20,4 +23,3 @@ public:
 signals:
 
 };
-
