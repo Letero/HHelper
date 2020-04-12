@@ -26,6 +26,7 @@ bool JsonParser::loadConfig(QString filename)
     if (!m_config.isEmpty())
     {
         m_mainSettings = m_config.value(QString("main_settings")).toObject();
+        m_buttonSettings = m_config.value(QString("button_settings")).toObject();
     } else
     {
         return false;
@@ -43,6 +44,7 @@ bool JsonParser::saveConfig(QString filename)
 //        todo: throw exception
     }
     m_config["main_settings"] = m_mainSettings;
+    m_config["button_settings"] = m_buttonSettings;
     QJsonDocument saveDoc(m_config);
     saveFile.write(saveDoc.toJson());
 
@@ -57,7 +59,22 @@ QString JsonParser::getTargetWindowName()
 
 void JsonParser::setTargetWindowName(QString windowName)
 {
-    QJsonValue targetWindow = m_mainSettings.value(QString("target_window"));
     m_mainSettings["target_window"] = windowName;
+}
+
+QString JsonParser::getSlotName()
+{
+    QJsonValue slotName = m_mainSettings.value(QString("slot_name"));
+    return slotName.toString();
+}
+
+void JsonParser::setSlotName(QString slotName)
+{
+    m_mainSettings["slot_name"] = slotName;
+}
+
+
+void JsonParser::saveCurrentConfig()
+{
     saveConfig("config.json");
 }
