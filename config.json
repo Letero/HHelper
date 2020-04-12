@@ -1,0 +1,28 @@
+{
+    "button_settings": {
+        "Disconnect": [
+            "`",
+            "disconnect",
+            "VK_RETURN",
+            "`"
+        ],
+        "button2": [
+            "",
+            ""
+        ],
+        "button3": [
+            "",
+            ""
+        ],
+        "button4": [
+            "",
+            ""
+        ]
+    },
+    "main_settings": {
+        "slot_name": "SlotsBigCats",
+        "target_window": "Test",
+        "window_height": 480,
+        "window_width": 640
+    }
+}

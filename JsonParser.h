@@ -20,6 +20,9 @@ public:
     explicit JsonParser(QObject *parent = nullptr);
     Q_INVOKABLE QString getTargetWindowName();
     Q_INVOKABLE void setTargetWindowName(QString windowName);
+    Q_INVOKABLE void setSlotName(QString slotName);
+    Q_INVOKABLE QString getSlotName();
+    Q_INVOKABLE void saveCurrentConfig();
 signals:
 
 };
