@@ -22,12 +22,10 @@ bool JsonParser::loadConfig(QString filename)
 
     m_config = doc.object();
 
-    if (!m_config.isEmpty())
-    {
+    if (!m_config.isEmpty()) {
         m_mainSettings = m_config.value(QString("main_settings")).toObject();
         m_buttonSettings = m_config.value(QString("button_settings")).toObject();
-    } else
-    {
+    } else {
         return false;
     }
 

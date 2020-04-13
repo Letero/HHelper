@@ -17,20 +17,23 @@ private:
     void SendMessage(QString message);
 
 public:
-    QString text() const{
+    QString text() const
+    {
         return mText;
     }
-    void setText(const QString &text){
-         if(text == mText)
-             return;
-         mText = text;
-         emit textChanged(mText);
+    void setText(const QString &text)
+    {
+        if (text == mText) {
+            return;
+        }
+        mText = text;
+        emit textChanged(mText);
     }
     explicit KeystrokesSender(QObject *parent = nullptr);
     Q_INVOKABLE void setupTargetWindow(QString target);
-    Q_INVOKABLE void sendKeystroke( const QString &message);
+    Q_INVOKABLE void sendKeystroke(const QString &message);
 
 signals:
-    void textChanged(const QString & text);
+    void textChanged(const QString &text);
 };
 
