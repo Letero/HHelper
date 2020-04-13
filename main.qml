@@ -36,7 +36,7 @@ Window {
         renderType: Text.QtRendering
         onTextChanged: {
             keysender.setupTargetWindow(text)
-            parser.setTargetWindowName(targetWindowName)
+            parser.setTargetWindowName(text)
         }
     }
 

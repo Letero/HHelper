@@ -11,7 +11,6 @@ bool JsonParser::loadConfig(QString filename)
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << "file error";
         return false;
-//        todo: throw exception
     }
     const QByteArray ba = file.readAll();
     file.close();
@@ -31,7 +30,7 @@ bool JsonParser::loadConfig(QString filename)
     {
         return false;
     }
-//    saveConfig("config.json");
+
     return true;
 }
 
@@ -41,7 +40,6 @@ bool JsonParser::saveConfig(QString filename)
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qDebug() << "file error";
         return false;
-//        todo: throw exception
     }
     m_config["main_settings"] = m_mainSettings;
     m_config["button_settings"] = m_buttonSettings;
@@ -72,6 +70,8 @@ void JsonParser::setSlotName(QString slotName)
 {
     m_mainSettings["slot_name"] = slotName;
 }
+
+
 
 
 void JsonParser::saveCurrentConfig()
