@@ -28,13 +28,6 @@ public:
     Q_INVOKABLE void addButton(const QString &name, const QStringList &args);
 
     Q_INVOKABLE void init(const QVariantMap &args);
-    Q_INVOKABLE void printShit()
-    {
-
-        for (auto x : mButtonData) {
-            qDebug() << x.arguments;
-        }
-    }
 
 private:
     QVector<ButtonData> mButtonData;

@@ -97,8 +97,7 @@ Window {
                     text: buttonName
                     width: 100
                     onClicked: {
-                        keysender.sendKeystroke(arguments)
-                        buttonModel.printShit()
+                        keysender.sendKeystroke(buttonArgs)
                     }
                 }
             }

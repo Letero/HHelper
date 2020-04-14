@@ -29,7 +29,7 @@ QHash<int, QByteArray> ButtonModel::roleNames() const
 {
     return {
         { roles::BUTTON_NAME, "buttonName" },
-        { roles::ARGUMENTS, "arguments" }
+        { roles::ARGUMENTS, "buttonArgs" }
     };
 }
 
