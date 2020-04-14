@@ -12,9 +12,9 @@ class KeystrokesSender : public QObject
 private:
     QString mText;
     QString targetWindow;
-    void SendKey(BYTE virtualKey);
-    void SendKeyUppercase(BYTE virtualKey);
-    void SendMessage(QString message);
+    void sendKey(BYTE virtualKey);
+    void sendKeyUppercase(BYTE virtualKey);
+    void sendMessage(QString message);
 
 public:
     QString text() const
@@ -31,7 +31,7 @@ public:
     }
     explicit KeystrokesSender(QObject *parent = nullptr);
     Q_INVOKABLE void setupTargetWindow(QString target);
-    Q_INVOKABLE void sendKeystroke(const QString &message);
+    Q_INVOKABLE void sendKeystroke(const QStringList &messages);
 
 signals:
     void textChanged(const QString &text);

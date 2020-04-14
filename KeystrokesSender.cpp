@@ -9,7 +9,7 @@ void KeystrokesSender::setupTargetWindow(QString target)
     this->targetWindow = target;
 }
 
-void KeystrokesSender::SendMessage(QString message)
+void KeystrokesSender::sendMessage(QString message)
 {
     QMap<QString, int> specialKeys {
         {"VK_BACK_QUOTE", 0xC0},
@@ -20,7 +20,7 @@ void KeystrokesSender::SendMessage(QString message)
     QMap<QString, int>::Iterator it;
     for (it = specialKeys.begin(); it != specialKeys.end(); ++it) {
         if (message == it.key()) {
-            SendKey(it.value());
+            sendKey(it.value());
             return;
         }
     }
@@ -29,14 +29,14 @@ void KeystrokesSender::SendMessage(QString message)
     const char *thefile = ba.constData();
     for (int i = 0; thefile[i] != '\0'; ++i) {
         if ((thefile[i] >= 'A') && (thefile[i] <= 'Z')) {
-            SendKeyUppercase(thefile[i]);
+            sendKeyUppercase(thefile[i]);
         } else {
-            SendKey(thefile[i]);
+            sendKey(thefile[i]);
         }
     }
 }
 
-void KeystrokesSender::SendKey(BYTE virtualKey)
+void KeystrokesSender::sendKey(BYTE virtualKey)
 {
     INPUT Event = {};
     const SHORT key = VkKeyScan(virtualKey);
@@ -48,7 +48,7 @@ void KeystrokesSender::SendKey(BYTE virtualKey)
     Sleep(1);
 }
 
-void KeystrokesSender::SendKeyUppercase(BYTE virtualKey)
+void KeystrokesSender::sendKeyUppercase(BYTE virtualKey)
 {
     INPUT Event = {};
     const SHORT key = VkKeyScan(virtualKey);
@@ -73,11 +73,15 @@ void KeystrokesSender::SendKeyUppercase(BYTE virtualKey)
     SendInput(1, &Event, sizeof(Event));
 }
 
-void KeystrokesSender::sendKeystroke(const QString &message)
+void KeystrokesSender::sendKeystroke(const QStringList &messages)
 {
+    qDebug() << messages;
     const wchar_t *window = (const wchar_t *)targetWindow.utf16();
     HWND hWndTarget = FindWindowW(nullptr, window);
     if (SetForegroundWindow(hWndTarget)) {
-        SendMessage(message);
+
+        for (auto message : messages) {
+            sendMessage(message);
+        }
     }
 }
