@@ -1,4 +1,5 @@
 #include "JsonParser.h"
+#include "QJsonArray"
 
 JsonParser::JsonParser(QObject *parent) : QObject(parent)
 {
@@ -69,10 +70,21 @@ void JsonParser::setSlotName(QString slotName)
     m_mainSettings["slot_name"] = slotName;
 }
 
-
-
-
 void JsonParser::saveCurrentConfig()
 {
     saveConfig("config.json");
+}
+
+QVariantMap JsonParser::getButtonsData()
+{
+    QVariantMap data;
+    for (auto key : m_buttonSettings.keys()) {
+        data[key] = {m_buttonSettings[key]};
+    }
+    return data;
+}
+
+void JsonParser::addButtonArgs(QString name, const QJsonArray &args)
+{
+    m_buttonSettings[name] = args;
 }

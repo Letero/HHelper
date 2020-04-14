@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <QJsonObject>
+#include <QMap>
 
 class JsonParser : public QObject
 {
@@ -23,6 +24,8 @@ public:
     Q_INVOKABLE void setSlotName(QString slotName);
     Q_INVOKABLE QString getSlotName();
     Q_INVOKABLE void saveCurrentConfig();
+    Q_INVOKABLE QVariantMap getButtonsData();
+    Q_INVOKABLE void addButtonArgs(QString name, const QJsonArray &args);
 signals:
 
 };

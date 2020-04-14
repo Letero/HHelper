@@ -4,8 +4,9 @@ import QtQuick.Controls 2.5
 import com.company.keystrokessender 1.0
 import com.company.jsonparser 1.0
 
-
 Window {
+    id: root
+
     visible: true
     width: 640
     height: 480
@@ -21,6 +22,7 @@ Window {
 
     Component.onCompleted: {
         keysender.setupTargetWindow(targetWindow.text)
+        buttonModel.init(parser.getButtonsData())
     }
 
     TextField {
@@ -53,27 +55,24 @@ Window {
     Row {
         id: row1
         spacing: 10
-        x: 100
-        y: 100
+        x: 70
+        y: 80
 
         Button {
             id: goSlotButton
             text: "Go to slot:"
+            property var args: ['`', 'launchGame ', slotName.text, 'VK_RETURN', '`']
             onClicked: {
-                keysender.sendKeystroke("`launchGame ")
-                keysender.sendKeystroke(slotName.text)
-                keysender.sendKeystroke("VK_RETURN")
-                keysender.sendKeystroke("`")
-                keysender.sendKeystroke("VK_RETURN")
+                keysender.sendKeystroke(args)
             }
         }
         TextField {
             id: slotName
             width: 150
             height: 40
-            topPadding: 8
+            topPadding: 10
             font.pointSize: 11
-            bottomPadding: 16
+            bottomPadding: 14
             text: parser.getSlotName()
             renderType: Text.QtRendering
             onTextChanged: {
@@ -85,34 +84,32 @@ Window {
     Row {
         id: row2
         spacing: 10
-        x: 100
-        y: 200
-        Button {
-            id: button1
-            text: "Disconnect"
-            onClicked: {
-                keysender.sendKeystroke("VK_BACK_QUOTE")
-                keysender.sendKeystroke("disconnect")
-                keysender.sendKeystroke("VK_RETURN")
+        x: 70
+        y: 150
+
+        Grid {
+            spacing: 10
+            Repeater {
+                anchors.fill: parent
+
+                model: buttonModel
+                delegate: Button {
+                    text: buttonName
+                    width: 100
+                    onClicked: {
+                        keysender.sendKeystroke(arguments)
+                        buttonModel.printShit()
+                    }
+                }
             }
         }
-
         Button {
-            id: button2
-            text: "+10 lev +1000 diamonds"
-            onClicked: {
-                keysender.sendKeystroke("`")
-                keysender.sendKeystroke("server playerChange level 10")
-                keysender.sendKeystroke("VK_RETURN")
-                keysender.sendKeystroke("server playerChange diamonds 1000")
-                keysender.sendKeystroke("VK_RETURN")
-                keysender.sendKeystroke("skipRewardPopups true")
-                keysender.sendKeystroke("VK_RETURN")
-                keysender.sendKeystroke("disconnect")
-                keysender.sendKeystroke("VK_RETURN")
-                keysender.sendKeystroke("`")
-                keysender.sendKeystroke("VK_RETURN")
-            }
+            text: "Add button"
+            onClicked: buttonModel.addButton("klik", ['test', 'srest', 'agrest'])
         }
     }
+
+
+
+
 }
