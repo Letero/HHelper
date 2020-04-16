@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<KeystrokesSender>("com.company.keystrokessender", 1, 0, "KeystrokesSender");
     qmlRegisterType<JsonParser>("com.company.jsonparser", 1, 0, "JsonParser");
+    qmlRegisterSingletonType(QUrl("qrc:/Colors.qml"), "Colors", 1, 0, "Colors");
     ButtonModel model;
 
 
