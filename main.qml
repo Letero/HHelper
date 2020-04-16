@@ -138,6 +138,52 @@ Window {
                 onClicked: popup.close()
             }
         }
+
+        ListView {
+            id: inputList
+            x: parent.width / 2 - width / 2
+            y: parent.height / 2 - height / 2
+            width: parent.width / 2
+            height: parent.height / 2
+            property var stringArray:  ["", ""]
+            model: stringArray
+
+            function updateModel() {
+                model = 0
+                model = stringArray
+                currentIndex = stringArray.length - 1
+            }
+
+            delegate: TextField {
+                width: 150
+                height: 40
+                topPadding: 10
+                font.pointSize: 11
+                bottomPadding: 14
+                text: modelData
+                renderType: Text.QtRendering
+
+                onAccepted: {
+                    if ( (inputList.stringArray[index] !== "") && (index == (inputList.stringArray.length - 1))) {
+                        inputList.stringArray.push("")
+                        inputList.updateModel()
+                    }
+                }
+                onTextChanged: {
+                    inputList.stringArray[index] = text
+                }
+            }
+        }
+
+        Button {
+            x: 100
+            y: 500
+            text: "Save"
+            onClicked: {
+                buttonModel.addButton("klik", inputList.stringArray)
+            }
+        }
+
     }
 
     Button {
@@ -153,13 +199,8 @@ Window {
         palette {
             button: Colors.autumn
         }
-
         onClicked: {
-            buttonModel.addButton("klik", ['test', 'srest', 'agrest'])
             popup.open()
         }
     }
-
-
-
 }
