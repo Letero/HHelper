@@ -3,13 +3,14 @@ import QtQuick.Window 2.14
 import QtQuick.Controls 2.5
 import com.company.keystrokessender 1.0
 import com.company.jsonparser 1.0
+import Colors 1.0
 
 Window {
     id: root
 
     visible: true
-    width: 640
-    height: 480
+    width: 800
+    height: 700
     title: qsTr("HHelper")
 
     KeystrokesSender{
@@ -102,12 +103,62 @@ Window {
                 }
             }
         }
-        Button {
-            text: "Add button"
-            onClicked: buttonModel.addButton("klik", ['test', 'srest', 'agrest'])
+    }
+
+    Popup {
+        id: popup
+        x: parent.width / 2 - width / 2
+        y: parent.height / 2 - height / 2
+        width: parent.width / 2
+        height: parent.height - 50
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnReleaseOutside
+
+        Text {
+            x: parent.width / 2 - width / 2
+            y: 20
+            text: "Commands:"
+            font.pixelSize: 15
+        }
+
+        Item {
+            width: parent.width
+            height: parent.height
+            Button {
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    margins: {
+                        top: 15
+                        right: 15
+                    }
+                }
+                text: "Exit"
+                onClicked: popup.close()
+            }
         }
     }
 
+    Button {
+        x: 550
+        y: 150
+        text: "Add button"
+        contentItem: Text {
+            text: parent.text
+            color: "white"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+        palette {
+            button: Colors.autumn
+        }
+
+        onClicked: {
+            buttonModel.addButton("klik", ['test', 'srest', 'agrest'])
+            popup.open()
+        }
+    }
 
 
 

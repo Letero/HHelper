@@ -45,7 +45,7 @@ void KeystrokesSender::sendKey(BYTE virtualKey)
     Event.ki.dwFlags = KEYEVENTF_SCANCODE;
     Event.ki.wScan = mappedKey;
     SendInput(1, &Event, sizeof(Event));
-    Sleep(1);
+    Sleep(15);
 }
 
 void KeystrokesSender::sendKeyUppercase(BYTE virtualKey)
