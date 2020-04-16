@@ -4,7 +4,7 @@ KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), targetWin
 {
 
 }
-void KeystrokesSender::setupTargetWindow(QString target)
+void KeystrokesSender::setupTargetWindow(const QString &target)
 {
     this->targetWindow = target;
 }
@@ -26,7 +26,7 @@ void KeystrokesSender::sendMessage(QString message)
     }
 
     QByteArray ba = message.toUtf8();
-    const char *thefile = ba.constData();
+    const auto *thefile = ba.constData();
     for (int i = 0; thefile[i] != '\0'; ++i) {
         if ((thefile[i] >= 'A') && (thefile[i] <= 'Z')) {
             sendKeyUppercase(thefile[i]);
@@ -45,7 +45,7 @@ void KeystrokesSender::sendKey(BYTE virtualKey)
     Event.ki.dwFlags = KEYEVENTF_SCANCODE;
     Event.ki.wScan = mappedKey;
     SendInput(1, &Event, sizeof(Event));
-    Sleep(20);
+
 }
 
 void KeystrokesSender::sendKeyUppercase(BYTE virtualKey)
@@ -75,12 +75,11 @@ void KeystrokesSender::sendKeyUppercase(BYTE virtualKey)
 
 void KeystrokesSender::sendKeystroke(const QStringList &messages)
 {
-    qDebug() << messages;
     const wchar_t *window = (const wchar_t *)targetWindow.utf16();
     HWND hWndTarget = FindWindowW(nullptr, window);
     if (SetForegroundWindow(hWndTarget)) {
 
-        for (auto message : messages) {
+        for (const auto &message : messages) {
             sendMessage(message);
         }
     }

@@ -30,7 +30,7 @@ public:
         emit textChanged(mText);
     }
     explicit KeystrokesSender(QObject *parent = nullptr);
-    Q_INVOKABLE void setupTargetWindow(QString target);
+    Q_INVOKABLE void setupTargetWindow(const QString &target);
     Q_INVOKABLE void sendKeystroke(const QStringList &messages);
 
 signals:
