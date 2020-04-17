@@ -25,7 +25,7 @@ public:
     Q_INVOKABLE QString getSlotName();
     Q_INVOKABLE void saveCurrentConfig();
     Q_INVOKABLE QVariantMap getButtonsData();
-    Q_INVOKABLE void addButtonArgs(QString name, const QJsonArray &args);
+    Q_INVOKABLE void addButton(QString name, const QJsonArray &args);
 signals:
 
 };
