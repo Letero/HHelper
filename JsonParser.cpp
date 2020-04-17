@@ -84,7 +84,7 @@ QVariantMap JsonParser::getButtonsData()
     return data;
 }
 
-void JsonParser::addButtonArgs(QString name, const QJsonArray &args)
+void JsonParser::addButton(QString name, const QJsonArray &args)
 {
     m_buttonSettings[name] = args;
 }

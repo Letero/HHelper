@@ -140,12 +140,13 @@ Window {
         }
 
         ListView {
-            id: inputList
+            id: commandsList
             x: parent.width / 2 - width / 2
             y: parent.height / 2 - height / 2
             width: parent.width / 2
             height: parent.height / 2
             property var stringArray:  ["", ""]
+            property var buttonName: ""
             model: stringArray
 
             function updateModel() {
@@ -155,23 +156,39 @@ Window {
             }
 
             delegate: TextField {
-                width: 150
+                x: -30
+                width: 260
                 height: 40
                 topPadding: 10
-                font.pointSize: 11
+                font.pointSize: 9
                 bottomPadding: 14
                 text: modelData
                 renderType: Text.QtRendering
 
                 onAccepted: {
-                    if ( (inputList.stringArray[index] !== "") && (index == (inputList.stringArray.length - 1))) {
-                        inputList.stringArray.push("")
-                        inputList.updateModel()
+                    if ( (commandsList.stringArray[index] !== "") && (index == (commandsList.stringArray.length - 1))) {
+                        commandsList.stringArray.push("")
+                        commandsList.updateModel()
                     }
                 }
                 onTextChanged: {
-                    inputList.stringArray[index] = text
+                    commandsList.stringArray[index] = text
                 }
+            }
+        }
+
+        TextField {
+            x: 100
+            y: 60
+            width: 100
+            height: 45
+            topPadding: 8
+            font.pointSize: 11
+            bottomPadding: 16
+            text: commandsList.buttonName
+            renderType: Text.QtRendering
+            onTextChanged: {
+                commandsList.buttonName = text
             }
         }
 
@@ -180,7 +197,12 @@ Window {
             y: 500
             text: "Save"
             onClicked: {
-                buttonModel.addButton("klik", inputList.stringArray)
+                if (commandsList.buttonName !== "")
+                {
+                    buttonModel.addButton(commandsList.buttonName, commandsList.stringArray)
+                    parser.addButton(commandsList.buttonName, commandsList.stringArray)
+                    parser.saveCurrentConfig()
+                }
             }
         }
 
