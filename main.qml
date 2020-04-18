@@ -89,16 +89,41 @@ Window {
         y: 150
 
         Grid {
+            id: grid
             spacing: 10
             Repeater {
+                id: repeater
                 anchors.fill: parent
 
                 model: buttonModel
                 delegate: Button {
+                    id: test
                     text: buttonName
                     width: 100
-                    onClicked: {
-                        keysender.sendKeystroke(buttonArgs)
+                    MouseArea {
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        onClicked: {
+                            if (mouse.button == Qt.LeftButton)
+                                keysender.sendKeystroke(buttonArgs)
+                            if (mouse.button === Qt.RightButton)
+                                contextMenu.popup()
+                        }
+                        onPressAndHold: {
+                            if (mouse.source === Qt.MouseEventNotSynthesized)
+                                contextMenu.popup()
+                        }
+
+                        Menu {
+                            id: contextMenu
+                            MenuItem {
+                                text: "Remove"
+                                onTriggered: {
+                                   console.log(index)
+                                   buttonModel.removeButton(index)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -140,7 +165,7 @@ Window {
         }
 
         ListView {
-            id: commandsList
+            id: buttonsList
             x: parent.width / 2 - width / 2
             y: parent.height / 2 - height / 2
             width: parent.width / 2
@@ -166,13 +191,13 @@ Window {
                 renderType: Text.QtRendering
 
                 onAccepted: {
-                    if ( (commandsList.stringArray[index] !== "") && (index == (commandsList.stringArray.length - 1))) {
-                        commandsList.stringArray.push("")
-                        commandsList.updateModel()
+                    if ( (buttonsList.stringArray[index] !== "") && (index == (buttonsList.stringArray.length - 1))) {
+                        buttonsList.stringArray.push("")
+                        buttonsList.updateModel()
                     }
                 }
                 onTextChanged: {
-                    commandsList.stringArray[index] = text
+                    buttonsList.stringArray[index] = text
                 }
             }
         }
@@ -185,10 +210,10 @@ Window {
             topPadding: 8
             font.pointSize: 11
             bottomPadding: 16
-            text: commandsList.buttonName
+            text: buttonsList.buttonName
             renderType: Text.QtRendering
             onTextChanged: {
-                commandsList.buttonName = text
+                buttonsList.buttonName = text
             }
         }
 
@@ -197,10 +222,10 @@ Window {
             y: 500
             text: "Save"
             onClicked: {
-                if (commandsList.buttonName !== "")
+                if (buttonsList.buttonName !== "")
                 {
-                    buttonModel.addButton(commandsList.buttonName, commandsList.stringArray)
-                    parser.addButton(commandsList.buttonName, commandsList.stringArray)
+                    buttonModel.addButton(buttonsList.buttonName, buttonsList.stringArray)
+                    parser.addButton(buttonsList.buttonName, buttonsList.stringArray)
                     parser.saveCurrentConfig()
                 }
             }
