@@ -48,3 +48,10 @@ void ButtonModel::addButton(const QString &name, const QStringList &args)
     mButtonData.push_back({name, args});
     endInsertRows();
 }
+
+void ButtonModel::removeButton(int index)
+{
+    beginRemoveRows({}, index, index);
+    mButtonData.removeAt(index);
+    endRemoveRows();
+}

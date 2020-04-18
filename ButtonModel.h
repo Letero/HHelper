@@ -26,6 +26,7 @@ public:
     QHash<int, QByteArray> roleNames() const;
 
     Q_INVOKABLE void addButton(const QString &name, const QStringList &args);
+    Q_INVOKABLE void removeButton(int index);
 
     Q_INVOKABLE void init(const QVariantMap &args);
 

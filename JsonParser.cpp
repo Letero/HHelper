@@ -88,3 +88,8 @@ void JsonParser::addButton(QString name, const QJsonArray &args)
 {
     m_buttonSettings[name] = args;
 }
+
+void JsonParser::removeButton(QString name)
+{
+
+}
