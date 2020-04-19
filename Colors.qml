@@ -6,4 +6,5 @@ Item {
     readonly property string stone:  "#336B87"
     readonly property string shadow:  "#2A3132"
     readonly property string autumn:  "#763626"
+    readonly property string textPrimary: "#FFFFFF"
 }

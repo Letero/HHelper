@@ -7,18 +7,15 @@
 #include <QDebug>
 #include <QJsonObject>
 #include <QMap>
+#include "ButtonModel.h"
 
 class JsonParser : public QObject
 {
     Q_OBJECT
-    QJsonObject m_config;
-    QJsonObject m_mainSettings;
-    QJsonObject m_buttonSettings;
-    void writeToFile();
-    bool loadConfig(QString filename);
-    bool saveConfig(QString filename);
 public:
     explicit JsonParser(QObject *parent = nullptr);
+    JsonParser(QObject *parent = nullptr, ButtonModel *btnObj = nullptr);
+    ~JsonParser();
     Q_INVOKABLE QString getTargetWindowName();
     Q_INVOKABLE void setTargetWindowName(QString windowName);
     Q_INVOKABLE void setSlotName(QString slotName);
@@ -27,6 +24,14 @@ public:
     Q_INVOKABLE QVariantMap getButtonsData();
     Q_INVOKABLE void addButton(QString name, const QJsonArray &args);
     Q_INVOKABLE void removeButton(QString name);
+private:
+    QJsonObject m_config;
+    QJsonObject m_mainSettings;
+    QJsonObject m_buttonSettings;
+    ButtonModel *buttonModelptr;
+    void writeToFile();
+    bool loadConfig(QString filename);
+    bool saveConfig(QString filename);
 signals:
 
 };

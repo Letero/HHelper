@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         ButtonModel.cpp \
+        Controller.cpp \
         JsonParser.cpp \
         KeystrokesSender.cpp \
         main.cpp
@@ -34,5 +35,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ButtonModel.h \
+    Controller.h \
     JsonParser.h \
     KeystrokesSender.h

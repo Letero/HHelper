@@ -20,7 +20,7 @@ class ButtonModel : public QAbstractListModel
 
 public:
     ButtonModel(QObject *parent = nullptr);
-
+    QVector<ButtonData> getButtonDataVector();
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     QHash<int, QByteArray> roleNames() const;
