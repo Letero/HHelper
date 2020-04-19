@@ -1,9 +1,13 @@
 #include "JsonParser.h"
 #include "QJsonArray"
 
-JsonParser::JsonParser(QObject *parent) : QObject(parent)
+JsonParser::JsonParser(QObject *parent, ButtonModel *btnObj) : QObject(parent), buttonModelptr(btnObj)
 {
     loadConfig("config.json");
+}
+JsonParser::~JsonParser()
+{
+    delete buttonModelptr;
 }
 
 bool JsonParser::loadConfig(QString filename)
@@ -41,6 +45,12 @@ bool JsonParser::saveConfig(QString filename)
         return false;
     }
     m_config["main_settings"] = m_mainSettings;
+    qDebug() << "hey " << buttonModelptr->getButtonDataVector().size();
+    for (auto data : buttonModelptr->getButtonDataVector()) {
+        m_buttonSettings[data.name] = "data.arguments" ;
+        qDebug() << data.name;
+    }
+
     m_config["button_settings"] = m_buttonSettings;
     QJsonDocument saveDoc(m_config);
     saveFile.write(saveDoc.toJson());
@@ -91,5 +101,5 @@ void JsonParser::addButton(QString name, const QJsonArray &args)
 
 void JsonParser::removeButton(QString name)
 {
-
+    m_buttonSettings.remove(name);
 }

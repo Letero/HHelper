@@ -4,10 +4,14 @@ ButtonModel::ButtonModel(QObject *parent) : QAbstractListModel(parent)
 {
 }
 
+QVector<ButtonData> ButtonModel::getButtonDataVector()
+{
+    return mButtonData;
+}
+
 int ButtonModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-
     return mButtonData.size();
 }
 

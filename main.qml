@@ -78,6 +78,7 @@ Window {
             renderType: Text.QtRendering
             onTextChanged: {
                 parser.setSlotName(text)
+                parser.removeButton("index")
             }
         }
     }
@@ -96,32 +97,50 @@ Window {
                 anchors.fill: parent
 
                 model: buttonModel
-                delegate: Button {
+                delegate: Rectangle {
                     id: test
-                    text: buttonName
-                    width: 100
+                    color: mouseArea.pressed ? Colors.mist : Colors.stone
+                    Text {
+                        anchors.fill:parent
+                        text: buttonName
+                        color: Colors.textPrimary
+                        font.pointSize: 9
+                        elide: Text.ElideRight
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.margins: {
+                            left: 10
+                            right: 10
+                        }
+                    }
+                    width: 120
+                    height: 40
                     MouseArea {
+                        id: mouseArea
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked: {
-                            if (mouse.button == Qt.LeftButton)
+                            if (mouse.button == Qt.LeftButton) {
                                 keysender.sendKeystroke(buttonArgs)
-                            if (mouse.button === Qt.RightButton)
+                            }
+
+                            if (mouse.button === Qt.RightButton){
                                 contextMenu.popup()
+                            }
                         }
                         onPressAndHold: {
                             if (mouse.source === Qt.MouseEventNotSynthesized)
                                 contextMenu.popup()
                         }
-
-                        Menu {
-                            id: contextMenu
-                            MenuItem {
-                                text: "Remove"
-                                onTriggered: {
-                                   console.log(index)
-                                   buttonModel.removeButton(index)
-                                }
+                    }
+                    Menu {
+                        id: contextMenu
+                        MenuItem {
+                            text: "Remove"
+                            onTriggered: {
+                               console.log(index)
+                               buttonModel.removeButton(index)
+                               parser.removeButton("name")
                             }
                         }
                     }

@@ -31,8 +31,5 @@ int main(int argc, char *argv[])
         }
     }, Qt::QueuedConnection);
     engine.load(url);
-
-//    engine.rootContext()->setContextProperty("keysender", keysender.data());
-
     return app.exec();
 }
