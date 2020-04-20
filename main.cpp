@@ -4,8 +4,7 @@
 #include <QQmlContext>
 #include <QQmlProperty>
 #include "KeystrokesSender.h"
-#include "JsonParser.h"
-#include "ButtonModel.h"
+#include "Controller.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,15 +13,10 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<KeystrokesSender>("com.company.keystrokessender", 1, 0, "KeystrokesSender");
-    qmlRegisterType<JsonParser>("com.company.jsonparser", 1, 0, "JsonParser");
+    qmlRegisterType<Controller>("com.company.controller", 1, 0, "Controller");
     qmlRegisterSingletonType(QUrl("qrc:/Colors.qml"), "Colors", 1, 0, "Colors");
-    ButtonModel model;
-
-
-
 
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("buttonModel", &model);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
     &app, [url](QObject * obj, const QUrl & objUrl) {
