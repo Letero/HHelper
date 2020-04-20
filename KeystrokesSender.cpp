@@ -28,6 +28,9 @@ void KeystrokesSender::sendMessage(QString message)
     QByteArray ba = message.toUtf8();
     const auto *thefile = ba.constData();
     for (int i = 0; thefile[i] != '\0'; ++i) {
+        if ((i > 0) && (thefile[i] == thefile[i - 1])) {
+            Sleep(100); //workaround, there was a problem to send two same chars in a row to certain apps
+        }
         if ((thefile[i] >= 'A') && (thefile[i] <= 'Z')) {
             sendKeyUppercase(thefile[i]);
         } else {

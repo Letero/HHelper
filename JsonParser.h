@@ -13,7 +13,6 @@ class JsonParser : public QObject
 {
     Q_OBJECT
 public:
-    explicit JsonParser(QObject *parent = nullptr);
     JsonParser(QObject *parent = nullptr, ButtonModel *btnObj = nullptr);
     ~JsonParser();
     Q_INVOKABLE QString getTargetWindowName();
@@ -22,8 +21,6 @@ public:
     Q_INVOKABLE QString getSlotName();
     Q_INVOKABLE void saveCurrentConfig();
     Q_INVOKABLE QVariantMap getButtonsData();
-    Q_INVOKABLE void addButton(QString name, const QJsonArray &args);
-    Q_INVOKABLE void removeButton(QString name);
 private:
     QJsonObject m_config;
     QJsonObject m_mainSettings;

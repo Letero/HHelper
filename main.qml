@@ -2,7 +2,7 @@ import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Controls 2.5
 import com.company.keystrokessender 1.0
-import com.company.jsonparser 1.0
+import com.company.controller 1.0
 import Colors 1.0
 
 Window {
@@ -17,13 +17,13 @@ Window {
         id: keysender
     }
 
-    JsonParser {
-        id: parser
+    Controller {
+        id: controller
     }
 
     Component.onCompleted: {
         keysender.setupTargetWindow(targetWindow.text)
-        buttonModel.init(parser.getButtonsData())
+        controller.init()
     }
 
     TextField {
@@ -35,11 +35,11 @@ Window {
         topPadding: 8
         font.pointSize: 11
         bottomPadding: 16
-        text: parser.getTargetWindowName()
+        text: controller.getTargetWindow()
         renderType: Text.QtRendering
         onTextChanged: {
             keysender.setupTargetWindow(text)
-            parser.setTargetWindowName(text)
+            controller.setTargetWindow(text)
         }
     }
 
@@ -49,7 +49,7 @@ Window {
         y: 12
         text: "Set as default"
         onClicked: {
-            parser.saveCurrentConfig()
+            controller.saveCurrentConfig()
         }
     }
 
@@ -74,11 +74,10 @@ Window {
             topPadding: 10
             font.pointSize: 11
             bottomPadding: 14
-            text: parser.getSlotName()
+            text: controller.getSlotName()
             renderType: Text.QtRendering
             onTextChanged: {
-                parser.setSlotName(text)
-                parser.removeButton("index")
+                controller.setSlotName(text)
             }
         }
     }
@@ -96,7 +95,7 @@ Window {
                 id: repeater
                 anchors.fill: parent
 
-                model: buttonModel
+                model: controller.buttonModel
                 delegate: Rectangle {
                     id: test
                     color: mouseArea.pressed ? Colors.mist : Colors.stone
@@ -138,9 +137,7 @@ Window {
                         MenuItem {
                             text: "Remove"
                             onTriggered: {
-                               console.log(index)
-                               buttonModel.removeButton(index)
-                               parser.removeButton("name")
+                               controller.buttonModel.removeButton(index)
                             }
                         }
                     }
@@ -161,32 +158,15 @@ Window {
 
         Text {
             x: parent.width / 2 - width / 2
-            y: 20
+            y: 85
             text: "Commands:"
             font.pixelSize: 15
-        }
-
-        Item {
-            width: parent.width
-            height: parent.height
-            Button {
-                anchors {
-                    top: parent.top
-                    right: parent.right
-                    margins: {
-                        top: 15
-                        right: 15
-                    }
-                }
-                text: "Exit"
-                onClicked: popup.close()
-            }
         }
 
         ListView {
             id: buttonsList
             x: parent.width / 2 - width / 2
-            y: parent.height / 2 - height / 2
+            y: parent.height / 2 - height / 2 - 30
             width: parent.width / 2
             height: parent.height / 2
             property var stringArray:  ["", ""]
@@ -220,12 +200,18 @@ Window {
                 }
             }
         }
+        Text {
+            x: 40
+            y: 25
+            text: "Name:"
+            font.pointSize: 11
+        }
 
         TextField {
             x: 100
-            y: 60
-            width: 100
-            height: 45
+            y: 20
+            width: 200
+            height: 40
             topPadding: 8
             font.pointSize: 11
             bottomPadding: 16
@@ -237,15 +223,22 @@ Window {
         }
 
         Button {
-            x: 100
+            x: 200
             y: 500
+            width: 130
+            text: "Exit"
+            onClicked: popup.close()
+        }
+
+        Button {
+            x: 60
+            y: 500
+            width: 110
             text: "Save"
             onClicked: {
                 if (buttonsList.buttonName !== "")
                 {
-                    buttonModel.addButton(buttonsList.buttonName, buttonsList.stringArray)
-                    parser.addButton(buttonsList.buttonName, buttonsList.stringArray)
-                    parser.saveCurrentConfig()
+                    controller.buttonModel.addButton(buttonsList.buttonName, buttonsList.stringArray)
                 }
             }
         }
@@ -253,7 +246,7 @@ Window {
     }
 
     Button {
-        x: 550
+        x: 600
         y: 150
         text: "Add button"
         contentItem: Text {
