@@ -1,14 +1,9 @@
 #include "JsonParser.h"
 #include "QJsonArray"
 
-JsonParser::JsonParser(QObject *parent) : QObject(parent), buttonModel(nullptr)
+JsonParser::JsonParser(QObject *parent) : QObject(parent)
 {
     loadConfig("config.json");
-}
-
-JsonParser::~JsonParser()
-{
-//    delete buttonModel;
 }
 
 bool JsonParser::loadConfig(QString filename)
@@ -38,7 +33,7 @@ bool JsonParser::loadConfig(QString filename)
     return true;
 }
 
-bool JsonParser::saveConfig(QString filename)
+bool JsonParser::saveConfig(QString filename, ButtonModel *buttonModel)
 {
     QFile saveFile(filename);
     if (!saveFile.open(QIODevice::WriteOnly)) {
@@ -60,6 +55,15 @@ bool JsonParser::saveConfig(QString filename)
     saveFile.write(saveDoc.toJson());
 
     return true;
+}
+
+QStringList JsonParser::toStringList(const QJsonArray &list)
+{
+    QStringList string_list;
+    for (auto sr : list) {
+        string_list.append(sr.toString());
+    }
+    return string_list;
 }
 
 QString JsonParser::getTargetWindowName()
@@ -84,17 +88,12 @@ void JsonParser::setSlotName(QString slotName)
     m_mainSettings["slot_name"] = slotName;
 }
 
-void JsonParser::saveCurrentConfig(ButtonModel *buttonModel)
+QMap<QString, QStringList> JsonParser::getButtonsData()
 {
-    this->buttonModel = buttonModel;
-    saveConfig("config.json");
-}
-
-QVariantMap JsonParser::getButtonsData()
-{
-    QVariantMap data;
+    QMap<QString, QStringList> data;
     for (auto key : m_buttonSettings.keys()) {
-        data[key] = {m_buttonSettings[key]};
+        data[key] = toStringList(m_buttonSettings[key].toArray());
     }
     return data;
 }
+
