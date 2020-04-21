@@ -7,6 +7,10 @@
 #include <QDebug>
 #include <QJsonObject>
 #include <QMap>
+#include <QJsonArray>
+
+#include <algorithm>
+
 #include "ButtonModel.h"
 
 class JsonParser : public QObject
@@ -21,6 +25,16 @@ public:
     QString getSlotName();
     void saveCurrentConfig(ButtonModel *buttonModel);
     QVariantMap getButtonsData();
+    QMap<QString, QStringList> getButtonsData1()
+    {
+        QMap<QString, QStringList> data;
+        for (auto key : m_buttonSettings.keys()) {
+            for (auto dupeczka : m_buttonSettings[key].toArray()) {
+                data[key].append(dupeczka.toString());
+            }
+        }
+        return data;
+    }
 
 private:
     QJsonObject m_config;

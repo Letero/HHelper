@@ -8,7 +8,7 @@ Controller::Controller(QObject *parent) : QObject(parent), m_buttonModel(new But
 
 void Controller::init()
 {
-    m_buttonModel->init(m_jsonParser.getButtonsData());
+    m_buttonModel->init1(m_jsonParser.getButtonsData1());
 }
 
 ButtonModel *Controller::getButtonModel() const
