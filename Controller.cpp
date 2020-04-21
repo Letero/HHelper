@@ -26,11 +26,6 @@ void Controller::setTargetWindow(QString name)
     m_jsonParser.setTargetWindowName(name);
 }
 
-void Controller::saveCurrentConfig()
-{
-    m_jsonParser.saveCurrentConfig();
-}
-
 void Controller::setSlotName(QString name)
 {
     m_jsonParser.setSlotName(name);

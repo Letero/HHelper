@@ -1,14 +1,14 @@
 #include "JsonParser.h"
 #include "QJsonArray"
 
-JsonParser::JsonParser(QObject *parent, ButtonModel *btnObj) : QObject(parent), buttonModelptr(btnObj)
+JsonParser::JsonParser(QObject *parent) : QObject(parent), buttonModel(nullptr)
 {
     loadConfig("config.json");
 }
 
 JsonParser::~JsonParser()
 {
-    delete buttonModelptr;
+//    delete buttonModel;
 }
 
 bool JsonParser::loadConfig(QString filename)
@@ -46,6 +46,15 @@ bool JsonParser::saveConfig(QString filename)
         return false;
     }
     m_config["main_settings"] = m_mainSettings;
+
+    for (auto info : buttonModel->getButtonDataVector()) {
+        QJsonArray temp;
+        for (auto arg : info.arguments) {
+            temp.push_back(arg);
+        }
+        m_buttonSettings[info.name] = temp;
+    }
+
     m_config["button_settings"] = m_buttonSettings;
     QJsonDocument saveDoc(m_config);
     saveFile.write(saveDoc.toJson());
@@ -75,8 +84,9 @@ void JsonParser::setSlotName(QString slotName)
     m_mainSettings["slot_name"] = slotName;
 }
 
-void JsonParser::saveCurrentConfig()
+void JsonParser::saveCurrentConfig(ButtonModel *buttonModel)
 {
+    this->buttonModel = buttonModel;
     saveConfig("config.json");
 }
 

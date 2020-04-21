@@ -42,7 +42,6 @@ void ButtonModel::init(const QVariantMap &data)
     for (auto key : data.keys()) {
         beginInsertRows({}, rowCount({}), rowCount({}));
         mButtonData.push_back({key, data[key].toStringList()});
-        qDebug() << key << data[key].toStringList();
         endInsertRows();
     }
 }
