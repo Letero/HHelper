@@ -38,20 +38,6 @@ QHash<int, QByteArray> ButtonModel::roleNames() const
     };
 }
 
-void ButtonModel::init(const QVariantMap &data)
-{
-
-    for (auto key : data.keys()) {
-        qDebug() << data[key];
-
-
-        beginInsertRows({}, rowCount({}), rowCount({}));
-        mButtonData.push_back({key, data[key].toStringList()});
-        endInsertRows();
-    }
-}
-
-
 void ButtonModel::addButton(const QString &name, const QStringList &args)
 {
     beginInsertRows({}, rowCount({}), rowCount({}));
@@ -64,4 +50,13 @@ void ButtonModel::removeButton(int index)
     beginRemoveRows({}, index, index);
     mButtonData.removeAt(index);
     endRemoveRows();
+}
+
+void ButtonModel::init(const QMap<QString, QStringList> &data)
+{
+    for (auto key : data.keys()) {
+        beginInsertRows({}, rowCount({}), rowCount({}));
+        mButtonData.push_back({key, data[key]});
+        endInsertRows();
+    }
 }

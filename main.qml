@@ -23,7 +23,6 @@ Window {
 
     Component.onCompleted: {
         keysender.setupTargetWindow(targetWindow.text)
-        controller.init()
     }
 
     TextField {
@@ -120,7 +119,6 @@ Window {
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked: {
                             if (mouse.button == Qt.LeftButton) {
-                                console.log(buttonArgs)
                                 keysender.sendKeystroke(buttonArgs)
                             }
 

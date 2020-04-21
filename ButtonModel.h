@@ -27,21 +27,7 @@ public:
     Q_INVOKABLE void addButton(const QString &name, const QStringList &args);
     Q_INVOKABLE void removeButton(int index);
 
-    Q_INVOKABLE void init(const QVariantMap &args);
-
-
-    void init1(const QMap<QString, QStringList> &data)
-    {
-
-        for (auto key : data.keys()) {
-            qDebug() << data[key];
-
-
-            beginInsertRows({}, rowCount({}), rowCount({}));
-            mButtonData.push_back({key, data[key]});
-            endInsertRows();
-        }
-    }
+    void init(const QMap<QString, QStringList> &data);
 
 private:
     QVector<ButtonData> mButtonData;

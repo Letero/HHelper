@@ -1,14 +1,9 @@
 #include "Controller.h"
 
 
-Controller::Controller(QObject *parent) : QObject(parent), m_buttonModel(new ButtonModel)
+Controller::Controller(QObject *parent) : QObject(parent), m_buttonModel(new ButtonModel), configFile("config.json")
 {
-
-}
-
-void Controller::init()
-{
-    m_buttonModel->init1(m_jsonParser.getButtonsData1());
+    m_buttonModel->init(m_jsonParser.getButtonsData());
 }
 
 ButtonModel *Controller::getButtonModel() const
@@ -34,4 +29,9 @@ void Controller::setSlotName(QString name)
 QString Controller::getSlotName()
 {
     return m_jsonParser.getSlotName();
+}
+
+void Controller::saveCurrentConfig()
+{
+    m_jsonParser.saveConfig(configFile, m_buttonModel.get());
 }
