@@ -1,5 +1,6 @@
 #include "ButtonModel.h"
 #include "QDebug"
+#include "QJsonArray"
 ButtonModel::ButtonModel(QObject *parent) : QAbstractListModel(parent)
 {
 }
@@ -39,12 +40,18 @@ QHash<int, QByteArray> ButtonModel::roleNames() const
 
 void ButtonModel::init(const QVariantMap &data)
 {
+
     for (auto key : data.keys()) {
+        qDebug() << data[key];
+
+
         beginInsertRows({}, rowCount({}), rowCount({}));
         mButtonData.push_back({key, data[key].toStringList()});
         endInsertRows();
     }
 }
+
+
 void ButtonModel::addButton(const QString &name, const QStringList &args)
 {
     beginInsertRows({}, rowCount({}), rowCount({}));
