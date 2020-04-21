@@ -41,7 +41,7 @@ bool JsonParser::saveConfig(QString filename, ButtonModel *buttonModel)
         return false;
     }
     m_config["main_settings"] = m_mainSettings;
-
+    m_buttonSettings = QJsonObject();
     for (auto info : buttonModel->getButtonDataVector()) {
         QJsonArray temp;
         for (auto arg : info.arguments) {
