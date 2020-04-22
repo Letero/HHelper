@@ -9,7 +9,7 @@ Window {
     id: root
 
     visible: true
-    width: 800
+    width: 680
     height: 700
     title: qsTr("HHelper")
 
@@ -25,15 +25,24 @@ Window {
         keysender.setupTargetWindow(targetWindow.text)
     }
 
+    Text {
+        anchors.fill:parent
+        text: "Target window:"
+        topPadding: 10
+        leftPadding: 30
+        color: Colors.black
+        font.pointSize: 12
+    }
+
     TextField {
         id: targetWindow
-        x: 10
-        y: 10
+        x: 30
+        y: 40
         width: 200
         height: 45
-        topPadding: 8
         font.pointSize: 11
-        bottomPadding: 16
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
         text: controller.getTargetWindow()
         renderType: Text.QtRendering
         onTextChanged: {
@@ -42,21 +51,11 @@ Window {
         }
     }
 
-    Button {
-        id: buttonSetTargetWindow
-        x: 220
-        y: 12
-        text: "Set as default"
-        onClicked: {
-            controller.saveCurrentConfig()
-        }
-    }
-
     Row {
         id: row1
         spacing: 10
-        x: 70
-        y: 80
+        x: 30
+        y: 110
 
         Button {
             id: goSlotButton
@@ -70,9 +69,9 @@ Window {
             id: slotName
             width: 150
             height: 40
-            topPadding: 10
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
             font.pointSize: 11
-            bottomPadding: 14
             text: controller.getSlotName()
             renderType: Text.QtRendering
             onTextChanged: {
@@ -81,11 +80,60 @@ Window {
         }
     }
 
+    Text {
+        anchors.fill:parent
+        text: "Timeskew:"
+        topPadding: 10
+        leftPadding: 330
+        color: Colors.black
+        font.pointSize: 12
+    }
+
+    Slider {
+        id: slider
+        x: 300
+        y: 30
+        width: 300
+        snapMode: "SnapAlways"
+        from: 0.1
+        to: 5
+        stepSize: 0.1
+        value: 1.0
+    }
+
+    TextField {
+        id: sliderValue
+        x: 400
+        y: 70
+        width: 60
+        height: 40
+        font.pointSize: 9
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: slider.value.toFixed(1)
+        renderType: Text.QtRendering
+        onTextChanged: {
+            slider.value = parseFloat(text)
+        }
+    }
+
+    Button {
+        property var args: ['`', '9 ', slider.value.toFixed(1), 'VK_RETURN', '`']
+        text: "Set"
+        width: 60
+        height: 40
+        x: 475
+        y: 70
+        onClicked: {
+            keysender.sendKeystroke(args)
+        }
+    }
+
     Row {
         id: row2
         spacing: 10
-        x: 70
-        y: 150
+        x: 30
+        y: 170
 
         Grid {
             id: grid
@@ -156,6 +204,30 @@ Window {
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnReleaseOutside
 
         Text {
+            x: 20
+            y: 25
+            text: "Name:"
+            font.pointSize: 11
+        }
+
+        TextField {
+            id: popupBtnName
+            x: 80
+            y: 20
+            width: 200
+            height: 40
+            font.pointSize: 11
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            text: buttonsList.buttonName
+            renderType: Text.QtRendering
+            onTextChanged: {
+                buttonsList.buttonName = text
+            }
+        }
+
+
+        Text {
             x: parent.width / 2 - width / 2
             y: 85
             text: "Commands:"
@@ -182,9 +254,9 @@ Window {
                 x: -30
                 width: 260
                 height: 40
-                topPadding: 10
                 font.pointSize: 9
-                bottomPadding: 14
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 text: modelData
                 renderType: Text.QtRendering
 
@@ -199,41 +271,12 @@ Window {
                 }
             }
         }
-        Text {
-            x: 40
-            y: 25
-            text: "Name:"
-            font.pointSize: 11
-        }
-
-        TextField {
-            x: 100
-            y: 20
-            width: 200
-            height: 40
-            topPadding: 8
-            font.pointSize: 11
-            bottomPadding: 16
-            text: buttonsList.buttonName
-            renderType: Text.QtRendering
-            onTextChanged: {
-                buttonsList.buttonName = text
-            }
-        }
 
         Button {
-            x: 200
-            y: 500
-            width: 130
-            text: "Exit"
-            onClicked: popup.close()
-        }
-
-        Button {
-            x: 60
-            y: 500
-            width: 110
-            text: "Save"
+            x: 35
+            y: 530
+            width: 70
+            text: "Add"
             onClicked: {
                 if (buttonsList.buttonName !== "")
                 {
@@ -242,11 +285,31 @@ Window {
             }
         }
 
+        Button {
+            x: 115
+            y: 530
+            width: 70
+            text: "Reset"
+            onClicked: {
+                popupBtnName.text = ""
+                buttonsList.stringArray = ["", ""]
+                buttonsList.updateModel()
+            }
+        }
+
+        Button {
+            x: 195
+            y: 530
+            width: 70
+            text: "Exit"
+            onClicked: popup.close()
+        }
+
     }
 
     Button {
-        x: 600
-        y: 150
+        x: 560
+        y: 170
         text: "Add button"
         contentItem: Text {
             text: parent.text
@@ -259,6 +322,42 @@ Window {
         }
         onClicked: {
             popup.open()
+        }
+    }
+
+    Button {
+        x: 560
+        y: 220
+        text: "Save config"
+        contentItem: Text {
+            text: parent.text
+            color: "white"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+        palette {
+            button: Colors.autumn
+        }
+        onClicked: {
+            controller.saveCurrentConfig()
+        }
+    }
+
+    Button {
+        x: 560
+        y: 270
+        text: "Exit"
+        contentItem: Text {
+            text: parent.text
+            color: "white"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+        palette {
+            button: Colors.autumn
+        }
+        onClicked: {
+            Qt.callLater(Qt.quit)
         }
     }
 }
