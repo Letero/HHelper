@@ -60,7 +60,7 @@ Window {
         Button {
             id: goSlotButton
             text: "Go to slot:"
-            property var args: ['`', 'launchGame ', slotName.text, 'VK_RETURN', '`']
+            property var args: ['`', 'VK_RETURN', 'launchGame ', slotName.text, 'VK_RETURN', '`']
             onClicked: {
                 keysender.sendKeystroke(args)
             }
@@ -118,7 +118,7 @@ Window {
     }
 
     Button {
-        property var args: ['`', '9 ', slider.value.toFixed(1), 'VK_RETURN', '`']
+        property var args: ['`', 'VK_RETURN', '9 ', slider.value.toFixed(1),'  ', 'VK_RETURN', '`', 'VK_RETURN']
         text: "Set"
         width: 60
         height: 40
