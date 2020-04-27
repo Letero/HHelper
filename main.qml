@@ -9,9 +9,38 @@ Window {
     id: root
 
     visible: true
-    width: 680
-    height: 700
+    width: 700
+    height: 720
     title: qsTr("HHelper")
+
+    Text {
+        anchors.fill:parent
+        text: "Config:"
+        topPadding: 10
+        leftPadding: 260
+        color: Colors.black
+        font.pointSize: 12
+    }
+
+    ComboBox {
+        id: baseConfig
+        width: 100
+        x: 250
+        y: 40
+        currentIndex: 0
+        property var gotoSlot: []
+        property var timeskew: []
+        model: ["DEV", "QA"]
+        onActivated: {
+            gotoSlot = ['launchGame ', slotName.text, 'VK_RETURN']
+            timeskew = ['VK_RETURN', '9 ', slider.value.toFixed(1),'VK_RETURN']
+            if (currentText == "DEV")
+            {
+               gotoSlot = ['`', 'VK_RETURN', 'launchGame ', slotName.text, 'VK_RETURN', '`']
+               timeskew = ['`', '9 ', slider.value.toFixed(1), 'VK_RETURN', '`']
+            }
+        }
+    }
 
     KeystrokesSender{
         id: keysender
@@ -60,9 +89,8 @@ Window {
         Button {
             id: goSlotButton
             text: "Go to slot:"
-            property var args: ['`', 'VK_RETURN', 'launchGame ', slotName.text, 'VK_RETURN', '`']
             onClicked: {
-                keysender.sendKeystroke(args)
+                keysender.sendKeystroke(baseConfig.gotoSlot)
             }
         }
         TextField {
@@ -84,14 +112,14 @@ Window {
         anchors.fill:parent
         text: "Timeskew:"
         topPadding: 10
-        leftPadding: 330
+        leftPadding: 480
         color: Colors.black
         font.pointSize: 12
     }
 
     Slider {
         id: slider
-        x: 300
+        x: 380
         y: 30
         width: 300
         snapMode: "SnapAlways"
@@ -103,7 +131,7 @@ Window {
 
     TextField {
         id: sliderValue
-        x: 400
+        x: 440
         y: 70
         width: 60
         height: 40
@@ -118,14 +146,13 @@ Window {
     }
 
     Button {
-        property var args: ['`', 'VK_RETURN', '9 ', slider.value.toFixed(1),'  ', 'VK_RETURN', '`', 'VK_RETURN']
         text: "Set"
         width: 60
         height: 40
-        x: 475
+        x: 515
         y: 70
         onClicked: {
-            keysender.sendKeystroke(args)
+            keysender.sendKeystroke(baseConfig.timeskew)
         }
     }
 
