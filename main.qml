@@ -48,7 +48,6 @@ Window {
         onTextChanged: {
             keysender.setupTargetWindow(text)
             controller.setTargetWindow(text)
-            console.log(controller.isDev())
         }
     }
 
