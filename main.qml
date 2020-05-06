@@ -63,7 +63,12 @@ Window {
             text: "Go to slot:"
             property var gotoSlot: []
             onClicked: {
-                gotoSlot = ['`', 'VK_RETURN', 'launchGame ', slotName.text, 'VK_RETURN', '`']
+                if (controller.isDev()) {
+                    gotoSlot = ['`', 'launchGame ', slotName.text, 'VK_RETURN', '`']
+                } else {
+                    gotoSlot = ['launchGame ', slotName.text, 'VK_RETURN']
+                }
+
                 keysender.sendKeystroke(gotoSlot)
             }
         }
@@ -127,7 +132,11 @@ Window {
         y: 70
         property var timeskew: []
         onClicked: {
-            timeskew = ['`', '9 ', slider.value.toFixed(1), 'VK_RETURN', '`']
+            if (controller.isDev()) {
+                timeskew = ['`', '9 ', slider.value.toFixed(1), 'VK_RETURN', '`']
+            } else {
+                timeskew = ['9 ', slider.value.toFixed(1), 'VK_RETURN']
+            }
             keysender.sendKeystroke(timeskew)
         }
     }
