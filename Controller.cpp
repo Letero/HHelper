@@ -35,3 +35,8 @@ void Controller::saveCurrentConfig()
 {
     m_jsonParser.saveConfig(configFile, m_buttonModel.get());
 }
+
+bool Controller::isDev()
+{
+    return m_jsonParser.isDev();
+}
