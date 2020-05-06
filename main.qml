@@ -10,7 +10,7 @@ Window {
 
     visible: true
     width: 700
-    height: 720
+    height: 540
     title: qsTr("HHelper")
 
     KeystrokesSender{
