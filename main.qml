@@ -13,35 +13,6 @@ Window {
     height: 720
     title: qsTr("HHelper")
 
-    Text {
-        anchors.fill:parent
-        text: "Config:"
-        topPadding: 10
-        leftPadding: 260
-        color: Colors.black
-        font.pointSize: 12
-    }
-
-    ComboBox {
-        id: baseConfig
-        width: 100
-        x: 250
-        y: 40
-        currentIndex: 0
-        property var gotoSlot: []
-        property var timeskew: []
-        model: ["DEV", "QA"]
-        onActivated: {
-            gotoSlot = ['launchGame ', slotName.text, 'VK_RETURN']
-            timeskew = ['VK_RETURN', '9 ', slider.value.toFixed(1),'VK_RETURN']
-            if (currentText == "DEV")
-            {
-               gotoSlot = ['`', 'VK_RETURN', 'launchGame ', slotName.text, 'VK_RETURN', '`']
-               timeskew = ['`', '9 ', slider.value.toFixed(1), 'VK_RETURN', '`']
-            }
-        }
-    }
-
     KeystrokesSender{
         id: keysender
     }
@@ -90,8 +61,10 @@ Window {
         Button {
             id: goSlotButton
             text: "Go to slot:"
+            property var gotoSlot: []
             onClicked: {
-                keysender.sendKeystroke(baseConfig.gotoSlot)
+                gotoSlot = ['`', 'VK_RETURN', 'launchGame ', slotName.text, 'VK_RETURN', '`']
+                keysender.sendKeystroke(gotoSlot)
             }
         }
         TextField {
@@ -152,8 +125,10 @@ Window {
         height: 40
         x: 515
         y: 70
+        property var timeskew: []
         onClicked: {
-            keysender.sendKeystroke(baseConfig.timeskew)
+            timeskew = ['`', '9 ', slider.value.toFixed(1), 'VK_RETURN', '`']
+            keysender.sendKeystroke(timeskew)
         }
     }
 
