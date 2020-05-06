@@ -97,3 +97,10 @@ QMap<QString, QStringList> JsonParser::getButtonsData()
     return data;
 }
 
+bool JsonParser::isDev()
+{
+    if (m_mainSettings.value(QString("isDev")) == 1) {
+        return true;
+    }
+    return false;
+}
