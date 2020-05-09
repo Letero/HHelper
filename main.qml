@@ -1,13 +1,13 @@
 import QtQuick 2.14
 import QtQuick.Window 2.14
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.14
 import com.company.keystrokessender 1.0
 import com.company.controller 1.0
 import Colors 1.0
-
+import QtQuick.Window 2.2
 Window {
     id: root
-
+    flags: Qt.WindowStaysOnTopHint
     visible: true
     width: 700
     height: 540
@@ -262,9 +262,9 @@ Window {
             }
 
             delegate: TextField {
-                x: -30
-                width: 260
-                height: 40
+                x: -15
+                width: 200
+                height: 30
                 font.pointSize: 9
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -284,8 +284,8 @@ Window {
         }
 
         Button {
-            x: 35
-            y: 530
+            x: 45
+            y: 400
             width: 70
             text: "Add"
             onClicked: {
@@ -297,8 +297,8 @@ Window {
         }
 
         Button {
-            x: 115
-            y: 530
+            x: 125
+            y: 400
             width: 70
             text: "Reset"
             onClicked: {
@@ -309,8 +309,8 @@ Window {
         }
 
         Button {
-            x: 195
-            y: 530
+            x: 205
+            y: 400
             width: 70
             text: "Exit"
             onClicked: popup.close()
