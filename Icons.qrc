@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>pin.png</file>
+        <file>pin-outline.png</file>
+    </qresource>
+</RCC>

@@ -5,9 +5,11 @@ import com.company.keystrokessender 1.0
 import com.company.controller 1.0
 import Colors 1.0
 import QtQuick.Window 2.2
+
 Window {
     id: root
-    flags: Qt.WindowStaysOnTopHint
+    flags: pinButton.checked ? (Qt.Window | Qt.WindowStaysOnTopHint) : Qt.Window
+
     visible: true
     width: 700
     height: 540
@@ -23,6 +25,25 @@ Window {
 
     Component.onCompleted: {
         keysender.setupTargetWindow(targetWindow.text)
+    }
+
+    Button {
+        id: pinButton
+        width: 42
+        height: width
+        x: 625
+        y: 20
+        checkable: true
+        background: Rectangle {
+            color: "transparent"
+            border.width: 1
+            border.color: "black"
+        }
+        Image {
+            id: pin
+            anchors.centerIn: parent
+            source: parent.checked ? "img/pin.png" : "img/pin-outline.png"
+        }
     }
 
     Text {
@@ -90,14 +111,14 @@ Window {
         anchors.fill:parent
         text: "Timeskew:"
         topPadding: 10
-        leftPadding: 480
+        leftPadding: 430
         color: Colors.black
         font.pointSize: 12
     }
 
     Slider {
         id: slider
-        x: 380
+        x: 300
         y: 30
         width: 300
         snapMode: "SnapAlways"
@@ -109,7 +130,7 @@ Window {
 
     TextField {
         id: sliderValue
-        x: 440
+        x: 360
         y: 70
         width: 60
         height: 40
@@ -127,7 +148,7 @@ Window {
         text: "Set"
         width: 60
         height: 40
-        x: 515
+        x: 445
         y: 70
         property var timeskew: []
         onClicked: {
@@ -195,7 +216,7 @@ Window {
                         MenuItem {
                             text: "Remove"
                             onTriggered: {
-                               controller.buttonModel.removeButton(index)
+                                controller.buttonModel.removeButton(index)
                             }
                         }
                     }

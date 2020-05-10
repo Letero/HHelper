@@ -21,6 +21,7 @@ SOURCES += \
         main.cpp
 
 RESOURCES += \
+            Icons.qrc \
             qml.qrc
 
 RC_FILE = hhelper.rc
