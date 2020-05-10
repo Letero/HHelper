@@ -111,14 +111,14 @@ Window {
         anchors.fill:parent
         text: "Timeskew:"
         topPadding: 10
-        leftPadding: 430
+        leftPadding: 400
         color: Colors.black
         font.pointSize: 12
     }
 
     Slider {
         id: slider
-        x: 300
+        x: 280
         y: 30
         width: 300
         snapMode: "SnapAlways"
@@ -148,7 +148,7 @@ Window {
         text: "Set"
         width: 60
         height: 40
-        x: 445
+        x: 435
         y: 70
         property var timeskew: []
         onClicked: {
