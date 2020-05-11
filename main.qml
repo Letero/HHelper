@@ -42,7 +42,7 @@ Window {
         Image {
             id: pin
             anchors.centerIn: parent
-            source: parent.checked ? "img/pin.png" : "img/pin-outline.png"
+            source: parent.checked ? "res/pin.png" : "res/pin-outline.png"
         }
     }
 
@@ -239,15 +239,15 @@ Window {
             x: 20
             y: 25
             text: "Name:"
-            font.pointSize: 11
+            font.pixelSize: 15
         }
 
         TextField {
             id: popupBtnName
             x: 80
             y: 20
-            width: 200
-            height: 40
+            width: 170
+            height: 35
             font.pointSize: 11
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
@@ -261,9 +261,9 @@ Window {
 
         Text {
             x: parent.width / 2 - width / 2
-            y: 85
+            y: 65
             text: "Commands:"
-            font.pixelSize: 15
+            font.pixelSize: 13
         }
 
         ListView {
