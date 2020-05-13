@@ -68,7 +68,7 @@ QStringList JsonParser::toStringList(const QJsonArray &list)
 
 QString JsonParser::getTargetWindowName()
 {
-    QJsonValue targetWindow = m_mainSettings.value(QString("target_window"));
+    QJsonValue targetWindow = m_mainSettings["target_window"];
     return targetWindow.toString();
 }
 
@@ -79,7 +79,7 @@ void JsonParser::setTargetWindowName(QString windowName)
 
 QString JsonParser::getSlotName()
 {
-    QJsonValue slotName = m_mainSettings.value(QString("slot_name"));
+    QJsonValue slotName = m_mainSettings["slot_name"];
     return slotName.toString();
 }
 
@@ -97,10 +97,19 @@ QMap<QString, QStringList> JsonParser::getButtonsData()
     return data;
 }
 
-bool JsonParser::isDev()
+bool JsonParser::isDevMode()
 {
-    if (m_mainSettings.value(QString("isDev")) == 1) {
+    if (m_mainSettings["dev_mode"] == 1) {
         return true;
     }
     return false;
+}
+
+void JsonParser::changeDevMode()
+{
+    if (m_mainSettings["dev_mode"] == 1) {
+        m_mainSettings["dev_mode"] = 0;
+        return;
+    }
+    m_mainSettings["dev_mode"] = 1;
 }
