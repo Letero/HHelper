@@ -3,5 +3,8 @@
         <file>pin.png</file>
         <file>pin-outline.png</file>
         <file>add_button.mp4</file>
+        <file>close.png</file>
+        <file>content-save-cog.png</file>
+        <file>content-save-cog-outline.png</file>
     </qresource>
 </RCC>
