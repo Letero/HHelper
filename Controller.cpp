@@ -36,7 +36,12 @@ void Controller::saveCurrentConfig()
     m_jsonParser.saveConfig(configFile, m_buttonModel.get());
 }
 
-bool Controller::isDev()
+bool Controller::isDevMode()
 {
-    return m_jsonParser.isDev();
+    return m_jsonParser.isDevMode();
+}
+
+void Controller::changeDevMode(bool isDevMode)
+{
+    m_jsonParser.changeDevMode(isDevMode);
 }

@@ -36,6 +36,35 @@ void KeystrokesSender::sendMessage(const QString &message)
     }
 }
 
+QString KeystrokesSender::text() const
+{
+    return mText;
+}
+
+void KeystrokesSender::setText(const QString &text)
+{
+    if (text == mText) {
+        return;
+    }
+    mText = text;
+    emit textChanged(mText);
+}
+
+bool KeystrokesSender::getDevMode() const
+{
+    return mDevMode;
+}
+
+void KeystrokesSender::setDevMode(bool devMode)
+{
+    if (mDevMode == devMode) {
+        return;
+    }
+
+    mDevMode = devMode;
+    emit devModeChanged(mDevMode);
+}
+
 void KeystrokesSender::sendKey(BYTE virtualKey)
 {
     INPUT Event = {};
@@ -78,10 +107,12 @@ void KeystrokesSender::sendKeystroke(const QStringList &messages)
     const wchar_t *window = (const wchar_t *)targetWindow.utf16();
     HWND hWndTarget = FindWindowW(nullptr, window);
     if (SetForegroundWindow(hWndTarget)) {
-
+        if (mDevMode) { sendMessage("`"); }
         for (const auto &message : messages) {
             sendMessage(message);
             sendMessage(RETURN_KEY);
         }
+        if (mDevMode) { sendMessage("`"); }
     }
 }
+
