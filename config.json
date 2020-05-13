@@ -1,95 +1,52 @@
 {
     "button_settings": {
         "01 Skip tutorial": [
-            "`",
             "server playerChange level 10",
-            "VK_RETURN",
             "server playerChange diamonds 1000",
-            "VK_RETURN",
             "skipRewardPopups true",
-            "VK_RETURN",
-            "disconnect",
-            "VK_RETURN",
-            "`"
+            "disconnect"
         ],
         "02 Disconnect": [
-            "`",
-            "disconnect",
-            "VK_RETURN",
-            "`"
+            "disconnect"
         ],
         "03 Hold": [
-            "`",
-            "hold",
-            "VK_RETURN",
-            "`"
+            "hold"
         ],
         "04 F. freespins": [
-            "`",
-            "server game freespins",
-            "VK_RETURN",
-            "`"
+            "server game freespins"
         ],
         "05 F. Bonus": [
-            "`",
-            "server game freespins",
-            "VK_RETURN",
-            "`"
+            "server game freespins"
         ],
         "06 F. Jackpot": [
-            "`",
-            "server game jackpot",
-            "VK_RETURN",
-            "`"
+            "server game jackpot"
         ],
         "07 F. Big win": [
-            "`",
-            "server game bigwin",
-            "VK_RETURN",
-            "`"
-        ],        
-		"08 F. mega win": [
-            "`",
-            "server game megawin",
-            "VK_RETURN",
-            "`"
-        ],		
-		"09 F. huge win": [
-            "`",
-            "server game hugewin",
-            "VK_RETURN",
-            "`"
+            "server game bigwin"
+        ],
+        "08 F. mega win": [
+            "server game megawin"
+        ],
+        "09 F. huge win": [
+            "server game hugewin"
         ],
         "10 +10000 diamonds": [
-            "`",
             "server playerChange diamonds 10000",
-            "VK_RETURN",
-			"disconnect",
-			"VK_RETURN",
-            "`"
+            "disconnect"
         ],
         "11 Level +500": [
-            "`",
             "server playerChange level 500",
-            "VK_RETURN",
             "skipRewardPopups true",
-            "VK_RETURN",
-            "disconnect",
-            "VK_RETURN",
-            "`"
+            "disconnect"
         ],
-		"12 +5B chips": [
-            "`",
+        "12 +5B chips": [
             "server playerChange chips 5000000000",
-            "VK_RETURN",
-            "disconnect",
-            "VK_RETURN",
-            "`"
+            "disconnect"
         ]
     },
     "main_settings": {
-        "isDev": 1,
-        "slot_name": "SlotsBigCats",
-        "target_window": "Stars Slots"
+        "dev_mode": 0,
+        "slot_name": "SlotsBigCat",
+        "target_window": "*Untitled - Notepad"
     }
 }
