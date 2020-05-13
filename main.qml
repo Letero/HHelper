@@ -190,6 +190,8 @@ Window {
                     checkable: true
                     image: "res/pin-outline.png"
                     imagePressed: "res/pin.png"
+
+                    tooltipText: qsTr("Pin application to stay always on top.")
                 }
 
                 IconButton {
@@ -197,6 +199,8 @@ Window {
 
                     image: "res/content-save-cog-outline.png"
                     imagePressed: "res/content-save-cog.png"
+
+                    tooltipText: qsTr("Save changes to config file.")
 
                     onClicked: controller.saveCurrentConfig()
                 }
@@ -206,6 +210,8 @@ Window {
 
                     visible: pinButton.checked
                     image: "res/close.png"
+
+                    tooltipText: qsTr("Close application.")
 
                     onClicked: Qt.quit()
                 }
