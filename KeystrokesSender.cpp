@@ -1,28 +1,25 @@
 #include "KeystrokesSender.h"
 
+namespace
+{
+    constexpr char RETURN_KEY[] = "VK_RETURN";
+}
+
 KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), targetWindow("")
 {
 
 }
+
 void KeystrokesSender::setupTargetWindow(const QString &target)
 {
     this->targetWindow = target;
 }
 
-void KeystrokesSender::sendMessage(QString message)
+void KeystrokesSender::sendMessage(const QString &message)
 {
-    QMap<QString, int> specialKeys {
-        {"VK_BACK_QUOTE", 0xC0},
-        {"VK_RETURN", 0x0D},
-        {"VK_ESCAPE", 0x1B}
-    };
-
-    QMap<QString, int>::Iterator it;
-    for (it = specialKeys.begin(); it != specialKeys.end(); ++it) {
-        if (message == it.key()) {
-            sendKey(it.value());
-            return;
-        }
+    if (message == RETURN_KEY) {
+        sendKey(0x0D);
+        return;
     }
 
     QByteArray ba = message.toUtf8();
@@ -39,6 +36,35 @@ void KeystrokesSender::sendMessage(QString message)
     }
 }
 
+QString KeystrokesSender::text() const
+{
+    return mText;
+}
+
+void KeystrokesSender::setText(const QString &text)
+{
+    if (text == mText) {
+        return;
+    }
+    mText = text;
+    emit textChanged(mText);
+}
+
+bool KeystrokesSender::getDevMode() const
+{
+    return mDevMode;
+}
+
+void KeystrokesSender::setDevMode(bool devMode)
+{
+    if (mDevMode == devMode) {
+        return;
+    }
+
+    mDevMode = devMode;
+    emit devModeChanged(mDevMode);
+}
+
 void KeystrokesSender::sendKey(BYTE virtualKey)
 {
     INPUT Event = {};
@@ -49,10 +75,9 @@ void KeystrokesSender::sendKey(BYTE virtualKey)
     Event.ki.wScan = mappedKey;
     SendInput(1, &Event, sizeof(Event));
     Sleep(1);
-
 }
 
-void KeystrokesSender::sendKeyUppercase(BYTE virtualKey)
+void KeystrokesSender::sendKeyUppercase(const BYTE &virtualKey)
 {
     INPUT Event = {};
     const SHORT key = VkKeyScan(virtualKey);
@@ -82,9 +107,12 @@ void KeystrokesSender::sendKeystroke(const QStringList &messages)
     const wchar_t *window = (const wchar_t *)targetWindow.utf16();
     HWND hWndTarget = FindWindowW(nullptr, window);
     if (SetForegroundWindow(hWndTarget)) {
-
+        if (mDevMode) { sendMessage("`"); }
         for (const auto &message : messages) {
             sendMessage(message);
+            sendMessage(RETURN_KEY);
         }
+        if (mDevMode) { sendMessage("`"); }
     }
 }
+

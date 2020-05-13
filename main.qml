@@ -141,6 +141,17 @@ Window {
                     value: 1.0
                 }
 
+                Switch {
+                    id: modeSelector
+                    x: 50
+                    y: 400
+                    text: "DEV"
+                    onCheckedChanged: {
+                        keysender.devMode = checked;
+                        controller.changeDevMode(checked);
+                    }
+                }
+
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
 

@@ -22,7 +22,8 @@ public:
     QString getSlotName();
     bool saveConfig(QString filename, ButtonModel *buttonModel);
     QMap<QString, QStringList> getButtonsData();
-    bool isDev();
+    bool isDevMode();
+    void changeDevMode(bool isDevMode);
 private:
     QJsonObject m_config;
     QJsonObject m_mainSettings;
