@@ -28,6 +28,7 @@ Window {
 
     Component.onCompleted: {
         keysender.setupTargetWindow(targetWindow.text)
+        modeSelector.checked = controller.isDevMode()
     }
 
     Item {
@@ -87,19 +88,13 @@ Window {
                         property var gotoSlot: []
 
                         onClicked: {
-                            if (controller.isDev()) {
-                                gotoSlot = ['`', 'launchGame ', slotName.text, 'VK_RETURN', '`']
-                            } else {
-                                gotoSlot = ['launchGame ', slotName.text, 'VK_RETURN']
-                            }
-
+                            gotoSlot = ['launchGame ', slotName.text]
                             keysender.sendKeystroke(gotoSlot)
                         }
                     }
 
                     TextField {
                         id: slotName
-
                         width: 150
                         height: 40
                         horizontalAlignment: Text.AlignHCenter
@@ -110,6 +105,16 @@ Window {
                         onTextChanged: {
                             controller.setSlotName(text)
                         }
+                    }
+                }
+
+                Switch {
+                    id: modeSelector
+
+                    text: "DEV"
+                    onCheckedChanged: {
+                        keysender.devMode = checked;
+                        controller.changeDevMode(checked);
                     }
                 }
             }
@@ -141,17 +146,6 @@ Window {
                     value: 1.0
                 }
 
-                Switch {
-                    id: modeSelector
-                    x: 50
-                    y: 400
-                    text: "DEV"
-                    onCheckedChanged: {
-                        keysender.devMode = checked;
-                        controller.changeDevMode(checked);
-                    }
-                }
-
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
 
@@ -180,11 +174,7 @@ Window {
                         property var timeskew: []
 
                         onClicked: {
-                            if (controller.isDev()) {
-                                timeskew = ['`', '9 ', slider.value.toFixed(1), 'VK_RETURN', '`']
-                            } else {
-                                timeskew = ['9 ', slider.value.toFixed(1), 'VK_RETURN']
-                            }
+                            timeskew = ['9 ', slider.value.toFixed(1)]
                             keysender.sendKeystroke(timeskew)
                         }
                     }
