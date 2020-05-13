@@ -5,6 +5,7 @@ import com.company.keystrokessender 1.0
 import com.company.controller 1.0
 import Colors 1.0
 import QtQuick.Window 2.2
+import QtMultimedia 5.14
 
 Window {
     id: root
@@ -84,9 +85,9 @@ Window {
             property var gotoSlot: []
             onClicked: {
                 if (controller.isDev()) {
-                    gotoSlot = ['`', 'launchGame ', slotName.text, 'VK_RETURN', '`']
+                    gotoSlot = ['`', 'launchGame ', slotName.text, '`']
                 } else {
-                    gotoSlot = ['launchGame ', slotName.text, 'VK_RETURN']
+                    gotoSlot = ['launchGame ', slotName.text]
                 }
 
                 keysender.sendKeystroke(gotoSlot)
@@ -153,9 +154,9 @@ Window {
         property var timeskew: []
         onClicked: {
             if (controller.isDev()) {
-                timeskew = ['`', '9 ', slider.value.toFixed(1), 'VK_RETURN', '`']
+                timeskew = ['`', '9 ', slider.value.toFixed(1), '`']
             } else {
-                timeskew = ['9 ', slider.value.toFixed(1), 'VK_RETURN']
+                timeskew = ['9 ', slider.value.toFixed(1)]
             }
             keysender.sendKeystroke(timeskew)
         }
@@ -264,6 +265,27 @@ Window {
             y: 65
             text: "Commands:"
             font.pixelSize: 13
+        }
+
+
+        Video {
+            id: video
+            width : 500
+            height : 600
+            x: 50
+            y: 50
+            source: "res/add_button.mp4"
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    video.play()
+                }
+            }
+            focus: true
+            Keys.onSpacePressed: video.playbackState == MediaPlayer.PlayingState ? video.pause() : video.play()
+            Keys.onLeftPressed: video.seek(video.position - 5000)
+            Keys.onRightPressed: video.seek(video.position + 5000)
         }
 
         ListView {
