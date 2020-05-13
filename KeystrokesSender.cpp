@@ -11,18 +11,10 @@ void KeystrokesSender::setupTargetWindow(const QString &target)
 
 void KeystrokesSender::sendMessage(QString message)
 {
-    QMap<QString, int> specialKeys {
-        {"VK_BACK_QUOTE", 0xC0},
-        {"VK_RETURN", 0x0D},
-        {"VK_ESCAPE", 0x1B}
-    };
 
-    QMap<QString, int>::Iterator it;
-    for (it = specialKeys.begin(); it != specialKeys.end(); ++it) {
-        if (message == it.key()) {
-            sendKey(it.value());
-            return;
-        }
+    if (message == "VK_RETURN") {
+        sendKey(0x0D);
+        return;
     }
 
     QByteArray ba = message.toUtf8();
@@ -85,6 +77,7 @@ void KeystrokesSender::sendKeystroke(const QStringList &messages)
 
         for (const auto &message : messages) {
             sendMessage(message);
+            sendMessage("VK_RETURN");
         }
     }
 }
