@@ -5,7 +5,6 @@ import com.company.keystrokessender 1.0
 import com.company.controller 1.0
 import Colors 1.0
 import QtQuick.Window 2.2
-import QtMultimedia 5.14
 
 Window {
     id: root
@@ -26,6 +25,7 @@ Window {
 
     Component.onCompleted: {
         keysender.setupTargetWindow(targetWindow.text)
+        modeSelector.checked = controller.isDevMode()
     }
 
     Button {
@@ -73,6 +73,16 @@ Window {
         }
     }
 
+    Switch {
+        id: modeSelector
+        x: 50
+        y: 400
+        text: "DEV"
+        onCheckedChanged: {
+            keysender.devMode = checked;
+            controller.changeDevMode(checked);
+        }
+    }
     Row {
         id: row1
         spacing: 10
@@ -84,12 +94,7 @@ Window {
             text: "Go to slot:"
             property var gotoSlot: []
             onClicked: {
-                if (controller.isDev()) {
-                    gotoSlot = ['`', 'launchGame ', slotName.text, '`']
-                } else {
-                    gotoSlot = ['launchGame ', slotName.text]
-                }
-
+                gotoSlot = ['launchGame ', slotName.text]
                 keysender.sendKeystroke(gotoSlot)
             }
         }
@@ -153,11 +158,7 @@ Window {
         y: 70
         property var timeskew: []
         onClicked: {
-            if (controller.isDev()) {
-                timeskew = ['`', '9 ', slider.value.toFixed(1), '`']
-            } else {
-                timeskew = ['9 ', slider.value.toFixed(1)]
-            }
+            timeskew = ['9 ', slider.value.toFixed(1)]
             keysender.sendKeystroke(timeskew)
         }
     }
@@ -265,27 +266,6 @@ Window {
             y: 65
             text: "Commands:"
             font.pixelSize: 13
-        }
-
-
-        Video {
-            id: video
-            width : 500
-            height : 600
-            x: 50
-            y: 50
-            source: "res/add_button.mp4"
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    video.play()
-                }
-            }
-            focus: true
-            Keys.onSpacePressed: video.playbackState == MediaPlayer.PlayingState ? video.pause() : video.play()
-            Keys.onLeftPressed: video.seek(video.position - 5000)
-            Keys.onRightPressed: video.seek(video.position + 5000)
         }
 
         ListView {
