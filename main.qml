@@ -66,6 +66,7 @@ Window {
 
                     width: slotSelector.width
                     height: 45
+                    selectByMouse: true
                     font.pointSize: 11
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -97,6 +98,7 @@ Window {
                         id: slotName
                         width: 150
                         height: 40
+                        selectByMouse: true
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: 11
@@ -156,6 +158,7 @@ Window {
 
                         width: 60
                         height: 40
+                        selectByMouse: true
                         font.pointSize: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -355,6 +358,7 @@ Window {
                 y: 20
                 width: 170
                 height: 35
+                selectByMouse: true
                 font.pointSize: 11
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -395,6 +399,7 @@ Window {
                     x: -15
                     width: 200
                     height: 30
+                    selectByMouse: true
                     font.pointSize: 9
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
