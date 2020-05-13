@@ -8,8 +8,13 @@ Button {
     height: width
     hoverEnabled: true
 
+    property string tooltipText: ""
     property string image
     property string imagePressed
+
+    ToolTip.delay: 800
+    ToolTip.visible: hovered && tooltipText
+    ToolTip.text: tooltipText
 
     background: Rectangle {
         color: "transparent"
