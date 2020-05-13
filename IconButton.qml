@@ -23,8 +23,6 @@ Button {
     }
 
     Image {
-        id: pin
-
         anchors.centerIn: parent
         source: imagePressed
                     ? parent.checked || parent.pressed ? imagePressed : image
