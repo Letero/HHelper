@@ -13,8 +13,8 @@ private:
     QString mText;
     QString targetWindow;
     void sendKey(BYTE virtualKey);
-    void sendKeyUppercase(BYTE virtualKey);
-    void sendMessage(QString message);
+    void sendKeyUppercase(const BYTE &virtualKey);
+    void sendMessage(const QString &message);
 
 public:
     QString text() const
