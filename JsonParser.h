@@ -23,7 +23,7 @@ public:
     bool saveConfig(QString filename, ButtonModel *buttonModel);
     QMap<QString, QStringList> getButtonsData();
     bool isDevMode();
-    void changeDevMode();
+    void changeDevMode(bool isDevMode);
 private:
     QJsonObject m_config;
     QJsonObject m_mainSettings;

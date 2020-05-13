@@ -105,11 +105,11 @@ bool JsonParser::isDevMode()
     return false;
 }
 
-void JsonParser::changeDevMode()
+void JsonParser::changeDevMode(bool isDevMode)
 {
-    if (m_mainSettings["dev_mode"] == 1) {
+    if (isDevMode) {
+        m_mainSettings["dev_mode"] = 1;
+    } else {
         m_mainSettings["dev_mode"] = 0;
-        return;
     }
-    m_mainSettings["dev_mode"] = 1;
 }
