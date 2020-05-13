@@ -17,7 +17,6 @@ private:
     void sendKeyUppercase(const BYTE &virtualKey);
     void sendMessage(const QString &message);
     bool mDevMode;
-
 public:
     QString text() const;
     void setText(const QString &text);
@@ -26,8 +25,6 @@ public:
     explicit KeystrokesSender(QObject *parent = nullptr);
     Q_INVOKABLE void setupTargetWindow(const QString &target);
     Q_INVOKABLE void sendKeystroke(const QStringList &messages);
-
-
 signals:
     void textChanged(const QString &text);
     void devModeChanged(bool devMode);
