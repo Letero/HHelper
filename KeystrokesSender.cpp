@@ -107,12 +107,12 @@ void KeystrokesSender::sendKeystroke(const QStringList &messages)
     const wchar_t *window = (const wchar_t *)targetWindow.utf16();
     HWND hWndTarget = FindWindowW(nullptr, window);
     if (SetForegroundWindow(hWndTarget)) {
+        if (mDevMode) { sendMessage("`"); }
         for (const auto &message : messages) {
-            if (mDevMode) { sendMessage("`"); }
             sendMessage(message);
             sendMessage(RETURN_KEY);
-            if (mDevMode) { sendMessage("`"); }
         }
+        if (mDevMode) { sendMessage("`"); }
     }
 }
 
