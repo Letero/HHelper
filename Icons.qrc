@@ -2,6 +2,5 @@
     <qresource prefix="/res">
         <file>pin.png</file>
         <file>pin-outline.png</file>
-        <file>add_button.mp4</file>
     </qresource>
 </RCC>
