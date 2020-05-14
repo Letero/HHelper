@@ -392,7 +392,15 @@ Window {
                 function updateModel() {
                     model = 0
                     model = stringArray
-                    currentIndex = stringArray.length - 1
+                    currentIndex = stringArray.length - 2
+                }
+
+                function addTextField(index, text) {
+                    if ( (buttonsList.stringArray[index] !== "") && (index == (buttonsList.stringArray.length - 1))) {
+                        buttonsList.stringArray.push("")
+                        buttonsList.updateModel()
+                    }
+                    buttonsList.stringArray[index] = text
                 }
 
                 delegate: TextField {
@@ -406,14 +414,8 @@ Window {
                     text: modelData
                     renderType: Text.QtRendering
 
-                    onAccepted: {
-                        if ( (buttonsList.stringArray[index] !== "") && (index == (buttonsList.stringArray.length - 1))) {
-                            buttonsList.stringArray.push("")
-                            buttonsList.updateModel()
-                        }
-                    }
                     onTextChanged: {
-                        buttonsList.stringArray[index] = text
+                        buttonsList.addTextField(index, text)
                     }
                 }
             }
