@@ -8,15 +8,14 @@ struct ButtonData {
     ButtonData(const QString &n, const QStringList &args) : name(n), arguments(args) {}
 };
 
+enum roles {
+    BUTTON_NAME = Qt::UserRole + 1,
+    ARGUMENTS
+};
 
 class ButtonModel : public QAbstractListModel
 {
     Q_OBJECT
-    enum roles {
-        BUTTON_NAME = Qt::UserRole + 1,
-        ARGUMENTS
-    };
-
 public:
     ButtonModel(QObject *parent = nullptr);
     QVector<ButtonData> getButtonDataVector();
