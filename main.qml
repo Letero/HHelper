@@ -177,7 +177,7 @@ Window {
                         property var timeskew: []
 
                         onClicked: {
-                            timeskew = ['9 ', slider.value.toFixed(1)]
+                            timeskew = ['9 ' + slider.value.toFixed(1)]
                             keysender.sendKeystroke(timeskew)
                         }
                     }
