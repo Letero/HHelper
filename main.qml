@@ -89,7 +89,7 @@ Window {
                         property var gotoSlot: []
 
                         onClicked: {
-                            gotoSlot = ['launchGame ', slotName.text]
+                            gotoSlot = ['launchGame ' + slotName.text]
                             keysender.sendKeystroke(gotoSlot)
                         }
                     }
