@@ -307,10 +307,10 @@ Window {
                                 onTriggered: controller.buttonModel.removeButton(index)
                             }
 
-//                            MenuItem {
-//                                text: "Edit"
-//                                onTriggered: console.log( "TO DO" )
-//                            }
+                            MenuItem {
+                                text: "Edit"
+                                onTriggered: console.log( "TO DO" )
+                            }
                         }
                     }
                 }
@@ -345,112 +345,118 @@ Window {
             focus: true
             closePolicy: Popup.CloseOnEscape | Popup.CloseOnReleaseOutside
 
-            Text {
+            Column {
                 x: 20
                 y: 25
-                text: "Name:"
-                font.pixelSize: 15
-            }
 
-            TextField {
-                id: popupBtnName
-                x: 80
-                y: 20
-                width: 170
-                height: 35
-                selectByMouse: true
-                font.pointSize: 11
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                text: buttonsList.buttonName
-                renderType: Text.QtRendering
-                onTextChanged: {
-                    buttonsList.buttonName = text
-                }
-            }
+                width: parent.width
 
-
-            Text {
-                x: parent.width / 2 - width / 2
-                y: 65
-                text: "Commands:"
-                font.pixelSize: 13
-            }
-
-            ListView {
-                id: buttonsList
-
-                x: parent.width / 2 - width / 2
-                y: parent.height / 2 - height / 2 - 30
-                width: parent.width / 2
-                height: parent.height / 2
-
-                property var stringArray:  ["", ""]
-                property var buttonName: ""
-                model: stringArray
-
-                function updateModel() {
-                    model = 0
-                    model = stringArray
-                    currentIndex = stringArray.length - 2
+                Text {
+                    text: "Name:"
+                    font.pixelSize: 15
                 }
 
-                function addTextField(index, text) {
-                    if ( (buttonsList.stringArray[index] !== "") && (index == (buttonsList.stringArray.length - 1))) {
-                        buttonsList.stringArray.push("")
-                        buttonsList.updateModel()
-                    }
-                    buttonsList.stringArray[index] = text
-                }
-
-                delegate: TextField {
-                    x: -15
-                    width: 200
-                    height: 30
+                TextField {
+                    id: popupBtnName
+//                    x: 80
+//                    y: 20
+                    width: 170
+                    height: 35
                     selectByMouse: true
-                    font.pointSize: 9
+                    font.pointSize: 11
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    text: modelData
+                    text: buttonsList.buttonName
                     renderType: Text.QtRendering
-
                     onTextChanged: {
-                        buttonsList.addTextField(index, text)
+                        buttonsList.buttonName = text
                     }
                 }
-            }
 
-            Button {
-                x: 45
-                y: 400
-                width: 70
-                text: "Add"
-                onClicked: {
-                    if (buttonsList.buttonName !== "")
-                    {
-                        controller.buttonModel.addButton(buttonsList.buttonName, buttonsList.stringArray)
+
+                Text {
+//                    x: parent.width / 2 - width / 2
+//                    y: 65
+                    text: "Commands:"
+                    font.pixelSize: 13
+                }
+
+                ListView {
+                    id: buttonsList
+
+//                    x: parent.width / 2 - width / 2
+//                    y: parent.height / 2 - height / 2 - 30
+                    width: parent.width / 2
+                    height: parent.height / 2
+
+                    property var stringArray:  ["", ""]
+                    property var buttonName: ""
+                    model: stringArray
+
+                    function updateModel() {
+                        model = 0
+                        model = stringArray
+                        currentIndex = stringArray.length - 2
+                    }
+
+                    function addTextField(index, text) {
+                        if ( (buttonsList.stringArray[index] !== "") && (index == (buttonsList.stringArray.length - 1))) {
+                            buttonsList.stringArray.push("")
+                            buttonsList.updateModel()
+                        }
+                        buttonsList.stringArray[index] = text
+                    }
+
+                    delegate: TextField {
+                        x: -15
+                        width: 200
+                        height: 30
+                        selectByMouse: true
+                        font.pointSize: 9
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        text: modelData
+                        renderType: Text.QtRendering
+
+                        onTextChanged: {
+                            buttonsList.addTextField(index, text)
+                        }
                     }
                 }
-            }
 
-            Button {
-                x: 125
-                y: 400
-                width: 70
-                text: "Reset"
-                onClicked: {
-                    popupBtnName.text = ""
-                    buttonsList.stringArray = ["", ""]
-                    buttonsList.updateModel()
+                Row {
+                    x: 45
+                    y: 400
+
+                    spacing: 10
+
+                    Button {
+                        width: 70
+                        text: "Add"
+                        onClicked: {
+                            if (buttonsList.buttonName !== "")
+                            {
+                                controller.buttonModel.addButton(buttonsList.buttonName, buttonsList.stringArray)
+                            }
+                        }
+                    }
+
+                    Button {
+                        width: 70
+                        text: "Reset"
+                        onClicked: {
+                            popupBtnName.text = ""
+                            buttonsList.stringArray = ["", ""]
+                            buttonsList.updateModel()
+                        }
+                    }
+
+                    Button {
+                        width: 70
+                        text: "Exit"
+                        onClicked: popup.close()
+                    }
                 }
-            }
-
-            Button {
-                x: 205
-                y: 400
-                width: 70
-                text: "Exit"
-                onClicked: popup.close()
             }
         }
     }
