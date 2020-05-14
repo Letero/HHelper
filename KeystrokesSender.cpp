@@ -5,7 +5,7 @@ namespace
     constexpr char RETURN_KEY[] = "VK_RETURN";
 }
 
-KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), targetWindow("") { }
+KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), targetWindow(""), mDevMode(false) { }
 
 void KeystrokesSender::setupTargetWindow(const QString &target)
 {
