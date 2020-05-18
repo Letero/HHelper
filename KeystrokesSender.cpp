@@ -4,8 +4,11 @@ namespace
 {
     constexpr char RETURN_KEY[] = "VK_RETURN";
 }
+QString KeystrokesSender::targetWindow = "";
 
-KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), targetWindow(""), mDevMode(false) { }
+HWND KeystrokesSender::targetWindowHandler;
+
+KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), mDevMode(false) { }
 
 void KeystrokesSender::setupTargetWindow(const QString &target)
 {
@@ -23,7 +26,7 @@ void KeystrokesSender::sendMessage(const QString &message)
     const auto *thefile = ba.constData();
     for (int i = 0; thefile[i] != '\0'; ++i) {
         if ((i > 0) && (thefile[i] == thefile[i - 1])) {
-            Sleep(100); //workaround, there was a problem to send two same chars in a row to certain apps
+            Sleep(120); //workaround, there was a problem to send two same chars in a row to certain apps
         }
         if ((thefile[i] >= 'A') && (thefile[i] <= 'Z')) {
             sendKeyUppercase(thefile[i]);
@@ -99,17 +102,30 @@ void KeystrokesSender::sendKeyUppercase(const BYTE &virtualKey)
     SendInput(1, &Event, sizeof(Event));
 }
 
+bool CALLBACK KeystrokesSender::EnumWindowsProc(HWND hWnd, long lParam)
+{
+    char Buff[255];
+    GetWindowTextA(hWnd, Buff, 254);
+    std::string windowName(Buff);
+    std::string targetWindowName = targetWindow.toStdString();
+    if (windowName.find(targetWindowName) != std::string::npos) {
+        targetWindowHandler = hWnd;
+        return true;
+    }
+}
+
 void KeystrokesSender::sendKeystroke(const QStringList &messages)
 {
-    const wchar_t *window = (const wchar_t *)targetWindow.utf16();
-    HWND hWndTarget = FindWindowW(nullptr, window);
-    if (SetForegroundWindow(hWndTarget)) {
-        if (mDevMode) { sendMessage("`"); }
-        for (const auto &message : messages) {
-            sendMessage(message);
-            sendMessage(RETURN_KEY);
+    if (EnumWindows((WNDENUMPROC)EnumWindowsProc, 0)) {
+        HWND hWndTarget = targetWindowHandler;
+        if (SetForegroundWindow(hWndTarget)) {
+            if (mDevMode) { sendMessage("`"); }
+            for (const auto &message : messages) {
+                sendMessage(message);
+                sendMessage(RETURN_KEY);
+            }
+            if (mDevMode) { sendMessage("`"); }
         }
-        if (mDevMode) { sendMessage("`"); }
     }
 }
 
