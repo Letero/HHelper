@@ -46,6 +46,14 @@ void ButtonModel::addButton(const QString &name, const QStringList &args)
     endInsertRows();
 }
 
+void ButtonModel::editButton(int buttonIndex, const QString &name, const QStringList &args)
+{
+    mButtonData[buttonIndex].name = name;
+    mButtonData[buttonIndex].arguments = args;
+
+    emit dataChanged(index(buttonIndex, 0), index(buttonIndex, 0));
+}
+
 void ButtonModel::removeButton(int index)
 {
     beginRemoveRows({}, index, index);
