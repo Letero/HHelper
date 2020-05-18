@@ -23,9 +23,12 @@ signals:
     void devModeChanged(bool devMode);
 private:
     QString mText;
-    QString targetWindow;
+    static QString targetWindow;
+    static HWND targetWindowHandler;
     void sendKey(BYTE virtualKey);
     void sendKeyUppercase(const BYTE &virtualKey);
+    bool CALLBACK static EnumWindowsProc(HWND hWnd, long lParam);
+
     void sendMessage(const QString &message);
     bool mDevMode;
 };
