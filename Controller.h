@@ -8,6 +8,7 @@ class Controller : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(ButtonModel *buttonModel READ getButtonModel CONSTANT)
+
 public:
     Controller(QObject *parent = nullptr);
     ButtonModel *getButtonModel() const;

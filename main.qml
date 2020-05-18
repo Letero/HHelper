@@ -48,7 +48,7 @@ Window {
                 topMargin: pinButton.checked ? 24 : 0
             }
 
-            spacing: 20
+            spacing: 10
 
             Column {
                 id: slotSection
@@ -56,7 +56,7 @@ Window {
                 spacing: 10
 
                 Text {
-                    text: "Target window:"
+                    text: qsTr("Target window:")
                     color: Colors.black
                     font.pointSize: 12
                 }
@@ -85,7 +85,9 @@ Window {
 
                     Button {
                         id: goSlotButton
-                        text: "Go to slot:"
+
+                        width: 80
+                        text: qsTr("Go to slot:")
                         property var gotoSlot: []
 
                         onClicked: {
@@ -109,16 +111,6 @@ Window {
                         }
                     }
                 }
-
-                Switch {
-                    id: modeSelector
-
-                    text: "DEV"
-                    onCheckedChanged: {
-                        keysender.devMode = checked;
-                        controller.changeDevMode(checked);
-                    }
-                }
             }
 
             Rectangle {
@@ -131,7 +123,7 @@ Window {
                 spacing: 10
 
                 Text {
-                    text: "Timeskew:"
+                    text: qsTr("Timeskew:")
                     color: Colors.black
                     font.pointSize: 12
                 }
@@ -140,7 +132,7 @@ Window {
                     id: slider
 
                     height: 45
-                    width: 300
+                    width: 220
                     snapMode: "SnapAlways"
                     from: 0.1
                     to: 5
@@ -184,11 +176,39 @@ Window {
                 }
             }
 
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: "lightgrey"
+            }
+
+            Column {
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: "DEV"
+                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                Switch {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    id: modeSelector
+
+                    height: 40
+
+                    onCheckedChanged: {
+                        keysender.devMode = checked;
+                        controller.changeDevMode(checked);
+                    }
+                }
+            }
+
             Column {
                 spacing: 10
 
                 IconButton {
                     id: pinButton
+
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     checkable: true
                     image: "res/pin-outline.png"
@@ -200,6 +220,8 @@ Window {
                 IconButton {
                     id: saveConfigButton
 
+                    anchors.horizontalCenter: parent.horizontalCenter
+
                     image: "res/content-save-cog-outline.png"
                     imagePressed: "res/content-save-cog.png"
 
@@ -210,6 +232,8 @@ Window {
 
                 IconButton {
                     id: closeButton
+
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     visible: pinButton.checked
                     image: "res/close.png"
