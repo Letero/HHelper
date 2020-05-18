@@ -40,6 +40,7 @@ QHash<int, QByteArray> ButtonModel::roleNames() const
 
 void ButtonModel::addButton(const QString &name, const QStringList &args)
 {
+    qDebug() << "witam pana " << name << args;
     beginInsertRows({}, rowCount({}), rowCount({}));
     mButtonData.push_back({name, args});
     endInsertRows();
