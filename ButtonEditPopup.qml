@@ -13,9 +13,11 @@ Popup {
     focus: true
     closePolicy: Popup.CloseOnEscape
 
+    property int currentButtonIndex: 0
     property bool editMode: false
 
-    function openEdit(buttonName, args) {
+    function openEdit(index, buttonName, args) {
+        root.currentButtonIndex = index
         popupBtnName.text = buttonName
         buttonsList.stringArray = args
         buttonsList.updateModel()
@@ -140,11 +142,10 @@ Popup {
                     if (popupBtnName.text !== "")
                     {
                         if (root.editMode) {
-                            controller.buttonModel.addButton(popupBtnName.text, buttonsList.stringArray)
+                            controller.buttonModel.editButton(root.currentButtonIndex, popupBtnName.text, buttonsList.stringArray)
                         } else {
-                            console.log( "to do" )
+                            controller.buttonModel.addButton(popupBtnName.text, buttonsList.stringArray)
                         }
-
                     }
                 }
             }

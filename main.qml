@@ -304,7 +304,7 @@ Window {
 
                             MenuItem {
                                 text: qsTr("Edit")
-                                onTriggered: popup.openEdit(buttonName, buttonArgs)
+                                onTriggered: popup.openEdit(index, buttonName, buttonArgs)
                             }
 
                             MenuItem {
