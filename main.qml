@@ -48,7 +48,7 @@ Window {
                 topMargin: pinButton.checked ? 24 : 0
             }
 
-            spacing: 20
+            spacing: 10
 
             Column {
                 id: slotSection
@@ -56,7 +56,7 @@ Window {
                 spacing: 10
 
                 Text {
-                    text: "Target window:"
+                    text: qsTr("Target window:")
                     color: Colors.black
                     font.pointSize: 12
                 }
@@ -85,7 +85,9 @@ Window {
 
                     Button {
                         id: goSlotButton
-                        text: "Go to slot:"
+
+                        width: 80
+                        text: qsTr("Go to slot:")
                         property var gotoSlot: []
 
                         onClicked: {
@@ -109,16 +111,6 @@ Window {
                         }
                     }
                 }
-
-                Switch {
-                    id: modeSelector
-
-                    text: "DEV"
-                    onCheckedChanged: {
-                        keysender.devMode = checked;
-                        controller.changeDevMode(checked);
-                    }
-                }
             }
 
             Rectangle {
@@ -131,7 +123,7 @@ Window {
                 spacing: 10
 
                 Text {
-                    text: "Timeskew:"
+                    text: qsTr("Timeskew:")
                     color: Colors.black
                     font.pointSize: 12
                 }
@@ -140,7 +132,7 @@ Window {
                     id: slider
 
                     height: 45
-                    width: 300
+                    width: 220
                     snapMode: "SnapAlways"
                     from: 0.1
                     to: 5
@@ -184,11 +176,39 @@ Window {
                 }
             }
 
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: "lightgrey"
+            }
+
+            Column {
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: "DEV"
+                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                Switch {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    id: modeSelector
+
+                    height: 40
+
+                    onCheckedChanged: {
+                        keysender.devMode = checked;
+                        controller.changeDevMode(checked);
+                    }
+                }
+            }
+
             Column {
                 spacing: 10
 
                 IconButton {
                     id: pinButton
+
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     checkable: true
                     image: "res/pin-outline.png"
@@ -200,6 +220,8 @@ Window {
                 IconButton {
                     id: saveConfigButton
 
+                    anchors.horizontalCenter: parent.horizontalCenter
+
                     image: "res/content-save-cog-outline.png"
                     imagePressed: "res/content-save-cog.png"
 
@@ -210,6 +232,8 @@ Window {
 
                 IconButton {
                     id: closeButton
+
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     visible: pinButton.checked
                     image: "res/close.png"
@@ -303,14 +327,14 @@ Window {
                             id: contextMenu
 
                             MenuItem {
-                                text: "Remove"
-                                onTriggered: controller.buttonModel.removeButton(index)
+                                text: qsTr("Edit")
+                                onTriggered: popup.openEdit(index, buttonName, buttonArgs)
                             }
 
-//                            MenuItem {
-//                                text: "Edit"
-//                                onTriggered: console.log( "TO DO" )
-//                            }
+                            MenuItem {
+                                text: qsTr("Remove")
+                                onTriggered: controller.buttonModel.removeButton(index)
+                            }
                         }
                     }
                 }
@@ -328,130 +352,12 @@ Window {
                 palette {
                     button: Colors.autumn
                 }
-                onClicked: {
-                    popup.open()
-                }
+                onClicked: popup.open()
             }
         }
 
-        Popup {
+        ButtonEditPopup {
             id: popup
-
-            x: parent.width / 2 - width / 2
-            y: parent.height / 2 - height / 2
-            width: parent.width / 2
-            height: parent.height - 50
-            modal: true
-            focus: true
-            closePolicy: Popup.CloseOnEscape | Popup.CloseOnReleaseOutside
-
-            Text {
-                x: 20
-                y: 25
-                text: "Name:"
-                font.pixelSize: 15
-            }
-
-            TextField {
-                id: popupBtnName
-                x: 80
-                y: 20
-                width: 170
-                height: 35
-                selectByMouse: true
-                font.pointSize: 11
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                text: buttonsList.buttonName
-                renderType: Text.QtRendering
-                onTextChanged: {
-                    buttonsList.buttonName = text
-                }
-            }
-
-
-            Text {
-                x: parent.width / 2 - width / 2
-                y: 65
-                text: "Commands:"
-                font.pixelSize: 13
-            }
-
-            ListView {
-                id: buttonsList
-
-                x: parent.width / 2 - width / 2
-                y: parent.height / 2 - height / 2 - 30
-                width: parent.width / 2
-                height: parent.height / 2
-
-                property var stringArray:  ["", ""]
-                property var buttonName: ""
-                model: stringArray
-
-                function updateModel() {
-                    model = 0
-                    model = stringArray
-                    currentIndex = stringArray.length - 2
-                }
-
-                function addTextField(index, text) {
-                    if ( (buttonsList.stringArray[index] !== "") && (index == (buttonsList.stringArray.length - 1))) {
-                        buttonsList.stringArray.push("")
-                        buttonsList.updateModel()
-                    }
-                    buttonsList.stringArray[index] = text
-                }
-
-                delegate: TextField {
-                    x: -15
-                    width: 200
-                    height: 30
-                    selectByMouse: true
-                    font.pointSize: 9
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    text: modelData
-                    renderType: Text.QtRendering
-
-                    onTextChanged: {
-                        buttonsList.addTextField(index, text)
-                    }
-                }
-            }
-
-            Button {
-                x: 45
-                y: 400
-                width: 70
-                text: "Add"
-                onClicked: {
-                    if (buttonsList.buttonName !== "")
-                    {
-                        controller.buttonModel.addButton(buttonsList.buttonName, buttonsList.stringArray)
-                    }
-                }
-            }
-
-            Button {
-                x: 125
-                y: 400
-                width: 70
-                text: "Reset"
-                onClicked: {
-                    popupBtnName.text = ""
-                    buttonsList.stringArray = ["", ""]
-                    buttonsList.updateModel()
-                }
-            }
-
-            Button {
-                x: 205
-                y: 400
-                width: 70
-                text: "Exit"
-                onClicked: popup.close()
-            }
         }
     }
 }
