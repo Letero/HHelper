@@ -40,9 +40,18 @@ QHash<int, QByteArray> ButtonModel::roleNames() const
 
 void ButtonModel::addButton(const QString &name, const QStringList &args)
 {
+    qDebug() << "witam pana " << name << args;
     beginInsertRows({}, rowCount({}), rowCount({}));
     mButtonData.push_back({name, args});
     endInsertRows();
+}
+
+void ButtonModel::editButton(int buttonIndex, const QString &name, const QStringList &args)
+{
+    mButtonData[buttonIndex].name = name;
+    mButtonData[buttonIndex].arguments = args;
+
+    emit dataChanged(index(buttonIndex, 0), index(buttonIndex, 0));
 }
 
 void ButtonModel::removeButton(int index)
