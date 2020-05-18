@@ -4,7 +4,7 @@ namespace
 {
     constexpr char RETURN_KEY[] = "VK_RETURN";
 }
-QString KeystrokesSender::targetWindow = "";
+QString KeystrokesSender::targetWindowName = "";
 
 HWND KeystrokesSender::targetWindowHandler;
 
@@ -12,7 +12,7 @@ KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), mDevMode(
 
 void KeystrokesSender::setupTargetWindow(const QString &target)
 {
-    this->targetWindow = target;
+    this->targetWindowName = target;
 }
 
 void KeystrokesSender::sendMessage(const QString &message)
@@ -102,30 +102,34 @@ void KeystrokesSender::sendKeyUppercase(const BYTE &virtualKey)
     SendInput(1, &Event, sizeof(Event));
 }
 
-bool CALLBACK KeystrokesSender::EnumWindowsProc(HWND hWnd, long lParam)
+bool CALLBACK KeystrokesSender::EnumWindowsProc(HWND hWnd, long /*lParam*/)
 {
     char Buff[255];
     GetWindowTextA(hWnd, Buff, 254);
-    std::string windowName(Buff);
-    std::string targetWindowName = targetWindow.toStdString();
-    if (windowName.find(targetWindowName) != std::string::npos) {
+    std::string currentWindow(Buff);
+    std::string targetWindow = targetWindowName.toStdString();
+    if (currentWindow.find(targetWindow) != std::string::npos) {
         targetWindowHandler = hWnd;
-        return true;
     }
+    return true;
+}
+
+void KeystrokesSender::setupTargetWindow()
+{
+    EnumWindows((WNDENUMPROC)EnumWindowsProc, 0);
 }
 
 void KeystrokesSender::sendKeystroke(const QStringList &messages)
 {
-    if (EnumWindows((WNDENUMPROC)EnumWindowsProc, 0)) {
-        HWND hWndTarget = targetWindowHandler;
-        if (SetForegroundWindow(hWndTarget)) {
-            if (mDevMode) { sendMessage("`"); }
-            for (const auto &message : messages) {
-                sendMessage(message);
-                sendMessage(RETURN_KEY);
-            }
-            if (mDevMode) { sendMessage("`"); }
+    setupTargetWindow();
+    HWND hWndTarget = targetWindowHandler;
+    if (SetForegroundWindow(hWndTarget)) {
+        if (mDevMode) { sendMessage("`"); }
+        for (const auto &message : messages) {
+            sendMessage(message);
+            sendMessage(RETURN_KEY);
         }
+        if (mDevMode) { sendMessage("`"); }
     }
 }
 
