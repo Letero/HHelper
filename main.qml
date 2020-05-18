@@ -9,8 +9,8 @@ import QtQuick.Window 2.2
 Window {
     id: root
 
-    width: 700
-    minimumWidth: 700
+    width: 720
+    minimumWidth: 720
     height: 540
 
     flags: pinButton.checked ? (Qt.Window | Qt.WindowStaysOnTopHint) : Qt.Window
@@ -44,7 +44,7 @@ Window {
                 top: parent.top
                 left: parent.left
                 right: parent.right
-                leftMargin: pinButton.checked ? 31 : 30
+                leftMargin: pinButton.checked ? 21 : 20
                 topMargin: pinButton.checked ? 24 : 0
             }
 
@@ -132,7 +132,7 @@ Window {
                     id: slider
 
                     height: 45
-                    width: 220
+                    width: 140
                     snapMode: "SnapAlways"
                     from: 0.1
                     to: 5
@@ -183,6 +183,78 @@ Window {
             }
 
             Column {
+                spacing: 10
+                Text {
+                    text: qsTr("Language:")
+                    color: Colors.black
+                    font.pointSize: 12
+                }
+
+                ComboBox {
+                    id: languageCombo
+
+                    width: 100
+
+                    textRole: "key"
+                    valueRole: "value"
+
+                    delegate: ItemDelegate {
+                           height: 30
+                           width: parent.width
+                           contentItem: Rectangle {
+                               anchors.fill: parent
+                               color: parent.hovered ? "lightgrey"
+                                                     : languageCombo.currentIndex == index
+                                                     ? Colors.shadow : Colors.white
+
+                               Text {
+                                   anchors.centerIn: parent
+                                   text: key
+                                   elide: Text.ElideRight
+                                   verticalAlignment: Text.AlignVCenter
+                               }
+                           }
+                    }
+
+                    model: ListModel {
+                        ListElement { key: "English (US)"; value: "en" }
+                        ListElement { key: "English (GB)"; value: "en" }
+                        ListElement { key: "Spanish";      value: "es" }
+                        ListElement { key: "German";       value: "de" }
+                        ListElement { key: "Russian";      value: "ru" }
+                        ListElement { key: "Polish";       value: "pl" }
+                        ListElement { key: "French";       value: "fr" }
+                        ListElement { key: "Japanese";     value: "ja" }
+                        ListElement { key: "Chinese";      value: "zh" }
+                        ListElement { key: "Taiwanese";    value: "zh-TW" }
+                        ListElement { key: "Italian";      value: "it" }
+                        ListElement { key: "Es-America";   value: "es-419" }
+                        ListElement { key: "Dutch";        value: "nl" }
+                        ListElement { key: "Norwegian";    value: "no" }
+                        ListElement { key: "Turkish";      value: "tr" }
+                    }
+                }
+
+                Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("Set")
+                    property var temp: []
+                    onClicked: {
+                        temp = ['lang ' + languageCombo.currentValue]
+                        keysender.sendKeystroke(temp)
+                    }
+                }
+            }
+
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: "lightgrey"
+            }
+
+            Column {
+                anchors.verticalCenter: parent.verticalCenter
+
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: "DEV"
@@ -190,8 +262,9 @@ Window {
                 }
 
                 Switch {
-                    anchors.horizontalCenter: parent.horizontalCenter
                     id: modeSelector
+
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     height: 40
 
@@ -200,6 +273,12 @@ Window {
                         controller.changeDevMode(checked);
                     }
                 }
+            }
+
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: "lightgrey"
             }
 
             Column {

@@ -8,11 +8,12 @@ QString KeystrokesSender::targetWindowName = "";
 
 HWND KeystrokesSender::targetWindowHandler;
 
-KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), mDevMode(false) { }
+KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), wasModified(true), mDevMode(false) { }
 
 void KeystrokesSender::setupTargetWindow(const QString &target)
 {
     this->targetWindowName = target;
+    wasModified = true;
 }
 
 void KeystrokesSender::sendMessage(const QString &message)
@@ -114,15 +115,18 @@ bool CALLBACK KeystrokesSender::EnumWindowsProc(HWND hWnd, long /*lParam*/)
     return true;
 }
 
-void KeystrokesSender::setupTargetWindow()
+void KeystrokesSender::updateHandler()
 {
     EnumWindows((WNDENUMPROC)EnumWindowsProc, 0);
 }
 
 void KeystrokesSender::sendKeystroke(const QStringList &messages)
 {
-    setupTargetWindow();
-    HWND hWndTarget = targetWindowHandler;
+    if (wasModified) {
+        updateHandler();
+        wasModified = false;
+    }
+    HWND hWndTarget= targetWindowHandler;
     if (SetForegroundWindow(hWndTarget)) {
         if (mDevMode) { sendMessage("`"); }
         for (const auto &message : messages) {
