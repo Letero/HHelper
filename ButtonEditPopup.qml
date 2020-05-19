@@ -37,6 +37,28 @@ Popup {
         root.editMode = false
     }
 
+    Button {
+        x: 280
+        y: 105
+        width: 35
+        height: 35
+        Image {
+            anchors.centerIn: parent.Center
+            source: "res/plus.png"
+        }
+
+        onClicked: {
+            buttonsList.stringArray.push("")
+            buttonsList.updateModel()
+        }
+        background: Rectangle {
+            color: "transparent"
+        }
+        ToolTip.delay: 1000
+        ToolTip.visible: hovered
+        ToolTip.text: "Add text field."
+    }
+
     ColumnLayout {
         anchors.centerIn: parent
         height: 0.9 * parent.height
@@ -102,15 +124,7 @@ Popup {
                 function updateModel() {
                     model = 0
                     model = stringArray
-                    currentIndex = stringArray.length - parent.scrollMargin
-                }
-
-                function addTextField(index, text) {
-                    if ( (buttonsList.stringArray[index] !== "") && (index == (buttonsList.stringArray.length - 1))) {
-                        buttonsList.stringArray.push("")
-                        buttonsList.updateModel()
-                    }
-                    buttonsList.stringArray[index] = text
+                    currentIndex = stringArray.length - 1
                 }
 
                 delegate: TextField {
@@ -124,7 +138,7 @@ Popup {
                     renderType: Text.QtRendering
 
                     onTextChanged: {
-                        buttonsList.addTextField(index, text)
+                        buttonsList.stringArray[index] = text
                     }
                 }
             }
