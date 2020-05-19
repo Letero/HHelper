@@ -3,6 +3,8 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QQmlProperty>
+#include <QQuickStyle>
+
 #include "KeystrokesSender.h"
 #include "Controller.h"
 
@@ -17,6 +19,8 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType(QUrl("qrc:/Colors.qml"), "Colors", 1, 0, "Colors");
 
     QQmlApplicationEngine engine;
+    QQuickStyle::setStyle("Universal");
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
     &app, [url](QObject * obj, const QUrl & objUrl) {
