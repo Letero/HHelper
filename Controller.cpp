@@ -45,3 +45,12 @@ void Controller::changeDevMode(bool isDevMode)
 {
     m_jsonParser.changeDevMode(isDevMode);
 }
+
+QString Controller::validateSlotName(QString name)
+{
+    if (!name.startsWith("Slots")) {
+        return "Slots" + name;
+    }
+
+    return name;
+}
