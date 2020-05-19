@@ -19,6 +19,7 @@ public:
     Q_INVOKABLE void saveCurrentConfig();
     Q_INVOKABLE bool isDevMode();
     Q_INVOKABLE void changeDevMode(bool isDevMode);
+    Q_INVOKABLE QString validateSlotName(QString name);
 
 private:
     QScopedPointer<ButtonModel> m_buttonModel;

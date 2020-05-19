@@ -88,6 +88,23 @@ Window {
                 }
 
                 Row {
+                    RadioButton {
+                        text: "Default"
+                        checked: true
+                        onCheckedChanged: if (checked) goSlotButton.slotType = ""
+
+                    }
+                    RadioButton {
+                        text: "HL"
+                        onCheckedChanged: if (checked) goSlotButton.slotType = "HighRoller"
+                    }
+                    RadioButton {
+                        text: "HR"
+                        onCheckedChanged: if (checked) goSlotButton.slotType = "HighLimit"
+                    }
+                }
+
+                Row {
                     id: slotSelector
 
                     spacing: 10
@@ -99,10 +116,15 @@ Window {
                         height: 40
                         text: qsTr("Go to slot:")
                         font.pixelSize: 14
+
                         property var gotoSlot: []
+                        property string slotType: ""
 
                         onClicked: {
-                            gotoSlot = ['launchGame ' + slotName.text]
+                            var slotId = controller.validateSlotName(slotName.text)
+                            gotoSlot = ['launchGame ' + slotId + slotType]
+                            console.log(gotoSlot)
+
                             keysender.sendKeystroke(gotoSlot)
                         }
                     }
