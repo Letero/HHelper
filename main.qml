@@ -189,12 +189,11 @@ Window {
                         selectByMouse: true
                         font.pointSize: 9
                         horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
                         text: slider.value.toFixed(1)
+                        verticalAlignment: Text.AlignVCenter
                         renderType: Text.QtRendering
-                        onTextChanged: {
-                            slider.value = parseFloat(text)
-                        }
+                        Binding { target: sliderValue; property: "text"; value: slider.value.toFixed(1) }
+                        Binding { target: slider; property: "value"; value: parseFloat(sliderValue.text) }
                     }
 
                     Button {
