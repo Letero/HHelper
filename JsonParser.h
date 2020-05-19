@@ -4,7 +4,6 @@
 #include <QFile>
 #include <QDebug>
 #include <QJsonDocument>
-#include <QDebug>
 #include <QJsonObject>
 #include <QMap>
 #include <QJsonArray>
@@ -31,6 +30,5 @@ private:
     void writeToFile();
     bool loadConfig(QString filename);
     QStringList toStringList(const QJsonArray &list);
-signals:
 
 };
