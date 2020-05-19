@@ -46,6 +46,16 @@ void Controller::changeDevMode(bool isDevMode)
     m_jsonParser.changeDevMode(isDevMode);
 }
 
+bool Controller::isDarkTheme()
+{
+    return m_jsonParser.isDarkTheme();
+}
+
+void Controller::changeTheme(bool isDarkTheme)
+{
+    m_jsonParser.changeTheme(isDarkTheme);
+}
+
 QString Controller::validateSlotName(QString name)
 {
     if (!name.startsWith("Slots")) {

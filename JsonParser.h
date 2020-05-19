@@ -24,6 +24,8 @@ public:
     QMap<QString, QStringList> getButtonsData();
     bool isDevMode();
     void changeDevMode(bool isDevMode);
+    bool isDarkTheme();
+    void changeTheme(bool isDarkTheme);
 private:
     QJsonObject m_config;
     QJsonObject m_mainSettings;

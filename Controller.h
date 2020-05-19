@@ -19,6 +19,8 @@ public:
     Q_INVOKABLE void saveCurrentConfig();
     Q_INVOKABLE bool isDevMode();
     Q_INVOKABLE void changeDevMode(bool isDevMode);
+    Q_INVOKABLE bool isDarkTheme();
+    Q_INVOKABLE void changeTheme(bool isDarkTheme);
     Q_INVOKABLE QString validateSlotName(QString name);
 
 private:

@@ -38,6 +38,7 @@ Window {
     Component.onCompleted: {
         keysender.setupTargetWindow(targetWindow.text)
         modeSelector.checked = controller.isDevMode()
+        themeSwitch.checked = controller.isDarkTheme()
     }
 
     Item {
@@ -96,11 +97,11 @@ Window {
                     }
                     RadioButton {
                         text: "HL"
-                        onCheckedChanged: if (checked) goSlotButton.slotType = "HighRoller"
+                        onCheckedChanged: if (checked) goSlotButton.slotType = "HighLimit"
                     }
                     RadioButton {
                         text: "HR"
-                        onCheckedChanged: if (checked) goSlotButton.slotType = "HighLimit"
+                        onCheckedChanged: if (checked) goSlotButton.slotType = "HighRoller"
                     }
                 }
 
@@ -123,8 +124,6 @@ Window {
                         onClicked: {
                             var slotId = controller.validateSlotName(slotName.text)
                             gotoSlot = ['launchGame ' + slotId + slotType]
-                            console.log(gotoSlot)
-
                             keysender.sendKeystroke(gotoSlot)
                         }
                     }
@@ -330,6 +329,7 @@ Window {
                         } else {
                             root.Universal.theme = Universal.Light
                         }
+                        controller.changeTheme(checked);
                     }
                 }
             }
