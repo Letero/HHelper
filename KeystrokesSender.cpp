@@ -6,14 +6,11 @@ namespace
 }
 QString KeystrokesSender::targetWindowName = "";
 
-HWND KeystrokesSender::targetWindowHandler;
-
-KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), wasModified(true), mDevMode(false) { }
+KeystrokesSender::KeystrokesSender(QObject *parent) : QObject(parent), mDevMode(false) { }
 
 void KeystrokesSender::setupTargetWindow(const QString &target)
 {
     this->targetWindowName = target;
-    wasModified = true;
 }
 
 void KeystrokesSender::sendMessage(const QString &message)
@@ -110,7 +107,7 @@ bool CALLBACK KeystrokesSender::EnumWindowsProc(HWND hWnd, long /*lParam*/)
     std::string currentWindow(Buff);
     std::string targetWindow = targetWindowName.toStdString();
     if (currentWindow.find(targetWindow) != std::string::npos) {
-        targetWindowHandler = hWnd;
+        targetWindowName = QString::fromStdString(currentWindow);
     }
     return true;
 }
@@ -120,13 +117,21 @@ void KeystrokesSender::updateHandler()
     EnumWindows((WNDENUMPROC)EnumWindowsProc, 0);
 }
 
+HWND KeystrokesSender::setupHWND()
+{
+    const wchar_t *window = (const wchar_t *)targetWindowName.utf16();
+    HWND hWndTarget = FindWindowW(nullptr, window);
+    return hWndTarget;
+}
+
 void KeystrokesSender::sendKeystroke(const QStringList &messages)
 {
-    if (wasModified) {
+    HWND hWndTarget = setupHWND();
+    if (!hWndTarget) {
         updateHandler();
-        wasModified = false;
+        hWndTarget = setupHWND();
     }
-    HWND hWndTarget= targetWindowHandler;
+
     if (SetForegroundWindow(hWndTarget)) {
         if (mDevMode) { sendMessage("`"); }
         for (const auto &message : messages) {
