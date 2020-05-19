@@ -5,18 +5,27 @@ import com.company.keystrokessender 1.0
 import com.company.controller 1.0
 import Colors 1.0
 import QtQuick.Window 2.2
+import QtQuick.Controls.Universal 2.12
 
 Window {
     id: root
 
     width: 720
     minimumWidth: 720
+    maximumWidth: 720
     height: 540
 
     flags: pinButton.checked ? (Qt.Window | Qt.WindowStaysOnTopHint) : Qt.Window
 
     visible: true
     title: qsTr("HHelper")
+
+    color: Universal.background
+    Universal.theme: Universal.Light
+
+    Universal.accent: Universal.theme == Universal.Light ? "#f2a365" : "#30475e"
+    Universal.foreground: Universal.theme == Universal.Light ? "#222831" : "#ececec"
+    Universal.background: Universal.theme == Universal.Light ? "#ececec" : "#222831"
 
     KeystrokesSender{
         id: keysender
@@ -34,7 +43,8 @@ Window {
     Item {
         id: contentPlaceholder
 
-        height: root.height
+        y: 5
+        height: root.height - y
         width: root.width
 
         Row {
@@ -55,9 +65,8 @@ Window {
 
                 spacing: 10
 
-                Text {
+                MaterialText {
                     text: qsTr("Target window:")
-                    color: Colors.black
                     font.pointSize: 12
                 }
 
@@ -87,7 +96,9 @@ Window {
                         id: goSlotButton
 
                         width: 80
+                        height: 40
                         text: qsTr("Go to slot:")
+                        font.pixelSize: 14
                         property var gotoSlot: []
 
                         onClicked: {
@@ -122,9 +133,8 @@ Window {
             Column {
                 spacing: 10
 
-                Text {
+                MaterialText {
                     text: qsTr("Timeskew:")
-                    color: Colors.black
                     font.pointSize: 12
                 }
 
@@ -184,9 +194,9 @@ Window {
 
             Column {
                 spacing: 10
-                Text {
+
+                MaterialText {
                     text: qsTr("Language:")
-                    color: Colors.black
                     font.pointSize: 12
                 }
 
@@ -205,9 +215,9 @@ Window {
                                anchors.fill: parent
                                color: parent.hovered ? "lightgrey"
                                                      : languageCombo.currentIndex == index
-                                                     ? Colors.shadow : Colors.white
+                                                     ? Universal.accent : Universal.background
 
-                               Text {
+                               MaterialText {
                                    anchors.centerIn: parent
                                    text: key
                                    elide: Text.ElideRight
@@ -237,7 +247,10 @@ Window {
 
                 Button {
                     anchors.horizontalCenter: parent.horizontalCenter
+                    width: 100
+
                     text: qsTr("Set")
+
                     property var temp: []
                     onClicked: {
                         temp = ['lang ' + languageCombo.currentValue]
@@ -255,9 +268,10 @@ Window {
             Column {
                 anchors.verticalCenter: parent.verticalCenter
 
-                Text {
+                MaterialText {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: "DEV"
+                    text: "Dev mode"
+                    font.pixelSize: 14
                     verticalAlignment: Qt.AlignVCenter
                 }
 
@@ -271,6 +285,29 @@ Window {
                     onCheckedChanged: {
                         keysender.devMode = checked;
                         controller.changeDevMode(checked);
+                    }
+                }
+
+                MaterialText {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: "Dark theme"
+                    font.pixelSize: 14
+                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                Switch {
+                    id: themeSwitch
+
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    height: 40
+
+                    onCheckedChanged: {
+                        if (checked) {
+                            root.Universal.theme = Universal.Dark
+                        } else {
+                            root.Universal.theme = Universal.Light
+                        }
                     }
                 }
             }
@@ -368,12 +405,11 @@ Window {
                         width: 120
                         height: 40
 
-                        color: mouseArea.pressed ? Colors.mist : Colors.stone
+                        color: mouseArea.pressed ? Colors.mist : Universal.accent
 
-                        Text {
+                        MaterialText {
                             anchors.fill:parent
                             text: buttonName
-                            color: Colors.textPrimary
                             font.pointSize: 9
                             elide: Text.ElideRight
                             horizontalAlignment: Text.AlignHCenter
@@ -420,17 +456,19 @@ Window {
             }
 
             Button {
-                text: "Add button"
+                text: qsTr("Add button")
 
-                contentItem: Text {
+                width: 120
+                height: 40
+
+                contentItem: MaterialText {
                     text: parent.text
-                    color: "white"
+                    color: Universal.foreground
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: 12
                 }
-                palette {
-                    button: Colors.autumn
-                }
+
                 onClicked: popup.open()
             }
         }

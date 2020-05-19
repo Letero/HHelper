@@ -4,5 +4,6 @@
         <file>Colors.qml</file>
         <file>IconButton.qml</file>
         <file>ButtonEditPopup.qml</file>
+        <file>MaterialText.qml</file>
     </qresource>
 </RCC>

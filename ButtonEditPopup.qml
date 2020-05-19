@@ -1,6 +1,9 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.14
+import QtGraphicalEffects 1.0
+import QtQuick.Controls.Universal 2.12
+
 
 Popup {
     id: root
@@ -37,29 +40,44 @@ Popup {
         root.editMode = false
     }
 
+
     Button {
-        x: 280
+        id: addCommandButton
+
         y: 105
+        anchors.left: layout.right
+
         width: 35
         height: 35
+
         Image {
             anchors.centerIn: parent.Center
             source: "res/plus.png"
+
+            ColorOverlay {
+                anchors.fill: parent
+                source: parent
+                color: addCommandButton.pressed ? Universal.background : Universal.foreground
+            }
+
         }
 
         onClicked: {
             buttonsList.stringArray.push("")
             buttonsList.updateModel()
         }
+
         background: Rectangle {
             color: "transparent"
         }
+
         ToolTip.delay: 1000
         ToolTip.visible: hovered
         ToolTip.text: "Add text field."
     }
 
     ColumnLayout {
+        id: layout
         anchors.centerIn: parent
         height: 0.9 * parent.height
         width:  0.6 * parent.width
@@ -69,7 +87,7 @@ Popup {
         Column {
             Layout.preferredWidth: parent.width
 
-            Text {
+            MaterialText {
                 width: parent.width
                 text: "Name:"
                 font.pixelSize: 15
@@ -91,10 +109,12 @@ Popup {
         }
 
         Column {
+            id: listHolder
+
             Layout.preferredWidth: parent.width
             Layout.fillHeight: true
 
-            Text {
+            MaterialText {
                 id: listHeader
 
                 text: "Commands:"
