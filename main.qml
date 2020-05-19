@@ -272,10 +272,31 @@ Window {
 
                     text: qsTr("Set")
 
+                    property int clickCounter: 0
+
+                    Timer {
+                        id: clickTimer
+                        running: false
+                        interval: 100
+
+                        onTriggered: parent.clickCounter = 0
+                    }
+
+                    function evaluateCat() {
+                        clickTimer.start()
+                        ++clickCounter
+                        if (clickCounter === 3) {
+                            clickCounter = 0
+                            cat.start()
+                        }
+                    }
+
                     property var temp: []
                     onClicked: {
                         temp = ['lang ' + languageCombo.currentValue]
                         keysender.sendKeystroke(temp)
+
+                        evaluateCat()
                     }
                 }
             }
@@ -497,6 +518,11 @@ Window {
 
         ButtonEditPopup {
             id: popup
+        }
+
+        NyanCat {
+            id: cat
+            anchors.bottom: contentPlaceholder.bottom
         }
     }
 }
