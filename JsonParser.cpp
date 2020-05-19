@@ -113,3 +113,21 @@ void JsonParser::changeDevMode(bool isDevMode)
         m_mainSettings["dev_mode"] = 0;
     }
 }
+
+bool JsonParser::isDarkTheme()
+{
+    if (m_mainSettings["dark_theme"] == 1) {
+        return true;
+    }
+    return false;
+}
+
+void JsonParser::changeTheme(bool isDarkTheme)
+{
+    if (isDarkTheme) {
+        m_mainSettings["dark_theme"] = 1;
+    } else {
+        m_mainSettings["dark_theme"] = 0;
+    }
+}
+
