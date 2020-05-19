@@ -172,8 +172,13 @@ Window {
                 }
 
                 Row {
+                    id: timeskewRow
                     anchors.horizontalCenter: parent.horizontalCenter
-
+                    property var timeskew: []
+                    function setTimeskew() {
+                        timeskew = ['9 ' + sliderValue.text]
+                        keysender.sendKeystroke(timeskew)
+                    }
                     spacing: 10
 
                     TextField {
@@ -196,13 +201,21 @@ Window {
                         text: "Set"
                         width: 60
                         height: 40
-
-                        property var timeskew: []
-
                         onClicked: {
-                            timeskew = ['9 ' + slider.value.toFixed(1)]
-                            keysender.sendKeystroke(timeskew)
+                            timeskewRow.setTimeskew()
                         }
+                    }
+                }
+
+                Button {
+                    text: "Reset"
+                    width: timeskewRow.width
+                    x: 5
+                    height: 40
+
+                    onClicked: {
+                        slider.value = parseFloat(1)
+                        timeskewRow.setTimeskew()
                     }
                 }
             }
