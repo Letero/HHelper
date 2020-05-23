@@ -77,7 +77,7 @@ void JsonParser::setTargetWindowName(QString windowName)
     m_mainSettings["target_window"] = windowName;
 }
 
-QString JsonParser::getSlotName()
+QString JsonParser::getSlotName() const
 {
     QJsonValue slotName = m_mainSettings["slot_name"];
     return slotName.toString();
@@ -88,7 +88,7 @@ void JsonParser::setHost(const QString& host)
     m_mainSettings["host"] = host;
 }
 
-QString JsonParser::getHost()
+QString JsonParser::getHost() const
 {
     QJsonValue host = m_mainSettings["host"];
     return host.toString();

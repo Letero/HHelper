@@ -12,15 +12,11 @@ class Controller : public QObject
 public:
     Controller(QObject *parent = nullptr);
     ButtonModel *getButtonModel() const;
-//    Q_INVOKABLE QString getTargetWindow();
-//    Q_INVOKABLE void setTargetWindow(QString name);
     Q_INVOKABLE void setSlotName(QString name);
-    Q_INVOKABLE QString getSlotName();
+    Q_INVOKABLE QString getSlotName() const;
     Q_INVOKABLE void setHost(const QString& host);
-    Q_INVOKABLE QString getHost();
+    Q_INVOKABLE QString getHost() const;
     Q_INVOKABLE void saveCurrentConfig();
-//    Q_INVOKABLE bool isDevMode();
-//    Q_INVOKABLE void changeDevMode(bool isDevMode);
     Q_INVOKABLE bool isDarkTheme();
     Q_INVOKABLE void changeTheme(bool isDarkTheme);
     Q_INVOKABLE QString validateSlotName(QString name);

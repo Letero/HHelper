@@ -15,7 +15,7 @@ public:
     Q_INVOKABLE void send(const QStringList &messages);
 
 public slots:
-    void setHost(QString host);
+    void setHost(const QString& host);
     void connectToTelnet();
 
 signals:
@@ -24,7 +24,5 @@ signals:
 
 private:
     QTcpSocket tcpSocket;
-
-//    bool m_connected = false;
     QString m_host;
 };

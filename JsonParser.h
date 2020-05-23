@@ -18,9 +18,9 @@ public:
     QString getTargetWindowName();
     void setTargetWindowName(QString windowName);
     void setSlotName(QString slotName);
-    QString getSlotName();
+    QString getSlotName() const;
     void setHost(const QString& host);
-    QString getHost();
+    QString getHost() const;
     bool saveConfig(QString filename, ButtonModel *buttonModel);
     QMap<QString, QStringList> getButtonsData();
     bool isDevMode();
