@@ -1,7 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Controls 2.14
-import com.company.keystrokessender 1.0
+import com.company.TelnetSender 1.0
 import com.company.controller 1.0
 import Colors 1.0
 import QtQuick.Window 2.2
@@ -27,8 +27,10 @@ Window {
     Universal.foreground: Universal.theme == Universal.Light ? "#222831" : "#ececec"
     Universal.background: Universal.theme == Universal.Light ? "#ececec" : "#222831"
 
-    KeystrokesSender{
-        id: keysender
+    TelnetSender{
+        id: telnetSender
+
+        host: hostAddress.text
     }
 
     Controller {
@@ -36,9 +38,8 @@ Window {
     }
 
     Component.onCompleted: {
-        keysender.setupTargetWindow(targetWindow.text)
-        modeSelector.checked = controller.isDevMode()
         themeSwitch.checked = controller.isDarkTheme()
+        telnetSender.connectToTelnet()
     }
 
     Item {
@@ -67,12 +68,12 @@ Window {
                 spacing: 10
 
                 MaterialText {
-                    text: qsTr("Target window:")
+                    text: qsTr("Host (address):")
                     font.pointSize: 12
                 }
 
                 TextField {
-                    id: targetWindow
+                    id: hostAddress
 
                     width: slotSelector.width
                     height: 45
@@ -80,15 +81,40 @@ Window {
                     font.pointSize: 11
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    text: controller.getTargetWindow()
+                    placeholderText: "localhost"
                     renderType: Text.QtRendering
-                    onTextChanged: {
-                        keysender.setupTargetWindow(text)
-                        controller.setTargetWindow(text)
+                    text: controller.getHost()
+                    onTextChanged: controller.setHost(text)
+                }
+
+                Row {
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    spacing: 20
+
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: 140
+                        font.pointSize: 12
+                        text: telnetSender.connected ? qsTr("Connected") : qsTr("Not connected")
+                        color: telnetSender.connected ? "green" : "red"
+                    }
+
+                    Button {
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: 80
+                        height: 40
+                        text: qsTr("Retry")
+                        font.pixelSize: 14
+                        onClicked: {
+                            telnetSender.connectToTelnet()
+                        }
                     }
                 }
 
                 Row {
+                    enabled: telnetSender.connected
+
                     RadioButton {
                         text: "Default"
                         checked: true
@@ -108,6 +134,8 @@ Window {
                 Row {
                     id: slotSelector
 
+                    enabled: telnetSender.connected
+
                     spacing: 10
 
                     Button {
@@ -118,13 +146,13 @@ Window {
                         text: qsTr("Go to slot:")
                         font.pixelSize: 14
 
-                        property var gotoSlot: []
                         property string slotType: ""
 
                         onClicked: {
+                            var commands = []
                             var slotId = controller.validateSlotName(slotName.text)
-                            gotoSlot = ['launchGame ' + slotId + slotType]
-                            keysender.sendKeystroke(gotoSlot)
+                            commands = ['launchGame ' + slotId + slotType]
+                            telnetSender.send(commands)
                         }
                     }
 
@@ -136,7 +164,7 @@ Window {
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: 11
-                        text: controller.getSlotName()
+                        text: controller.getSlotName() != "" ? controller.getSlotName() : "Slots"
                         renderType: Text.QtRendering
                         onTextChanged: {
                             controller.setSlotName(text)
@@ -154,6 +182,8 @@ Window {
             Column {
                 spacing: 10
 
+                enabled: telnetSender.connected
+
                 MaterialText {
                     text: qsTr("Timeskew:")
                     font.pointSize: 12
@@ -169,22 +199,22 @@ Window {
                     to: 5
                     stepSize: 0.1
                     value: 1.0
+
+                    onValueChanged: {
+                        console.log(value.toFixed(1))
+                        telnetSender.send(['9 ' + value.toFixed(1)])
+                    }
                 }
 
                 Row {
                     id: timeskewRow
                     anchors.horizontalCenter: parent.horizontalCenter
-                    property var timeskew: []
-                    function setTimeskew() {
-                        timeskew = ['9 ' + sliderValue.text]
-                        keysender.sendKeystroke(timeskew)
-                    }
                     spacing: 10
 
                     TextField {
                         id: sliderValue
 
-                        width: 60
+                        width: slider.width
                         height: 40
                         selectByMouse: true
                         font.pointSize: 9
@@ -192,24 +222,16 @@ Window {
                         text: slider.value.toFixed(1)
                         verticalAlignment: Text.AlignVCenter
                         renderType: Text.QtRendering
-                        Binding { target: sliderValue; property: "text"; value: slider.value.toFixed(1) }
-                        Binding { target: slider; property: "value"; value: parseFloat(sliderValue.text) }
-                    }
-
-                    Button {
-                        text: "Set"
-                        width: 60
-                        height: 40
-                        onClicked: {
-                            timeskewRow.setTimeskew()
+                        onTextChanged: {
+                            slider.value = parseFloat(text)
                         }
                     }
                 }
 
                 Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
                     text: "Reset"
-                    width: timeskewRow.width
-                    x: 5
+                    width: slider.width
                     height: 40
 
                     onClicked: {
@@ -228,6 +250,7 @@ Window {
             Column {
                 spacing: 10
 
+
                 MaterialText {
                     text: qsTr("Language:")
                     font.pointSize: 12
@@ -235,28 +258,29 @@ Window {
 
                 ComboBox {
                     id: languageCombo
+                    enabled: telnetSender.connected && !customLanguage.text
 
-                    width: 100
+                    width: 200
 
                     textRole: "key"
                     valueRole: "value"
 
                     delegate: ItemDelegate {
-                           height: 30
-                           width: parent.width
-                           contentItem: Rectangle {
-                               anchors.fill: parent
-                               color: parent.hovered ? "lightgrey"
-                                                     : languageCombo.currentIndex == index
-                                                     ? Universal.accent : Universal.background
+                        height: 30
+                        width: parent.width
+                        contentItem: Rectangle {
+                            anchors.fill: parent
+                            color: parent.hovered ? "lightgrey"
+                                                  : languageCombo.currentIndex == index
+                                                    ? Universal.accent : Universal.background
 
-                               MaterialText {
-                                   anchors.centerIn: parent
-                                   text: key
-                                   elide: Text.ElideRight
-                                   verticalAlignment: Text.AlignVCenter
-                               }
-                           }
+                            MaterialText {
+                                anchors.centerIn: parent
+                                text: key
+                                elide: Text.ElideRight
+                                verticalAlignment: Text.AlignVCenter
+                            }
+                        }
                     }
 
                     model: ListModel {
@@ -278,91 +302,87 @@ Window {
                     }
                 }
 
-                Button {
+                Row {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    width: 100
+                    enabled: telnetSender.connected
 
-                    text: qsTr("Set")
+                    spacing: 20
 
-                    property int clickCounter: 0
+                    TextField {
+                        id: customLanguage
 
-                    Timer {
-                        id: clickTimer
-                        running: false
-                        interval: 100
-
-                        onTriggered: parent.clickCounter = 0
+                        width: 50
+                        height: languageSetButton.height
+                        selectByMouse: true
+                        font.pointSize: 11
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        renderType: Text.QtRendering
+                        onAccepted: languageSetButton.onClicked()
                     }
 
-                    function evaluateCat() {
-                        clickTimer.start()
-                        ++clickCounter
-                        if (clickCounter === 3) {
-                            clickCounter = 0
-                            cat.start()
+                    Button {
+                        id: languageSetButton
+
+                        width: 100
+
+                        text: qsTr("Set")
+
+                        property int clickCounter: 0
+
+                        Timer {
+                            id: clickTimer
+                            running: false
+                            interval: 100
+
+                            onTriggered: parent.clickCounter = 0
+                        }
+
+                        function evaluateCat() {
+                            clickTimer.start()
+                            ++clickCounter
+                            if (clickCounter === 3) {
+                                clickCounter = 0
+                                cat.start()
+                            }
+                        }
+
+                        onClicked: {
+                            var commands = []
+                            var langCode = customLanguage.text ? customLanguage.text : languageCombo.currentValue
+                            commands = ['lang ' + languageCombo.currentValue]
+                            telnetSender.send(commands)
+
+                            evaluateCat()
                         }
                     }
+                }
 
-                    property var temp: []
-                    onClicked: {
-                        temp = ['lang ' + languageCombo.currentValue]
-                        keysender.sendKeystroke(temp)
+                Row {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: 10
 
-                        evaluateCat()
+                    MaterialText {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "Dark theme"
+                        font.pixelSize: 14
+                        verticalAlignment: Qt.AlignVCenter
                     }
-                }
-            }
 
-            Rectangle {
-                width: 1
-                height: parent.height
-                color: "lightgrey"
-            }
+                    Switch {
+                        anchors.verticalCenter: parent.verticalCenter
+                        id: themeSwitch
 
-            Column {
-                anchors.verticalCenter: parent.verticalCenter
+                        height: 40
 
-                MaterialText {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: "Dev mode"
-                    font.pixelSize: 14
-                    verticalAlignment: Qt.AlignVCenter
-                }
-
-                Switch {
-                    id: modeSelector
-
-                    anchors.horizontalCenter: parent.horizontalCenter
-
-                    height: 40
-
-                    onCheckedChanged: {
-                        keysender.devMode = checked;
-                        controller.changeDevMode(checked);
-                    }
-                }
-
-                MaterialText {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: "Dark theme"
-                    font.pixelSize: 14
-                    verticalAlignment: Qt.AlignVCenter
-                }
-
-                Switch {
-                    id: themeSwitch
-
-                    anchors.horizontalCenter: parent.horizontalCenter
-
-                    height: 40
-
-                    onCheckedChanged: {
-                        if (checked) {
-                            root.Universal.theme = Universal.Dark
-                        } else {
-                            root.Universal.theme = Universal.Light
+                        onCheckedChanged: {
+                            if (checked) {
+                                root.Universal.theme = Universal.Dark
+                            } else {
+                                root.Universal.theme = Universal.Light
+                            }
+                            controller.changeTheme(checked);
                         }
-                        controller.changeTheme(checked);
                     }
                 }
             }
@@ -431,6 +451,8 @@ Window {
         Row {
             id: buttonsPlaceholder
 
+            enabled: telnetSender.connected
+
             anchors {
                 top: row.bottom
                 left: contentPlaceholder.left
@@ -481,7 +503,7 @@ Window {
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
                             onClicked: {
                                 if (mouse.button == Qt.LeftButton) {
-                                    keysender.sendKeystroke(buttonArgs)
+                                    telnetSender.send(buttonArgs)
                                 }
 
                                 if (mouse.button === Qt.RightButton){

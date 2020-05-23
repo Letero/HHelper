@@ -83,6 +83,17 @@ QString JsonParser::getSlotName()
     return slotName.toString();
 }
 
+void JsonParser::setHost(const QString& host)
+{
+    m_mainSettings["host"] = host;
+}
+
+QString JsonParser::getHost()
+{
+    QJsonValue host = m_mainSettings["host"];
+    return host.toString();
+}
+
 void JsonParser::setSlotName(QString slotName)
 {
     m_mainSettings["slot_name"] = slotName;

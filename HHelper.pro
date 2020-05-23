@@ -18,6 +18,7 @@ SOURCES += \
         Controller.cpp \
         JsonParser.cpp \
         KeystrokesSender.cpp \
+        TelnetSender.cpp \
         main.cpp
 
 RESOURCES += \
@@ -42,4 +43,5 @@ HEADERS += \
     ButtonModel.h \
     Controller.h \
     JsonParser.h \
-    KeystrokesSender.h
+    KeystrokesSender.h \
+    TelnetSender.h
