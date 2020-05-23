@@ -250,7 +250,6 @@ Window {
             Column {
                 spacing: 10
 
-
                 MaterialText {
                     text: qsTr("Language:")
                     font.pointSize: 12
@@ -370,9 +369,9 @@ Window {
                     }
 
                     Switch {
-                        anchors.verticalCenter: parent.verticalCenter
                         id: themeSwitch
 
+                        anchors.verticalCenter: parent.verticalCenter
                         height: 40
 
                         onCheckedChanged: {

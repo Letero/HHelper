@@ -10,8 +10,6 @@ TelnetSender::TelnetSender(QObject *parent) : QObject(parent)
 {
     connect(&tcpSocket, &QTcpSocket::stateChanged, this, &TelnetSender::connectedChanged);
     connect(this, &TelnetSender::hostChanged, this, &TelnetSender::connectToTelnet);
-
-//    tcpSocket.connectToHost("localhost", 1337);
 }
 
 bool TelnetSender::connected() const
