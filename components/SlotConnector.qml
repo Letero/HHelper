@@ -51,7 +51,7 @@ Column {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.pointSize: 11
-            text: controller.getSlotName() != "" ? controller.getSlotName() : "Slots"
+            text: controller.getSlotName() !== "" ? controller.getSlotName() : "Slots"
             renderType: Text.QtRendering
             onTextChanged: {
                 controller.setSlotName(text)
