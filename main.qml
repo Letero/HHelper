@@ -18,7 +18,7 @@ Window {
     width: 720
     minimumWidth: 720
     maximumWidth: 720
-    height: 540
+    height: 600
 
     flags: settingsBar.pinned ? (Qt.Window | Qt.WindowStaysOnTopHint) : Qt.Window
 
@@ -126,13 +126,26 @@ Window {
             }
 
             GroupBox {
-                title: qsTr("TimeSkew:")
+                title: qsTr("Time skew:")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.preferredWidth: 0.4 * contentPlaceholder.width
                 Layout.maximumWidth: 0.4 * contentPlaceholder.width
 
                 TimeSkewSelector {
+                    anchors.centerIn: parent
+                    enabled: telnetSender.connected
+                }
+            }
+
+            GroupBox {
+                title: qsTr("Quick command:")
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.preferredWidth: 0.45 * contentPlaceholder.width
+                Layout.maximumWidth: 0.45 * contentPlaceholder.width
+
+                QuickCommand {
                     anchors.centerIn: parent
                     enabled: telnetSender.connected
                 }

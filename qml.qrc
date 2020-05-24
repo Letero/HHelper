@@ -14,5 +14,6 @@
         <file>components/SettingsBar.qml</file>
         <file>controls/GroupBox.qml</file>
         <file>controls/MaterialButton.qml</file>
+        <file>components/QuickCommand.qml</file>
     </qresource>
 </RCC>
