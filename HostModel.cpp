@@ -40,14 +40,14 @@ QHash<int, QByteArray> HostModel::roleNames() const
     };
 }
 
-void HostModel::addHost(const QString& address, const QString& name)
+void HostModel::addHost(const QString &address, const QString &name)
 {
     beginInsertRows({}, rowCount({}), rowCount({}));
     mHostData.push_back({address, name});
     endInsertRows();
 }
 
-void HostModel::editHost(int hostIndex, const QString& address, const QString& name)
+void HostModel::editHost(int hostIndex, const QString &address, const QString &name)
 {
     mHostData[hostIndex].address = address;
     mHostData[hostIndex].name = name;
@@ -62,9 +62,9 @@ void HostModel::removeHost(int index)
     endRemoveRows();
 }
 
-void HostModel::init(const QVector<HostData>& data)
+void HostModel::init(const QVector<HostData> &data)
 {
-    beginInsertRows({}, rowCount({}), rowCount({}) + data.size() );
+    beginInsertRows({}, rowCount({}), rowCount({}) + data.size());
     mHostData = data;
     endInsertRows();
 }

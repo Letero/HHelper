@@ -34,7 +34,7 @@ bool JsonParser::loadConfig(QString filename)
     return true;
 }
 
-bool JsonParser::saveConfig(QString filename, ButtonModel* buttonModel, HostModel* hostModel)
+bool JsonParser::saveConfig(QString filename, ButtonModel *buttonModel, HostModel *hostModel)
 {
     QFile saveFile(filename);
     if (!saveFile.open(QIODevice::WriteOnly)) {
@@ -90,7 +90,7 @@ QString JsonParser::getSlotName() const
     return slotName.toString();
 }
 
-void JsonParser::setHost(const QString& host)
+void JsonParser::setHost(const QString &host)
 {
     m_mainSettings["host"] = host;
 }
@@ -119,8 +119,7 @@ QVector<HostData> JsonParser::getHostData()
 {
 
     QVector<HostData> data;
-    for(const auto& host : m_hostSettings)
-    {
+    for (const auto &host : m_hostSettings) {
         auto jsonObject = host.toObject();
         data.append({ jsonObject.take("address").toString(), jsonObject.take("name").toString() });
     }

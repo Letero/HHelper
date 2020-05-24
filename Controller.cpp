@@ -31,7 +31,7 @@ QString Controller::getSlotName() const
     return m_jsonParser.getSlotName();
 }
 
-void Controller::setHost(const QString& host)
+void Controller::setHost(const QString &host)
 {
     m_jsonParser.setHost(host);
 }
