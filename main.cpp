@@ -5,8 +5,8 @@
 #include <QQmlProperty>
 #include <QQuickStyle>
 
-#include "KeystrokesSender.h"
 #include "Controller.h"
+#include "TelnetSender.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<KeystrokesSender>("com.company.keystrokessender", 1, 0, "KeystrokesSender");
+    qmlRegisterType<TelnetSender>("com.company.TelnetSender", 1, 0, "TelnetSender");
     qmlRegisterType<Controller>("com.company.controller", 1, 0, "Controller");
     qmlRegisterSingletonType(QUrl("qrc:/Colors.qml"), "Colors", 1, 0, "Colors");
 
