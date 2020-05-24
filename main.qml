@@ -458,6 +458,20 @@ Window {
                         onLeftClicked: keysender.sendKeystroke(buttonArgs)
                         onRightClicked: contextMenu.popup()
                         onPressAndHold: contextMenu.popup()
+
+                        Menu {
+                            id: contextMenu
+
+                            MenuItem {
+                                text: qsTr("Edit")
+                                onTriggered: popup.openEdit(index, buttonName, buttonArgs)
+                            }
+
+                            MenuItem {
+                                text: qsTr("Remove")
+                                onTriggered: controller.buttonModel.removeButton(index)
+                            }
+                        }
                     }
                 }
             }
