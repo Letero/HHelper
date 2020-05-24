@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.14
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Universal 2.12
 
+import "./controls"
 
 Popup {
     id: root
@@ -39,7 +40,6 @@ Popup {
         clearPopup()
         root.editMode = false
     }
-
 
     Button {
         id: addCommandButton
