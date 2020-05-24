@@ -454,58 +454,10 @@ Window {
 
                     model: controller.buttonModel
 
-                    delegate: Rectangle {
-                        id: test
-
-                        width: 120
-                        height: 40
-
-                        color: mouseArea.pressed ? Colors.mist : Universal.accent
-
-                        MaterialText {
-                            anchors.fill:parent
-                            text: buttonName
-                            font.pointSize: 9
-                            elide: Text.ElideRight
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            anchors.margins: {
-                                left: 10
-                                right: 10
-                            }
-                        }
-
-                        MouseArea {
-                            id: mouseArea
-                            anchors.fill: parent
-                            acceptedButtons: Qt.LeftButton | Qt.RightButton
-                            onClicked: {
-                                if (mouse.button == Qt.LeftButton) {
-                                    keysender.sendKeystroke(buttonArgs)
-                                }
-
-                                if (mouse.button === Qt.RightButton){
-                                    contextMenu.popup()
-                                }
-                            }
-                            onPressAndHold: {
-                                if (mouse.source === Qt.MouseEventNotSynthesized)
-                                    contextMenu.popup()
-                            }
-                        }
-                        Menu {
-                            id: contextMenu
-
-                            MenuItem {
-                                text: qsTr("Edit")
-                                onTriggered: popup.openEdit(index, buttonName, buttonArgs)
-                            }
-
-                            MenuItem {
-                                text: qsTr("Remove")
-                                onTriggered: controller.buttonModel.removeButton(index)
-                            }
-                        }
+                    delegate: MaterialButton {
+                        onLeftClicked: keysender.sendKeystroke(buttonArgs)
+                        onRightClicked: contextMenu.popup()
+                        onPressAndHold: contextMenu.popup()
                     }
                 }
             }
