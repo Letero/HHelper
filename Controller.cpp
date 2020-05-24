@@ -1,9 +1,14 @@
 #include "Controller.h"
 
 
-Controller::Controller(QObject *parent) : QObject(parent), m_buttonModel(new ButtonModel), configFile("config.json")
+Controller::Controller(QObject *parent)
+    : QObject(parent)
+    , m_buttonModel(new ButtonModel)
+    , m_hostModel(new HostModel)
+    , configFile("config.json")
 {
     m_buttonModel->init(m_jsonParser.getButtonsData());
+    m_hostModel->init(m_jsonParser.getHostData());
 }
 
 ButtonModel *Controller::getButtonModel() const
@@ -11,14 +16,9 @@ ButtonModel *Controller::getButtonModel() const
     return m_buttonModel.get();
 }
 
-QString Controller::getTargetWindow()
+HostModel *Controller::getHostModel() const
 {
-    return m_jsonParser.getTargetWindowName();
-}
-
-void Controller::setTargetWindow(QString name)
-{
-    m_jsonParser.setTargetWindowName(name);
+    return m_hostModel.get();
 }
 
 void Controller::setSlotName(QString name)
@@ -26,24 +26,24 @@ void Controller::setSlotName(QString name)
     m_jsonParser.setSlotName(name);
 }
 
-QString Controller::getSlotName()
+QString Controller::getSlotName() const
 {
     return m_jsonParser.getSlotName();
 }
 
+void Controller::setHost(const QString& host)
+{
+    m_jsonParser.setHost(host);
+}
+
+QString Controller::getHost() const
+{
+    return m_jsonParser.getHost();
+}
+
 void Controller::saveCurrentConfig()
 {
-    m_jsonParser.saveConfig(configFile, m_buttonModel.get());
-}
-
-bool Controller::isDevMode()
-{
-    return m_jsonParser.isDevMode();
-}
-
-void Controller::changeDevMode(bool isDevMode)
-{
-    m_jsonParser.changeDevMode(isDevMode);
+    m_jsonParser.saveConfig(configFile, m_buttonModel.get(), m_hostModel.get());
 }
 
 bool Controller::isDarkTheme()
