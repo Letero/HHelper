@@ -2,11 +2,17 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Colors.qml</file>
-        <file>IconButton.qml</file>
         <file>ButtonEditPopup.qml</file>
-        <file>MaterialText.qml</file>
         <file>NyanCat.qml</file>
-        <file>MaterialButton.qml</file>
-        <file>SaveHostPopup.qml</file>
+        <file>controls/MaterialText.qml</file>
+        <file>controls/IconButton.qml</file>
+        <file>components/HostConnector.qml</file>
+        <file>components/SaveHostPopup.qml</file>
+        <file>components/LanguageSelector.qml</file>
+        <file>components/SlotConnector.qml</file>
+        <file>components/TimeSkewSelector.qml</file>
+        <file>components/SettingsBar.qml</file>
+        <file>controls/GroupBox.qml</file>
+        <file>controls/MaterialButton.qml</file>
     </qresource>
 </RCC>
