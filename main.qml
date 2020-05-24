@@ -587,8 +587,10 @@ Window {
 
                     model: controller.buttonModel
 
-                    delegate: Rectangle {
-                        id: test
+                    delegate: MaterialButton {
+                        onLeftClicked: telnet.sendKeystroke(buttonArgs)
+                        onRightClicked: contextMenu.popup()
+                        onPressAndHold: contextMenu.popup()
 
                         width: 120
                         height: 40
@@ -626,6 +628,7 @@ Window {
                                     contextMenu.popup()
                             }
                         }
+
                         Menu {
                             id: contextMenu
 
