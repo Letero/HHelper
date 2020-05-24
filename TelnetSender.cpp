@@ -17,17 +17,18 @@ bool TelnetSender::connected() const
     return tcpSocket.state() == QTcpSocket::ConnectedState;
 }
 
-void TelnetSender::send(const QStringList& messages)
+void TelnetSender::send(const QStringList &messages)
 {
-    for (const auto& message : messages) {
+    for (const auto &message : messages) {
         tcpSocket.write(qPrintable(message + "\n"));
     }
 }
 
-void TelnetSender::setHost(QString host)
+void TelnetSender::setHost(const QString &host)
 {
-    if (m_host == host)
+    if (m_host == host) {
         return;
+    }
 
     m_host = host;
     emit hostChanged();
