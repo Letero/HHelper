@@ -8,16 +8,16 @@
 class Controller : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(ButtonModel* buttonModel READ getButtonModel CONSTANT)
-    Q_PROPERTY(HostModel* hostModel READ getHostModel CONSTANT)
+    Q_PROPERTY(ButtonModel *buttonModel READ getButtonModel CONSTANT)
+    Q_PROPERTY(HostModel *hostModel READ getHostModel CONSTANT)
 
 public:
     Controller(QObject *parent = nullptr);
-    ButtonModel* getButtonModel() const;
-    HostModel* getHostModel() const;
+    ButtonModel *getButtonModel() const;
+    HostModel *getHostModel() const;
     Q_INVOKABLE void setSlotName(QString name);
     Q_INVOKABLE QString getSlotName() const;
-    Q_INVOKABLE void setHost(const QString& host);
+    Q_INVOKABLE void setHost(const QString &host);
     Q_INVOKABLE QString getHost() const;
     Q_INVOKABLE void saveCurrentConfig();
     Q_INVOKABLE bool isDarkTheme();
