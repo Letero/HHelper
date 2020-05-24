@@ -31,7 +31,7 @@ Popup {
 
     function clearPopup() {
         popupBtnName.text = ""
-        buttonsList.stringArray = ["", ""]
+        buttonsList.stringArray = [""]
         buttonsList.updateModel()
     }
 
@@ -44,7 +44,7 @@ Popup {
     Button {
         id: addCommandButton
 
-        y: 105
+        y: 108
         anchors.left: layout.right
 
         width: 35
@@ -67,8 +67,7 @@ Popup {
             buttonsList.updateModel()
         }
 
-        background: Rectangle {
-            color: "transparent"
+        background: Item {
         }
 
         ToolTip.delay: 1000
@@ -90,7 +89,7 @@ Popup {
             MaterialText {
                 width: parent.width
                 text: "Name:"
-                font.pixelSize: 15
+                font.pointSize: 12
                 horizontalAlignment: Text.AlignHCenter
             }
 
@@ -101,7 +100,7 @@ Popup {
                 width: parent.width
 
                 selectByMouse: true
-                font.pointSize: 11
+                font.pointSize: 12
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 renderType: Text.QtRendering
@@ -118,7 +117,7 @@ Popup {
                 id: listHeader
 
                 text: "Commands:"
-                font.pixelSize: 13
+                font.pointSize: 12
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -130,7 +129,7 @@ Popup {
                 height: parent.height - listHeader.height
                 clip: true
 
-                property var stringArray:  ["", ""]
+                property var stringArray:  [""]
 
                 model: stringArray
 

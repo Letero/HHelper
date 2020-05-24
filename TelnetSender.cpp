@@ -24,7 +24,7 @@ void TelnetSender::send(const QStringList &messages)
     }
 }
 
-void TelnetSender::setHost(const QString &host)
+void TelnetSender::setHost(const QString& host)
 {
     if (m_host == host) {
         return;

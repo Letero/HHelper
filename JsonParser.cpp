@@ -24,8 +24,9 @@ bool JsonParser::loadConfig(QString filename)
     m_config = doc.object();
 
     if (!m_config.isEmpty()) {
-        m_mainSettings = m_config.value(QString("main_settings")).toObject();
-        m_buttonSettings = m_config.value(QString("button_settings")).toObject();
+        m_mainSettings = m_config.value("main_settings").toObject();
+        m_buttonSettings = m_config.value("button_settings").toObject();
+        m_hostSettings = m_config.value("host_settings").toArray();
     } else {
         return false;
     }
@@ -33,7 +34,7 @@ bool JsonParser::loadConfig(QString filename)
     return true;
 }
 
-bool JsonParser::saveConfig(QString filename, ButtonModel *buttonModel)
+bool JsonParser::saveConfig(QString filename, ButtonModel* buttonModel, HostModel* hostModel)
 {
     QFile saveFile(filename);
     if (!saveFile.open(QIODevice::WriteOnly)) {
@@ -50,7 +51,13 @@ bool JsonParser::saveConfig(QString filename, ButtonModel *buttonModel)
         m_buttonSettings[info.name] = temp;
     }
 
+    m_hostSettings = QJsonArray();
+    for (auto host : hostModel->getHostDataVector()) {
+        m_hostSettings.append(QJsonObject({ {"name", host.name}, {"address", host.address} }));
+    }
+
     m_config["button_settings"] = m_buttonSettings;
+    m_config["host_settings"] = m_hostSettings;
     QJsonDocument saveDoc(m_config);
     saveFile.write(saveDoc.toJson());
 
@@ -104,6 +111,18 @@ QMap<QString, QStringList> JsonParser::getButtonsData()
     QMap<QString, QStringList> data;
     for (auto key : m_buttonSettings.keys()) {
         data[key] = toStringList(m_buttonSettings[key].toArray());
+    }
+    return data;
+}
+
+QVector<HostData> JsonParser::getHostData()
+{
+
+    QVector<HostData> data;
+    for(const auto& host : m_hostSettings)
+    {
+        auto jsonObject = host.toObject();
+        data.append({ jsonObject.take("address").toString(), jsonObject.take("name").toString() });
     }
     return data;
 }

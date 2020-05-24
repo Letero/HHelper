@@ -72,44 +72,155 @@ Window {
                     font.pointSize: 12
                 }
 
-                TextField {
-                    id: hostAddress
+                Row {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: 5
+                    TextField {
+                        id: hostAddress
 
-                    width: slotSelector.width
-                    height: 45
-                    selectByMouse: true
-                    font.pointSize: 11
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    placeholderText: "localhost"
-                    renderType: Text.QtRendering
-                    text: controller.getHost()
-                    onTextChanged: controller.setHost(text)
+                        width: slotSelector.width - saveHostButton.width - parent.spacing
+                        height: 45
+                        selectByMouse: true
+                        font.pointSize: 11
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        placeholderText: "localhost"
+                        renderType: Text.QtRendering
+                        text: controller.getHost()
+                        onTextChanged: controller.setHost(text)
+                    }
+                    Button {
+                        id: saveHostButton
+
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: 60
+                        height: hostAddress.height
+                        text: qsTr("Save")
+                        font.pixelSize: 14
+                        onClicked: {
+                            saveHostPopup.open()
+                        }
+
+
+                        SaveHostPopup {
+                            id: saveHostPopup
+
+                            addressText: hostAddress.text
+
+                            onSaveClicked: {
+                                controller.hostModel.addHost(addressText, nameText)
+                            }
+                            onOpened: nameText = ""
+                        }
+                    }
                 }
 
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
 
-                    spacing: 20
+                    spacing: 5
 
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
-                        width: 140
+                        width: hostAddress.width
                         font.pointSize: 12
+                        horizontalAlignment: Text.AlignHCenter
                         text: telnetSender.connected ? qsTr("Connected") : qsTr("Not connected")
                         color: telnetSender.connected ? "green" : "red"
                     }
 
                     Button {
                         anchors.verticalCenter: parent.verticalCenter
-                        width: 80
-                        height: 40
+                        width: saveHostButton.width
+                        height: saveHostButton.height
                         text: qsTr("Retry")
                         font.pixelSize: 14
                         onClicked: {
                             telnetSender.connectToTelnet()
                         }
                     }
+                }
+
+                ComboBox {
+                    id: hostCombo
+
+                    width: 240
+                    model: controller.hostModel
+                    displayText: "Choose saved"
+                    valueRole: "address"
+                    popup.width: 400
+
+                    onActivated: {
+                        hostAddress.text = currentValue
+                        index = -1
+                    }
+
+                    delegate: ItemDelegate {
+                        id: itemDelegate
+
+                        height: 40
+                        width: parent.width
+                        contentItem: Rectangle {
+                            anchors.fill: parent
+                            border {
+                                color: Universal.accent
+                                width: 2
+                            }
+
+                            color: parent.hovered ? "gray" : Universal.background
+
+                            MaterialText {
+                                anchors {
+                                    left: parent.left
+                                    leftMargin: 10
+                                    verticalCenter: parent.verticalCenter
+                                }
+                                font.pointSize: 12
+                                text: name + " (" + address + ")"
+                                elide: Text.ElideRight
+                                verticalAlignment: Text.AlignVCenter
+                            }
+
+                            Button {
+                                id: removeButton
+
+                                anchors {
+                                    right: parent.right
+                                    rightMargin: 8
+                                    verticalCenter: parent.verticalCenter
+                                }
+                                text: qsTr("Remove")
+                                onClicked: {
+                                    controller.hostModel.removeHost(index)
+                                }
+                            }
+
+                            Button {
+                                id: editButton
+
+                                anchors {
+                                    right: removeButton.left
+                                    rightMargin: 8
+                                    verticalCenter: parent.verticalCenter
+                                }
+                                text: qsTr("Edit")
+
+                                onClicked: editHostPopup.open()
+
+                                SaveHostPopup {
+                                    id: editHostPopup
+
+                                    addressText: address
+                                    nameText: name
+
+                                    onSaveClicked: {
+                                        controller.hostModel.editHost(index, addressText, nameText)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
 
                 Row {
@@ -257,12 +368,16 @@ Window {
 
                 ComboBox {
                     id: languageCombo
-                    enabled: telnetSender.connected && !customLanguage.text
+                    enabled: telnetSender.connected
 
                     width: 200
 
                     textRole: "key"
                     valueRole: "value"
+
+                    onActivated: {
+                        telnetSender.send(['lang ' + currentValue])
+                    }
 
                     delegate: ItemDelegate {
                         height: 30
@@ -347,10 +462,7 @@ Window {
                         }
 
                         onClicked: {
-                            var commands = []
-                            var langCode = customLanguage.text ? customLanguage.text : languageCombo.currentValue
-                            commands = ['lang ' + languageCombo.currentValue]
-                            telnetSender.send(commands)
+                            telnetSender.send(['lang ' + customLanguage.text])
 
                             evaluateCat()
                         }

@@ -6,5 +6,6 @@
         <file>ButtonEditPopup.qml</file>
         <file>MaterialText.qml</file>
         <file>NyanCat.qml</file>
+        <file>SaveHostPopup.qml</file>
     </qresource>
 </RCC>
