@@ -15,7 +15,8 @@ class HostModel : public QAbstractListModel
 
     enum roles {
         ADDRESS = Qt::UserRole + 1,
-        NAME
+        NAME,
+        LABEL
     };
 public:
     HostModel(QObject *parent = nullptr);
@@ -27,6 +28,7 @@ public:
     Q_INVOKABLE void addHost(const QString &address, const QString &name);
     Q_INVOKABLE void editHost(int hostIndex, const QString &address, const QString &name);
     Q_INVOKABLE void removeHost(int index);
+    Q_INVOKABLE int findHostIndex(const QString &address);
 
     void init(const QVector<HostData> &data);
 

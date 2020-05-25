@@ -13,6 +13,13 @@ Popup {
 
     signal saveClicked()
 
+    function save() {
+        root.saveClicked()
+        root.close()
+    }
+
+    onOpened: nameField.forceActiveFocus()
+
     contentItem: Column {
         anchors {
             fill: parent
@@ -32,6 +39,7 @@ Popup {
 
             width: parent.width
             font.pointSize: 12
+            onAccepted: root.save()
         }
         Item {
             height: 8
@@ -49,6 +57,7 @@ Popup {
 
             width: parent.width
             font.pointSize: 12
+            onAccepted: root.save()
         }
 
         Button {
@@ -56,10 +65,7 @@ Popup {
             height: addressText.height
             text: qsTr("Save")
             font.pointSize: 14
-            onClicked: {
-                root.saveClicked()
-                root.close()
-            }
+            onClicked: root.save()
         }
     }
 }
