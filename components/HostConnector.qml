@@ -42,7 +42,6 @@ Column {
 
             onClicked: {
                 saveHostPopup.open()
-                console.log( "adsd", hostBox.width )
             }
 
             SaveHostPopup {
@@ -63,14 +62,23 @@ Column {
 
         width: hostBox.width - 2 * hostBox.padding
         model: controller.hostModel
-        displayText: "Choose saved"
+        displayText: currentIndex >= 0 ? currentText : "Choose saved"
         valueRole: "address"
+        textRole: "label"
         popup.width: 400
 
-        onActivated: {
-            hostAddress.text = currentValue
-            index = -1
+        currentIndex: -1
+
+        // NOTE: when done in onTextChanged of hostAddress it had been breaking the hostCombo,
+        // problably because of setting a property before the latter was completed
+        Connections {
+            target: hostAddress
+            function onTextChanged() { hostCombo.updateIndex() }
         }
+        Component.onCompleted: { updateIndex() }
+        function updateIndex() { hostCombo.currentIndex = controller.hostModel.findHostIndex(hostAddress.text) }
+
+        onActivated: hostAddress.text = currentValue
 
         delegate: ItemDelegate {
             id: itemDelegate
@@ -93,7 +101,7 @@ Column {
                         verticalCenter: parent.verticalCenter
                     }
                     font.pointSize: 12
-                    text: name + " (" + address + ")"
+                    text: label
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                 }
