@@ -51,6 +51,7 @@ Column {
 
                 onSaveClicked: {
                     controller.hostModel.addHost(addressText, nameText)
+                    hostCombo.updateIndex()
                 }
                 onOpened: nameText = ""
             }
@@ -62,7 +63,14 @@ Column {
 
         width: hostBox.width - 2 * hostBox.padding
         model: controller.hostModel
-        displayText: currentIndex >= 0 ? currentText : "Choose saved"
+        enabled: count > 0
+        property string option: qsTr("option")
+        property string options: qsTr("options")
+        property string defaultText: count == 0
+                                     ? qsTr("Not any saved")
+                                     : qsTr("Choose saved") + " (" + count + " " + (count > 1 ? options : option) + ")"
+
+        displayText: currentIndex >= 0 ? currentText : defaultText
         valueRole: "address"
         textRole: "label"
         popup.width: 400
