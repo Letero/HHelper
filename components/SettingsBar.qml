@@ -28,19 +28,6 @@ Column {
     }
 
     IconButton {
-        id: saveConfigButton
-
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        image: "qrc:/res/content-save-cog-outline.png"
-        imagePressed: "qrc:/res/content-save-cog.png"
-
-        tooltipText: qsTr("Save changes to config file.")
-
-        onClicked: controller.saveCurrentConfig()
-    }
-
-    IconButton {
         id: closeButton
 
         anchors.horizontalCenter: parent.horizontalCenter
