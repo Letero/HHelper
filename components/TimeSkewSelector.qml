@@ -39,7 +39,6 @@ Column {
             value: 1.0
 
             onValueChanged: {
-                console.log(value.toFixed(1))
                 telnetSender.send(['9 ' + value.toFixed(1)])
             }
         }

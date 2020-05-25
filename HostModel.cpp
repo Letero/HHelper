@@ -27,6 +27,8 @@ QVariant HostModel::data(const QModelIndex &index, int role) const
         return data.address;
     case roles::NAME:
         return data.name;
+    case roles::LABEL:
+        return data.name + " (" + data.address + ")";
     }
 
     return {};
@@ -36,7 +38,8 @@ QHash<int, QByteArray> HostModel::roleNames() const
 {
     return {
         { roles::ADDRESS, "address" },
-        { roles::NAME, "name" }
+        { roles::NAME, "name" },
+        { roles::LABEL, "label" }
     };
 }
 
@@ -60,6 +63,12 @@ void HostModel::removeHost(int index)
     beginRemoveRows({}, index, index);
     mHostData.removeAt(index);
     endRemoveRows();
+}
+
+int HostModel::findHostIndex(const QString &address)
+{
+    const auto it = std::find_if( mHostData.cbegin(), mHostData.cend(), [&](const auto& host){ return host.address == address; } );
+    return it == mHostData.cend() ? -1 : std::distance(mHostData.cbegin(), it);
 }
 
 void HostModel::init(const QVector<HostData> &data)
