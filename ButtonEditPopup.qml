@@ -36,6 +36,8 @@ Popup {
         buttonsList.updateModel()
     }
 
+    onOpened: popupBtnName.forceActiveFocus()
+
     onClosed: {
         clearPopup()
         root.editMode = false
@@ -104,6 +106,8 @@ Popup {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 renderType: Text.QtRendering
+
+                onAccepted: saveButton.onClicked()
             }
         }
 
@@ -159,6 +163,8 @@ Popup {
                     onTextChanged: {
                         buttonsList.stringArray[index] = text
                     }
+
+                    onAccepted: saveButton.onClicked()
                 }
             }
         }
@@ -169,6 +175,7 @@ Popup {
             spacing: 10
 
             Button {
+                id: saveButton
                 Layout.fillWidth: true
                 text: root.editMode ? "Save" : "Add"
                 onClicked: {
@@ -176,6 +183,7 @@ Popup {
                     {
                         if (root.editMode) {
                             controller.buttonModel.editButton(root.currentButtonIndex, popupBtnName.text, buttonsList.stringArray)
+                            root.close()
                         } else {
                             controller.buttonModel.addButton(popupBtnName.text, buttonsList.stringArray)
                         }
