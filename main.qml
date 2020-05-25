@@ -1,5 +1,4 @@
 import QtQuick 2.14
-import QtQuick.Window 2.14
 import QtQuick.Controls 2.14
 import com.company.TelnetSender 1.0
 import com.company.controller 1.0
@@ -223,5 +222,9 @@ Window {
             id: cat
             anchors.bottom: contentPlaceholder.bottom
         }
+    }
+
+    onClosing: {
+        controller.saveCurrentConfig()
     }
 }
