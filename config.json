@@ -42,7 +42,10 @@
         "12 +5B chips": [
             "server playerChange chips 5000000000",
             "disconnect"
-        ]
+        ],
+		"13 Jackpot Increase": [
+			"server game jackpotIncr 150000000000000"
+		]
     },
     "main_settings": {
         "dev_mode": 0,
