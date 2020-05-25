@@ -166,8 +166,6 @@ Window {
             Row {
                 id: buttonsPlaceholder
 
-                enabled: telnetSender.connected
-
                 anchors.fill: parent
 
                 spacing: 10
@@ -185,7 +183,7 @@ Window {
                         model: controller.buttonModel
 
                         delegate: MaterialButton {
-                            onLeftClicked: telnetSender.sendKeystroke(buttonArgs)
+                            onLeftClicked: telnetSender.send(buttonArgs)
                             onRightClicked: contextMenu.popup()
                             onPressAndHold: contextMenu.popup()
 

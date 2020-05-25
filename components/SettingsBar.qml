@@ -33,7 +33,7 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
 
         image: "qrc:/res/content-save-cog-outline.png"
-        imagePressed: "res/content-save-cog.png"
+        imagePressed: "qrc:/res/content-save-cog.png"
 
         tooltipText: qsTr("Save changes to config file.")
 
