@@ -154,7 +154,7 @@ Popup {
                     width: scrollBar.visible ? parent.width - 10 : parent.width
                     height: 30
                     selectByMouse: true
-                    font.pointSize: 9
+                    font.pointSize: 12
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: modelData

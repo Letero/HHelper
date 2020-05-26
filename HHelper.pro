@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         ButtonModel.cpp \
+        CommandModel.cpp \
         Controller.cpp \
         HostModel.cpp \
         JsonParser.cpp \
@@ -41,6 +42,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ButtonModel.h \
+    CommandModel.h \
     Controller.h \
     HostModel.h \
     JsonParser.h \

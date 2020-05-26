@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ButtonModel.h"
+#include "CommandModel.h"
 #include "HostModel.h"
 
 #include <QObject>
@@ -23,9 +24,10 @@ public:
     QString getSlotName() const;
     void setHost(const QString &host);
     QString getHost() const;
-    bool saveConfig(QString filename, ButtonModel *buttonModel, HostModel *hostModel);
-    QMap<QString, QStringList> getButtonsData();
+    bool saveConfig(QString filename, ButtonModel* buttonModel, CommandModel* commandModel, HostModel* hostModel);
+    QVector<ButtonData> getButtonsData();
     QVector<HostData> getHostData();
+    QStringList getCommandHistory();
     bool isDevMode();
     void changeDevMode(bool isDevMode);
     bool isDarkTheme();
@@ -33,10 +35,11 @@ public:
 private:
     QJsonObject m_config;
     QJsonObject m_mainSettings;
-    QJsonObject m_buttonSettings;
+    QJsonArray m_buttonSettings;
+    QJsonArray m_commandHistory;
     QJsonArray m_hostSettings;
     void writeToFile();
     bool loadConfig(QString filename);
-    QStringList toStringList(const QJsonArray &list);
+    QStringList toStringList(const QJsonArray& list);
 
 };

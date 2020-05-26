@@ -60,11 +60,9 @@ void ButtonModel::removeButton(int index)
     endRemoveRows();
 }
 
-void ButtonModel::init(const QMap<QString, QStringList> &data)
+void ButtonModel::init(const QVector<ButtonData>& data)
 {
-    for (auto key : data.keys()) {
-        beginInsertRows({}, rowCount({}), rowCount({}));
-        mButtonData.push_back({key, data[key]});
-        endInsertRows();
-    }
+    beginResetModel();
+    mButtonData = data;
+    endResetModel();
 }

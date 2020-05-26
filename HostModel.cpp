@@ -18,7 +18,7 @@ int HostModel::rowCount(const QModelIndex &parent) const
     return mHostData.size();
 }
 
-QVariant HostModel::data(const QModelIndex &index, int role) const
+QVariant HostModel::data(const QModelIndex& index, int role) const
 {
     auto &data = mHostData[index.row()];
 
@@ -43,14 +43,14 @@ QHash<int, QByteArray> HostModel::roleNames() const
     };
 }
 
-void HostModel::addHost(const QString &address, const QString &name)
+void HostModel::addHost(const QString& address, const QString& name)
 {
     beginInsertRows({}, rowCount({}), rowCount({}));
     mHostData.push_back({address, name});
     endInsertRows();
 }
 
-void HostModel::editHost(int hostIndex, const QString &address, const QString &name)
+void HostModel::editHost(int hostIndex, const QString& address, const QString& name)
 {
     mHostData[hostIndex].address = address;
     mHostData[hostIndex].name = name;
@@ -65,13 +65,13 @@ void HostModel::removeHost(int index)
     endRemoveRows();
 }
 
-int HostModel::findHostIndex(const QString &address)
+int HostModel::findHostIndex(const QString& address)
 {
     const auto it = std::find_if( mHostData.cbegin(), mHostData.cend(), [&](const auto& host){ return host.address == address; } );
     return it == mHostData.cend() ? -1 : std::distance(mHostData.cbegin(), it);
 }
 
-void HostModel::init(const QVector<HostData> &data)
+void HostModel::init(const QVector<HostData>& data)
 {
     beginInsertRows({}, rowCount({}), rowCount({}) + data.size());
     mHostData = data;
