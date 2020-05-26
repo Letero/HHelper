@@ -13,6 +13,7 @@ Button {
     property string tooltipText: ""
     property string image
     property string imagePressed
+//    property alias sca: value
 
     ToolTip.delay: 800
     ToolTip.visible: hovered && tooltipText
@@ -26,6 +27,7 @@ Button {
 
     Image {
         id: pic
+
         anchors.centerIn: parent
         source: imagePressed
                     ? parent.checked || parent.pressed ? imagePressed : image
