@@ -4,16 +4,23 @@
 Controller::Controller(QObject *parent)
     : QObject(parent)
     , m_buttonModel(new ButtonModel)
+    , m_commandModel(new CommandModel)
     , m_hostModel(new HostModel)
     , configFile("config.json")
 {
     m_buttonModel->init(m_jsonParser.getButtonsData());
+    m_commandModel->init(m_jsonParser.getCommandHistory());
     m_hostModel->init(m_jsonParser.getHostData());
 }
 
 ButtonModel *Controller::getButtonModel() const
 {
     return m_buttonModel.get();
+}
+
+CommandModel *Controller::getCommandModel() const
+{
+    return m_commandModel.get();
 }
 
 HostModel *Controller::getHostModel() const
@@ -43,7 +50,7 @@ QString Controller::getHost() const
 
 void Controller::saveCurrentConfig()
 {
-    m_jsonParser.saveConfig(configFile, m_buttonModel.get(), m_hostModel.get());
+    m_jsonParser.saveConfig(configFile, m_buttonModel.get(), m_commandModel.get(), m_hostModel.get());
 }
 
 bool Controller::isDarkTheme()

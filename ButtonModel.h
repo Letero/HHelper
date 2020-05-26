@@ -28,7 +28,7 @@ public:
     Q_INVOKABLE void editButton(int buttonIndex, const QString &name, const QStringList &args);
     Q_INVOKABLE void removeButton(int index);
 
-    void init(const QMap<QString, QStringList> &data);
+    void init(const QVector<ButtonData>& data);
 
 private:
     QVector<ButtonData> mButtonData;

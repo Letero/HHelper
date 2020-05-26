@@ -25,10 +25,10 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     QHash<int, QByteArray> roleNames() const;
 
-    Q_INVOKABLE void addHost(const QString &address, const QString &name);
-    Q_INVOKABLE void editHost(int hostIndex, const QString &address, const QString &name);
+    Q_INVOKABLE void addHost(const QString& address, const QString& name);
+    Q_INVOKABLE void editHost(int hostIndex, const QString& address, const QString& name);
     Q_INVOKABLE void removeHost(int index);
-    Q_INVOKABLE int findHostIndex(const QString &address);
+    Q_INVOKABLE int findHostIndex(const QString& address);
 
     void init(const QVector<HostData> &data);
 

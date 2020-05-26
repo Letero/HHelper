@@ -50,7 +50,6 @@ Column {
 
             onClicked: {
                 slider.value = parseFloat(1)
-                timeskewRow.setTimeskew()
             }
         }
     }
