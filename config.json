@@ -1,52 +1,91 @@
 {
-    "button_settings": {
-        "01 Skip tutorial": [
+    "button_settings": [
+        {
+    "commands": [
             "server playerChange level 10",
             "server playerChange diamonds 1000",
             "skipRewardPopups true",
             "disconnect"
         ],
-        "02 Disconnect": [
+"name": "01 Skip tutorial"
+},
+        {
+    "commands": [
             "disconnect"
         ],
-        "03 Hold": [
+"name": "02 Disconnect"
+},
+        {
+    "commands": [
             "hold"
         ],
-        "04 F. freespins": [
+"name": "03 Hold"
+},
+        {
+    "commands": [
             "server game freespins"
         ],
-        "05 F. Bonus": [
+"name": "04 F. freespins"
+},
+        {
+    "commands": [
             "server game freespins"
         ],
-        "06 F. Jackpot": [
+"name": "05 F. Bonus"
+},
+        {
+    "commands": [
             "server game jackpot"
         ],
-        "07 F. Big win": [
+"name": "06 F. Jackpot"
+},
+        {
+    "commands": [
             "server game bigwin"
         ],
-        "08 F. mega win": [
+"name": "07 F. Big win"
+},
+        {
+    "commands": [
             "server game megawin"
         ],
-        "09 F. huge win": [
+"name": "08 F. mega win"
+},
+        {
+    "commands": [
             "server game hugewin"
         ],
-        "10 +10000 diamonds": [
+"name": "09 F. huge win"
+},
+        {
+    "commands": [
             "server playerChange diamonds 10000",
             "disconnect"
         ],
-        "11 Level +500": [
+"name": "10 +10000 diamonds"
+},
+        {
+    "commands": [
             "server playerChange level 500",
             "skipRewardPopups true",
             "disconnect"
         ],
-        "12 +5B chips": [
+"name": "11 Level +500"
+},
+        {
+    "commands": [
             "server playerChange chips 5000000000",
             "disconnect"
         ],
-		"13 Jackpot Increase": [
-			"server game jackpotIncr 150000000000000"
-		]
-    },
+"name": "12 +5B chips"
+},
+        {
+    "commands": [
+            "server game jackpotIncr 150000000000000"
+        ]
+"name": "13 Jackpot Increase"
+},
+],
     "main_settings": {
         "dev_mode": 0,
         "slot_name": "SlotsBigCats",
