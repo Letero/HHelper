@@ -26,7 +26,11 @@ Column {
             width: parent.width
             contentItem: Rectangle {
                 anchors.fill: parent
-                color: parent.hovered ? "lightgrey"
+                border {
+                    color: Universal.accent
+                    width: 2
+                }
+                color: parent.hovered ? "grey"
                                       : languageCombo.currentIndex == index
                                         ? Universal.accent : Universal.background
 

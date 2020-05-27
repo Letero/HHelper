@@ -7,7 +7,9 @@ Rectangle {
     width: 120
     height: 40
 
-    color: mouseArea.pressed ? Universal.baseMediumLowColor : Universal.accent
+    property bool spacePressed: false
+
+    color: spacePressed || mouseArea.pressed ? Universal.baseMediumLowColor : Universal.accent
 
     border.width: mouseArea.containsMouse ? 2 : 0
     border.color: Universal.baseMediumColor
@@ -34,7 +36,8 @@ Rectangle {
 
         anchors.fill: parent
         hoverEnabled: true
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        acceptedButtons: Qt.AllButtons
+        onPressed: parent.forceActiveFocus()
         onClicked: {
             if (mouse.button == Qt.LeftButton) {
                 leftClicked()
@@ -48,5 +51,12 @@ Rectangle {
             if (mouse.source === Qt.MouseEventNotSynthesized)
                 pressAndHold()
         }
+    }
+
+    Keys.onReleased: if (event.key === Qt.Key_Space) spacePressed = false
+
+    Keys.onSpacePressed: {
+        spacePressed = true
+        leftClicked()
     }
 }
