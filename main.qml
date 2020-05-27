@@ -45,6 +45,15 @@ Window {
         telnetSender.connectToTelnet()
     }
 
+    MouseArea {
+        anchors.fill: parent
+
+        preventStealing: true
+        onPressed: {
+            forceActiveFocus()
+        }
+    }
+
     Item {
         id: contentPlaceholder
 
