@@ -1,8 +1,5 @@
 #include "HostModel.h"
 
-#include <QJsonArray>
-#include <QDebug>
-
 HostModel::HostModel(QObject *parent) : QAbstractListModel(parent)
 {
 }

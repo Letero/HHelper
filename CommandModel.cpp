@@ -1,7 +1,5 @@
 #include "CommandModel.h"
 
-#include <QDebug>
-
 namespace
 {
     constexpr auto MAX_ELEMENTS = 100;

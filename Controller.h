@@ -1,10 +1,11 @@
 #pragma once
 
-#include <QObject>
 #include "ButtonModel.h"
 #include "CommandModel.h"
 #include "HostModel.h"
 #include "JsonParser.h"
+
+#include <QObject>
 
 class Controller : public QObject
 {
@@ -32,6 +33,5 @@ private:
     QScopedPointer<CommandModel> m_commandModel;
     QScopedPointer<HostModel> m_hostModel;
     JsonParser m_jsonParser;
-    QString configFile;
 };
 
