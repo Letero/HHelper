@@ -11,7 +11,7 @@ Popup {
 
     x: parent.width / 2 - width / 2
     y: parent.height / 2 - height / 2
-    width: parent.width / 2
+    width: 0.6 * parent.width
     height: parent.height - 50
     modal: true
     focus: true
@@ -46,7 +46,7 @@ Popup {
     Button {
         id: addCommandButton
 
-        y: 108
+        y: 88
         anchors.left: layout.right
 
         width: 35
@@ -79,14 +79,20 @@ Popup {
 
     ColumnLayout {
         id: layout
-        anchors.centerIn: parent
-        height: 0.9 * parent.height
-        width:  0.6 * parent.width
+        anchors {
+            left: parent.left
+            right: parent.right
+            leftMargin: 30
+            rightMargin: 60
+        }
+
+        height: 0.94 * parent.height
 
         spacing: 15
 
         Column {
-            Layout.preferredWidth: parent.width
+            Layout.alignment: Qt.AlignRight
+            Layout.preferredWidth: parent.width - 30
 
             MaterialText {
                 width: parent.width
@@ -124,6 +130,7 @@ Popup {
                 font.pointSize: 12
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
+                x: 15
             }
 
             ListView {
@@ -150,27 +157,66 @@ Popup {
                     currentIndex = stringArray.length - 1
                 }
 
-                delegate: TextField {
-                    width: scrollBar.visible ? parent.width - 10 : parent.width
+                delegate: Item {
+                    width: scrollBar.visible ? parent.width - 15 : parent.width
                     height: 30
-                    selectByMouse: true
-                    font.pointSize: 12
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    text: modelData
-                    renderType: Text.QtRendering
 
-                    onTextChanged: {
-                        buttonsList.stringArray[index] = text
+                    MouseArea {
+                        id: commandMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
                     }
 
-                    onAccepted: saveButton.onClicked()
+
+                    IconButton {
+                        id: newCommandBtn
+
+                        anchors {
+                            left: parent.left
+                            verticalCenter: parent.verticalCenter
+                        }
+
+                        image: "qrc:/res/minus.png"
+
+                        height: parent.height
+                        width: height
+
+                        visible: (commandMouseArea.containsMouse || commandText.hovered || hovered) && index > 0
+
+                        onClicked: {
+                            buttonsList.stringArray.splice(index, 1)
+                            buttonsList.updateModel()
+                        }
+                    }
+
+                    TextField {
+                        id: commandText
+
+                        anchors {
+                            left: newCommandBtn.right
+                            right: parent.right
+                        }
+
+                        selectByMouse: true
+                        font.pointSize: 12
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        text: modelData
+                        renderType: Text.QtRendering
+
+                        onTextChanged: {
+                            buttonsList.stringArray[index] = text
+                        }
+
+                        onAccepted: saveButton.onClicked()
+                    }
                 }
             }
         }
 
         RowLayout {
             Layout.preferredWidth: parent.width
+            Layout.leftMargin: 30
 
             spacing: 10
 

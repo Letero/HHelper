@@ -9,5 +9,6 @@
         <file>nyan.gif</file>
         <file>check.png</file>
         <file>disconnect.png</file>
+        <file>minus.png</file>
     </qresource>
 </RCC>
