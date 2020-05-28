@@ -61,7 +61,6 @@ Window {
         height: root.height - y
         width: root.width
 
-
         GridLayout {
             id: gridLayout
 
@@ -150,11 +149,11 @@ Window {
                 title: qsTr("Quick command:")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.preferredWidth: 0.45 * contentPlaceholder.width
-                Layout.maximumWidth: 0.45 * contentPlaceholder.width
+                Layout.preferredWidth: contentPlaceholder.width
+                Layout.columnSpan: 3
 
                 QuickCommand {
-                    anchors.centerIn: parent
+                    anchors.fill: parent
                     enabled: telnetSender.connected
                 }
             }
@@ -171,50 +170,60 @@ Window {
                 margins: 10
             }
 
-            Row {
+            Item {
                 id: buttonsPlaceholder
 
                 anchors.fill: parent
 
-                spacing: 10
+                ScrollView {
+                    id: commandsScrollView
 
-                Grid {
-                    id: grid
+                    anchors.fill: parent
 
-                    spacing: 10
+                    clip: true
 
-                    Repeater {
-                        id: repeater
+                    Grid {
+                        id: grid
 
-                        anchors.fill: parent
+                        spacing: 10
 
-                        model: controller.buttonModel
+                        Repeater {
+                            id: repeater
 
-                        delegate: MaterialButton {
-                            onLeftClicked: telnetSender.send(buttonArgs)
-                            onRightClicked: contextMenu.popup()
-                            onPressAndHold: contextMenu.popup()
+                            anchors.fill: parent
 
-                            Menu {
-                                id: contextMenu
+                            model: controller.buttonModel
 
-                                MenuItem {
-                                    text: qsTr("Edit")
-                                    onTriggered: popup.openEdit(index, buttonName, buttonArgs)
-                                }
+                            delegate: MaterialButton {
+                                onLeftClicked: telnetSender.send(buttonArgs)
+                                onRightClicked: contextMenu.popup()
+                                onPressAndHold: contextMenu.popup()
 
-                                MenuItem {
-                                    text: qsTr("Remove")
-                                    onTriggered: controller.buttonModel.removeButton(index)
+                                Menu {
+                                    id: contextMenu
+
+                                    MenuItem {
+                                        text: qsTr("Edit")
+                                        onTriggered: popup.openEdit(index, buttonName, buttonArgs)
+                                    }
+
+                                    MenuItem {
+                                        text: qsTr("Remove")
+                                        onTriggered: controller.buttonModel.removeButton(index)
+                                    }
                                 }
                             }
                         }
                     }
-
                 }
 
                 Button {
-                    text: qsTr("Add button")
+                    text: qsTr("Add command")
+
+                    anchors {
+                        right: commandsScrollView.right
+                        rightMargin: 20
+                    }
 
                     width: 120
                     height: 40
@@ -223,6 +232,7 @@ Window {
                 }
             }
         }
+
         ButtonEditPopup {
             id: popup
         }
