@@ -1,94 +1,99 @@
 {
-        "button_settings":[
-            {
-                "commands":[
-                    "server playerChange level 10",
-                    "server playerChange diamonds 1000",
-                    "skipRewardPopups true",
-                    "disconnect"
-                ],
-                "name":"01 Skip tutorial"
-            },
-            {
-                "commands":[
-                    "disconnect"
-                ],
-                "name":"02 Disconnect"
-            },
-            {
-                "commands":[
-                    "hold"
-                ],
-                "name":"03 Hold"
-            },
-            {
-                "commands":[
-                    "server game freespins"
-                ],
-                "name":"04 F. freespins"
-            },
-            {
-                "commands":[
-                    "server game freespins"
-                ],
-                "name":"05 F. Bonus"
-            },
-            {
-                "commands":[
-                    "server game jackpot"
-                ],
-                "name":"06 F. Jackpot"
-            },
-            {
-                "commands":[
-                    "server game bigwin"
-                ],
-                "name":"07 F. Big win"
-            },
-            {
-                "commands":[
-                    "server game megawin"
-                ],
-                "name":"08 F. mega win"
-            },
-            {
-                "commands":[
-                    "server game hugewin"
-                ],
-                "name":"09 F. huge win"
-            },
-            {
-                "commands":[
-                    "server playerChange diamonds 10000",
-                    "disconnect"
-                ],
-                "name":"10 +10000 diamonds"
-            },
-            {
-                "commands":[
-                    "server playerChange level 500",
-                    "skipRewardPopups true",
-                    "disconnect"
-                ],
-                "name":"11 Level +500"
-            },
-            {
-                "commands":[
-                    "server playerChange chips 5000000000",
-                    "disconnect"
-                ],
-                "name":"12 +5B chips"
-            },
-            {
-                "commands":[
-                    "server game jackpotIncr 150000000000000"
-                ],
-                "name":"13 Jackpot Increase"
-            }
-        ],
-        "main_settings":{
-            "dev_mode":0,
-            "slot_name":"SlotsBigCats",
-            "target_window":"*Untitled - Notepad"
+    "button_settings": [
+        {
+            "commands": [
+                "server playerChange level 10",
+                "server playerChange diamonds 1000",
+                "skipRewardPopups true",
+                "disconnect"
+            ],
+            "name": "Skip tutorial"
+        },
+        {
+            "commands": [
+                "disconnect"
+            ],
+            "name": "Disconnect"
+        },
+        {
+            "commands": [
+                "hold"
+            ],
+            "name": "Hold"
+        },
+        {
+            "commands": [
+                "server game freespins"
+            ],
+            "name": "F. freespins"
+        },
+        {
+            "commands": [
+                "server game freespins"
+            ],
+            "name": "F. Bonus"
+        },
+        {
+            "commands": [
+                "server game jackpot"
+            ],
+            "name": "F. Jackpot"
+        },
+        {
+            "commands": [
+                "server game bigwin"
+            ],
+            "name": "F. Big win"
+        },
+        {
+            "commands": [
+                "server game megawin"
+            ],
+            "name": "F. mega win"
+        },
+        {
+            "commands": [
+                "server game hugewin"
+            ],
+            "name": "F. huge win"
+        },
+        {
+            "commands": [
+                "server playerChange diamonds 10000",
+                "disconnect"
+            ],
+            "name": "+10000 diamonds"
+        },
+        {
+            "commands": [
+                "server playerChange level 500",
+                "skipRewardPopups true",
+                "disconnect"
+            ],
+            "name": "Level +500"
+        },
+        {
+            "commands": [
+                "server playerChange chips 5000000000",
+                "disconnect"
+            ],
+            "name": "+5B chips"
+        },
+        {
+            "commands": [
+                "server game jackpotIncr 150000000000000"
+            ],
+            "name": "Jackpot Increase"
         }
+    ],
+    "command_history": [
+    ],
+    "host_settings": [
+    ],
+    "main_settings": {
+        "dark_theme": null,
+        "dev_mode": 0,
+        "slot_name": "SlotsBigCats",
+        "target_window": "*Untitled - Notepad"
     }
+}
