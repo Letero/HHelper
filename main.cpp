@@ -1,12 +1,12 @@
+#include "Controller.h"
+#include "TelnetSender.h"
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QQmlProperty>
 #include <QQuickStyle>
-
-#include "Controller.h"
-#include "TelnetSender.h"
 
 int main(int argc, char *argv[])
 {

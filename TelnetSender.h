@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QObject>
 #include <QTcpSocket>
 
 class TelnetSender : public QObject

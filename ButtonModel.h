@@ -1,6 +1,7 @@
 #pragma once
+
 #include <QAbstractListModel>
-#include <QDebug>
+
 struct ButtonData {
     QString name;
     QStringList arguments;
@@ -20,12 +21,12 @@ class ButtonModel : public QAbstractListModel
 public:
     ButtonModel(QObject *parent = nullptr);
     QVector<ButtonData> getButtonDataVector();
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex& parent) const;
+    QVariant data(const QModelIndex& index, int role) const;
     QHash<int, QByteArray> roleNames() const;
 
-    Q_INVOKABLE void addButton(const QString &name, const QStringList &args);
-    Q_INVOKABLE void editButton(int buttonIndex, const QString &name, const QStringList &args);
+    Q_INVOKABLE void addButton(const QString& name, const QStringList& args);
+    Q_INVOKABLE void editButton(int buttonIndex, const QString& name, const QStringList& args);
     Q_INVOKABLE void removeButton(int index);
 
     void init(const QVector<ButtonData>& data);

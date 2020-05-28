@@ -29,7 +29,7 @@
         },
         {
             "commands": [
-                "server game freespins"
+                "server game bonus"
             ],
             "name": "F. Bonus"
         },
@@ -91,9 +91,5 @@
     "host_settings": [
     ],
     "main_settings": {
-        "dark_theme": null,
-        "dev_mode": 0,
-        "slot_name": "SlotsBigCats",
-        "target_window": "*Untitled - Notepad"
     }
 }
