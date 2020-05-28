@@ -1,6 +1,5 @@
 #include "ButtonModel.h"
-#include "QDebug"
-#include "QJsonArray"
+
 ButtonModel::ButtonModel(QObject *parent) : QAbstractListModel(parent)
 {
 }
@@ -10,7 +9,7 @@ QVector<ButtonData> ButtonModel::getButtonDataVector()
     return mButtonData;
 }
 
-int ButtonModel::rowCount(const QModelIndex &parent) const
+int ButtonModel::rowCount(const QModelIndex &parent = {}) const
 {
     Q_UNUSED(parent)
     return mButtonData.size();
@@ -38,14 +37,16 @@ QHash<int, QByteArray> ButtonModel::roleNames() const
     };
 }
 
-void ButtonModel::addButton(const QString &name, const QStringList &args)
+void ButtonModel::addButton(const QString& name, const QStringList& args)
 {
-    beginInsertRows({}, rowCount({}), rowCount({}));
-    mButtonData.push_back({name, args});
+    beginInsertRows({}, rowCount(), rowCount());
+    QStringList purifiedList(args);
+    purifiedList.removeAll(QString());
+    mButtonData.push_back({name, purifiedList});
     endInsertRows();
 }
 
-void ButtonModel::editButton(int buttonIndex, const QString &name, const QStringList &args)
+void ButtonModel::editButton(int buttonIndex, const QString& name, const QStringList& args)
 {
     mButtonData[buttonIndex].name = name;
     mButtonData[buttonIndex].arguments = args;
