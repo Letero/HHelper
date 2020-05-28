@@ -7,6 +7,9 @@ Rectangle {
     width: 120
     height: 40
 
+    property alias text: textItem.text
+    property alias tooltip: tooltipItem.text
+
     property bool spacePressed: false
 
     color: spacePressed || mouseArea.pressed ? Universal.baseMediumLowColor : Universal.accent
@@ -19,8 +22,9 @@ Rectangle {
     signal pressAndHold()
 
     MaterialText {
+        id: textItem
+
         anchors.fill:parent
-        text: buttonName
         font.pointSize: 9
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignHCenter
@@ -51,6 +55,16 @@ Rectangle {
             if (mouse.source === Qt.MouseEventNotSynthesized)
                 pressAndHold()
         }
+    }
+
+    ToolTip {
+        id: tooltipItem
+
+        y: parent.height + 4
+
+        delay: 400
+
+        visible: mouseArea.containsMouse
     }
 
     Keys.onReleased: if (event.key === Qt.Key_Space) spacePressed = false
