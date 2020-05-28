@@ -36,7 +36,10 @@ Popup {
         buttonsList.updateModel()
     }
 
-    onOpened: popupBtnName.forceActiveFocus()
+    onOpened: {
+        popupBtnName.forceActiveFocus()
+        buttonsList.anyText = false
+    }
 
     onClosed: {
         clearPopup()
@@ -141,6 +144,7 @@ Popup {
                 clip: true
 
                 property var stringArray:  [""]
+                property bool anyText: false
 
                 model: stringArray
 
@@ -206,6 +210,18 @@ Popup {
 
                         onTextChanged: {
                             buttonsList.stringArray[index] = text
+
+                        function checkTexts()
+                        {
+                            for (var ind = 0; ind < buttonsList.stringArray.length; ++ind)
+                            {
+                                if (buttonsList.stringArray[ind] !== "") return true
+                            }
+
+                            return false
+                        }
+
+                        buttonsList.anyText = checkTexts()
                         }
 
                         onAccepted: saveButton.onClicked()
@@ -224,6 +240,8 @@ Popup {
                 id: saveButton
                 Layout.fillWidth: true
                 text: root.editMode ? "Save" : "Add"
+                enabled: buttonsList.anyText && popupBtnName.text !== ""
+
                 onClicked: {
                     if (popupBtnName.text !== "")
                     {

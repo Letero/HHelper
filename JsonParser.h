@@ -4,32 +4,22 @@
 #include "CommandModel.h"
 #include "HostModel.h"
 
-#include <QObject>
-#include <QFile>
-#include <QDebug>
-#include <QJsonDocument>
 #include <QJsonObject>
-#include <QMap>
 #include <QJsonArray>
-#include <algorithm>
 
 class JsonParser : public QObject
 {
     Q_OBJECT
 public:
     JsonParser(QObject *parent = nullptr);
-    QString getTargetWindowName();
-    void setTargetWindowName(QString windowName);
     void setSlotName(QString slotName);
     QString getSlotName() const;
     void setHost(const QString &host);
     QString getHost() const;
-    bool saveConfig(QString filename, ButtonModel* buttonModel, CommandModel* commandModel, HostModel* hostModel);
+    bool saveConfig(ButtonModel* buttonModel, CommandModel* commandModel, HostModel* hostModel);
     QVector<ButtonData> getButtonsData();
     QVector<HostData> getHostData();
     QStringList getCommandHistory();
-    bool isDevMode();
-    void changeDevMode(bool isDevMode);
     bool isDarkTheme();
     void changeTheme(bool isDarkTheme);
 private:
