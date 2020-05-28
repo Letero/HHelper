@@ -5,6 +5,8 @@ import QtQuick.Controls.Universal 2.12
 import "../controls"
 
 Row {
+    id: root
+
     spacing: 16
 
     readonly property int itemHeight: 32
@@ -12,7 +14,7 @@ Row {
     ComboBox {
         id: quickCommand
 
-        width: 200
+        width: parent.width - sendQuickCommandButton.width - root.spacing
         height: 32
         font.pointSize: 12
         editable: true
@@ -66,7 +68,7 @@ Row {
             text: quickCommand.editText
         }
 
-        Rectangle {
+        Item {
             id: commandHistory
 
             property int padding: 16
@@ -79,8 +81,6 @@ Row {
             visible: quickCommand.currentIndex < quickCommand.count - 1
 
             onVisibleChanged: commandsList.contentY = commandsList.contentHeight - commandsList.height
-
-            color: Universal.chromeAltLowColor
 
             clip: true
 
