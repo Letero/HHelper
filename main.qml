@@ -195,6 +195,14 @@ Window {
                             model: controller.buttonModel
 
                             delegate: MaterialButton {
+                            text: buttonName
+
+                            tooltip: {
+                                var tip = "Commands:"
+                                buttonArgs.forEach(function(arg) { tip +=  "\n• " + arg })
+                                return tip
+                            }
+
                                 onLeftClicked: telnetSender.send(buttonArgs)
                                 onRightClicked: contextMenu.popup()
                                 onPressAndHold: contextMenu.popup()
