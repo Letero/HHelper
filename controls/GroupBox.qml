@@ -5,6 +5,8 @@ import QtQuick.Controls.Universal 2.12
 GroupBox {
     id: control
 
+    focusPolicy: Qt.StrongFocus
+
     background: Rectangle {
         y: control.topPadding - control.padding
         width: parent.width

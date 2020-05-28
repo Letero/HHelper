@@ -76,7 +76,7 @@ Row {
 
             x: -padding
             y: -height + padding
-            visible: quickCommand.currentIndex < quickCommand.count - 1
+            visible: quickCommand.activeFocus && quickCommand.currentIndex < quickCommand.count - 1
 
             onVisibleChanged: commandsList.contentY = commandsList.contentHeight - commandsList.height
 
