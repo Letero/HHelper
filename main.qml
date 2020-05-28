@@ -52,16 +52,6 @@ Window {
         height: root.height - y
         width: root.width
 
-
-        MouseArea {
-            anchors.fill: parent
-
-            onClicked: {
-                focus = true
-                console.log("doopsko")
-            }
-        }
-
         GridLayout {
             id: gridLayout
 
