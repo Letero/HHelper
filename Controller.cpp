@@ -69,3 +69,13 @@ QString Controller::validateSlotName(QString name)
 
     return name;
 }
+
+int Controller::getWidth() const { return m_jsonParser.getWidth(); }
+
+int Controller::getHeight() const { return m_jsonParser.getHeight(); }
+
+void Controller::setHeight(const int &height) { m_jsonParser.setHeight(height); }
+
+void Controller::setWidth(const int &width) { m_jsonParser.setWidth(width); }
+
+

@@ -27,6 +27,10 @@ public:
     Q_INVOKABLE bool isDarkTheme();
     Q_INVOKABLE void changeTheme(bool isDarkTheme);
     Q_INVOKABLE QString validateSlotName(QString name);
+    Q_INVOKABLE int getHeight() const;
+    Q_INVOKABLE int getWidth() const;
+    Q_INVOKABLE void setHeight(const int &height);
+    Q_INVOKABLE void setWidth(const int &width);
 
 private:
     QScopedPointer<ButtonModel> m_buttonModel;
