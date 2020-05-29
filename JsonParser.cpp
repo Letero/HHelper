@@ -14,6 +14,8 @@ namespace
     const auto SLOT_NAME_NODE = "slot_name";
     const auto HOST_NODE = "host";
     const auto DARK_THEME_NODE = "dark_theme";
+    const auto HEIGHT_NODE = "height";
+    const auto WIDTH_NODE = "width";
 
     const auto BUTTONS_NODE = "button_settings";
     const auto BUTTON_NAME_NODE = "name";
@@ -60,7 +62,7 @@ bool JsonParser::loadConfig(QString filename)
     return true;
 }
 
-bool JsonParser::saveConfig(ButtonModel* buttonModel, CommandModel* commandModel, HostModel* hostModel)
+bool JsonParser::saveConfig(ButtonModel *buttonModel, CommandModel *commandModel, HostModel *hostModel)
 {
     QFile saveFile(CONFIG_FILE);
     if (!saveFile.open(QIODevice::WriteOnly)) {
@@ -70,9 +72,9 @@ bool JsonParser::saveConfig(ButtonModel* buttonModel, CommandModel* commandModel
     m_config[SETTINGS_NODE] = m_mainSettings;
 
     m_buttonSettings = QJsonArray();
-    const auto& buttonData = buttonModel->getButtonDataVector();
-    std::transform(buttonData.cbegin(), buttonData.cend(), std::back_inserter(m_buttonSettings), [](const ButtonData& button)
-    {
+    const auto &buttonData = buttonModel->getButtonDataVector();
+    std::transform(buttonData.cbegin(), buttonData.cend(),
+    std::back_inserter(m_buttonSettings), [](const ButtonData & button) {
         QJsonArray commands;
         std::copy(button.arguments.cbegin(), button.arguments.cend(), std::back_inserter(commands));
         return QJsonObject({ { BUTTON_NAME_NODE, button.name }, { BUTTON_COMMANDS_NODE, commands } });
@@ -80,15 +82,14 @@ bool JsonParser::saveConfig(ButtonModel* buttonModel, CommandModel* commandModel
     m_config[BUTTONS_NODE] = m_buttonSettings;
 
     m_hostSettings = QJsonArray();
-    const auto& hostData = hostModel->getHostDataVector();
-    std::transform(hostData.cbegin(), hostData.cend(), std::back_inserter(m_hostSettings), [](const auto& host)
-    {
+    const auto &hostData = hostModel->getHostDataVector();
+    std::transform(hostData.cbegin(), hostData.cend(), std::back_inserter(m_hostSettings), [](const auto & host) {
         return QJsonObject({ {HOST_NAME_NODE, host.name}, {HOST_ADDRESS_NODE, host.address} });
     });
     m_config[HOSTS_NODE] = m_hostSettings;
 
     m_commandHistory = QJsonArray();
-    const auto& commandHistory = commandModel->stringList();
+    const auto &commandHistory = commandModel->stringList();
     std::copy(commandHistory.cbegin(), commandHistory.cend(), std::back_inserter(m_commandHistory));
     m_config[COMMAND_HISTORY_NODE] = m_commandHistory;
 
@@ -98,11 +99,10 @@ bool JsonParser::saveConfig(ButtonModel* buttonModel, CommandModel* commandModel
     return true;
 }
 
-QStringList JsonParser::toStringList(const QJsonArray& list)
+QStringList JsonParser::toStringList(const QJsonArray &list)
 {
     QStringList string_list;
-    std::transform(list.cbegin(), list.cend(), std::back_inserter(string_list), [](const auto& item)
-    {
+    std::transform(list.cbegin(), list.cend(), std::back_inserter(string_list), [](const auto & item) {
         return item.toString();
     });
     return string_list;
@@ -110,8 +110,7 @@ QStringList JsonParser::toStringList(const QJsonArray& list)
 
 QString JsonParser::getSlotName() const
 {
-    QJsonValue slotName = m_mainSettings[SLOT_NAME_NODE];
-    return slotName.toString();
+    m_mainSettings[SLOT_NAME_NODE].toString();
 }
 
 void JsonParser::setHost(const QString &host)
@@ -121,8 +120,7 @@ void JsonParser::setHost(const QString &host)
 
 QString JsonParser::getHost() const
 {
-    QJsonValue host = m_mainSettings[HOST_NODE];
-    return host.toString();
+    return m_mainSettings[HOST_NODE].toString();
 }
 
 void JsonParser::setSlotName(QString slotName)
@@ -133,13 +131,11 @@ void JsonParser::setSlotName(QString slotName)
 QVector<ButtonData> JsonParser::getButtonsData()
 {
     QVector<ButtonData> data;
-    std::transform(m_buttonSettings.cbegin(), m_buttonSettings.cend(), std::back_inserter(data), [](const auto& button)
-    {
+    std::transform(m_buttonSettings.cbegin(), m_buttonSettings.cend(), std::back_inserter(data), [](const auto & button) {
         QJsonObject buttonObject = button.toObject();
         QStringList commands;
-        const auto& commandsArray = buttonObject.take(BUTTON_COMMANDS_NODE).toArray();
-        std::transform(commandsArray.cbegin(), commandsArray.cend(), std::back_inserter(commands), [](const auto& command)
-        {
+        const auto &commandsArray = buttonObject.take(BUTTON_COMMANDS_NODE).toArray();
+        std::transform(commandsArray.cbegin(), commandsArray.cend(), std::back_inserter(commands), [](const auto & command) {
             return command.toString();
         });
         return ButtonData(buttonObject.take(BUTTON_NAME_NODE).toString(), commands);
@@ -150,8 +146,7 @@ QVector<ButtonData> JsonParser::getButtonsData()
 QVector<HostData> JsonParser::getHostData()
 {
     QVector<HostData> data;
-    std::transform(m_hostSettings.cbegin(), m_hostSettings.cend(), std::back_inserter(data), [](const auto& host)
-    {
+    std::transform(m_hostSettings.cbegin(), m_hostSettings.cend(), std::back_inserter(data), [](const auto & host) {
         auto jsonObject = host.toObject();
         return HostData(jsonObject.take(HOST_ADDRESS_NODE).toString(), jsonObject.take(HOST_NAME_NODE).toString());
     });
@@ -161,8 +156,8 @@ QVector<HostData> JsonParser::getHostData()
 QStringList JsonParser::getCommandHistory()
 {
     QStringList history;
-    std::transform(m_commandHistory.cbegin(), m_commandHistory.cend(), std::back_inserter(history), [](const auto& command)
-    {
+    std::transform(m_commandHistory.cbegin(), m_commandHistory.cend(),
+    std::back_inserter(history), [](const auto & command) {
         return command.toString();
     });
     return history;
@@ -183,5 +178,25 @@ void JsonParser::changeTheme(bool isDarkTheme)
     } else {
         m_mainSettings[DARK_THEME_NODE] = 0;
     }
+}
+
+int JsonParser::getWidth() const
+{
+    return m_mainSettings[WIDTH_NODE].toInt();
+}
+
+int JsonParser::getHeight() const
+{
+    return m_mainSettings[HEIGHT_NODE].toInt();
+}
+
+void JsonParser::setHeight(const int &height)
+{
+    m_mainSettings[HEIGHT_NODE] = height;
+}
+
+void JsonParser::setWidth(const int &width)
+{
+    m_mainSettings[WIDTH_NODE] = width;
 }
 
