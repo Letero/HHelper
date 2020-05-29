@@ -180,3 +180,23 @@ void JsonParser::changeTheme(bool isDarkTheme)
     }
 }
 
+int JsonParser::getWidth() const
+{
+    return m_mainSettings["width"].toInt();
+}
+
+int JsonParser::getHeight() const
+{
+    return m_mainSettings["height"].toInt();
+}
+
+void JsonParser::setHeight(const int &height)
+{
+    m_mainSettings["height"] = height;
+}
+
+void JsonParser::setWidth(const int &width)
+{
+    m_mainSettings["width"] = width;
+}
+
