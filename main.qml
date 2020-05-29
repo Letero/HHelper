@@ -22,7 +22,7 @@ Window {
     flags: settingsBar.pinned ? (Qt.Window | Qt.WindowStaysOnTopHint) : Qt.Window
 
     visible: true
-    title: qsTr("HHelper")
+    title: qsTr("Huuuge Telnet Helper")
 
     color: Universal.background
     Universal.theme: Universal.Light
