@@ -14,6 +14,8 @@ namespace
     const auto SLOT_NAME_NODE = "slot_name";
     const auto HOST_NODE = "host";
     const auto DARK_THEME_NODE = "dark_theme";
+    const auto HEIGHT_NODE = "height";
+    const auto WIDTH_NODE = "width";
 
     const auto BUTTONS_NODE = "button_settings";
     const auto BUTTON_NAME_NODE = "name";
@@ -108,8 +110,7 @@ QStringList JsonParser::toStringList(const QJsonArray &list)
 
 QString JsonParser::getSlotName() const
 {
-    QJsonValue slotName = m_mainSettings[SLOT_NAME_NODE];
-    return slotName.toString();
+    m_mainSettings[SLOT_NAME_NODE].toString();
 }
 
 void JsonParser::setHost(const QString &host)
@@ -119,8 +120,7 @@ void JsonParser::setHost(const QString &host)
 
 QString JsonParser::getHost() const
 {
-    QJsonValue host = m_mainSettings[HOST_NODE];
-    return host.toString();
+    return m_mainSettings[HOST_NODE].toString();
 }
 
 void JsonParser::setSlotName(QString slotName)
@@ -182,21 +182,21 @@ void JsonParser::changeTheme(bool isDarkTheme)
 
 int JsonParser::getWidth() const
 {
-    return m_mainSettings["width"].toInt();
+    return m_mainSettings[WIDTH_NODE].toInt();
 }
 
 int JsonParser::getHeight() const
 {
-    return m_mainSettings["height"].toInt();
+    return m_mainSettings[HEIGHT_NODE].toInt();
 }
 
 void JsonParser::setHeight(const int &height)
 {
-    m_mainSettings["height"] = height;
+    m_mainSettings[HEIGHT_NODE] = height;
 }
 
 void JsonParser::setWidth(const int &width)
 {
-    m_mainSettings["width"] = width;
+    m_mainSettings[WIDTH_NODE] = width;
 }
 
