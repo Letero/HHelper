@@ -14,10 +14,19 @@ import "./components"
 Window {
     id: root
 
-    width: 720
+
     minimumWidth: 720
-    maximumWidth: 720
-    height: 600
+    minimumHeight: 600
+    width: controller.getWidth()
+    height: controller.getHeight()
+
+    onWidthChanged: {
+        controller.setWidth(root.width)
+    }
+
+    onHeightChanged: {
+        controller.setHeight(root.height)
+    }
 
     flags: settingsBar.pinned ? (Qt.Window | Qt.WindowStaysOnTopHint) : Qt.Window
 

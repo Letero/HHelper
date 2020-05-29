@@ -24,8 +24,8 @@ public:
     void changeTheme(bool isDarkTheme);
     int getHeight() const;
     int getWidth() const;
-    void setHeight(const int height);
-    void setWidth(const int width);
+    void setHeight(const int &height);
+    void setWidth(const int &width);
 private:
     QJsonObject m_config;
     QJsonObject m_mainSettings;
