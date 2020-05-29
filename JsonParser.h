@@ -16,12 +16,16 @@ public:
     QString getSlotName() const;
     void setHost(const QString &host);
     QString getHost() const;
-    bool saveConfig(ButtonModel* buttonModel, CommandModel* commandModel, HostModel* hostModel);
+    bool saveConfig(ButtonModel *buttonModel, CommandModel *commandModel, HostModel *hostModel);
     QVector<ButtonData> getButtonsData();
     QVector<HostData> getHostData();
     QStringList getCommandHistory();
     bool isDarkTheme();
     void changeTheme(bool isDarkTheme);
+    int getHeight() const;
+    int getWidth() const;
+    void setHeight(const int height);
+    void setWidth(const int width);
 private:
     QJsonObject m_config;
     QJsonObject m_mainSettings;
@@ -30,6 +34,6 @@ private:
     QJsonArray m_hostSettings;
     void writeToFile();
     bool loadConfig(QString filename);
-    QStringList toStringList(const QJsonArray& list);
+    QStringList toStringList(const QJsonArray &list);
 
 };
