@@ -240,7 +240,7 @@ Popup {
                 id: saveButton
                 Layout.fillWidth: true
                 text: root.editMode ? "Save" : "Add"
-                enabled: buttonsList.anyText && popupBtnName.text !== ""
+                enabled: root.editMode || buttonsList.anyText && popupBtnName.text !== ""
 
                 onClicked: {
                     if (popupBtnName.text !== "")

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QFile>
 #include <QTcpSocket>
 
 class TelnetSender : public QObject
@@ -17,6 +18,10 @@ public slots:
     void setHost(const QString &host);
     void connectToTelnet();
 
+private slots:
+    void logToFile();
+    void tryCreateFile();
+
 signals:
     void connectedChanged();
     void hostChanged();
@@ -24,4 +29,6 @@ signals:
 private:
     QTcpSocket tcpSocket;
     QString m_host;
+    bool m_hostGotChanged = true;
+    QFile m_logFile;
 };
