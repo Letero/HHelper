@@ -1,14 +1,20 @@
 #include "TelnetSender.h"
 
+#include <QDir>
+
 namespace
 {
     constexpr auto PORT = 1337;
     constexpr auto DEFAULT_HOST = "localhost";
+    constexpr auto LOGS_PATH = "logs";
+    constexpr auto LOG_FILE_NAME_TEMPLATE = "logs(%1).txt";
 }
 
 TelnetSender::TelnetSender(QObject *parent) : QObject(parent)
 {
     connect(&tcpSocket, &QTcpSocket::stateChanged, this, &TelnetSender::connectedChanged);
+    connect(&tcpSocket, &QTcpSocket::stateChanged, this, &TelnetSender::tryCreateFile);
+    connect(&tcpSocket, &QTcpSocket::readyRead, this, &TelnetSender::logToFile);
     connect(this, &TelnetSender::hostChanged, this, &TelnetSender::connectToTelnet);
 }
 
@@ -19,7 +25,7 @@ bool TelnetSender::connected() const
 
 void TelnetSender::send(const QStringList &messages)
 {
-    for (const auto &message : messages) {
+    for (const auto& message : messages) {
         tcpSocket.write(qPrintable(message + "\n"));
     }
 }
@@ -31,11 +37,40 @@ void TelnetSender::setHost(const QString &host)
     }
 
     m_host = host;
+    m_hostGotChanged = true;
     emit hostChanged();
 }
 
 void TelnetSender::connectToTelnet()
 {
     tcpSocket.abort();
-    tcpSocket.connectToHost(!m_host.isEmpty() ? m_host : DEFAULT_HOST, PORT, QTcpSocket::WriteOnly);
+    const auto hostAddress = !m_host.isEmpty() ? m_host : DEFAULT_HOST;
+    tcpSocket.connectToHost(hostAddress, PORT, QTcpSocket::ReadWrite);
+}
+
+void TelnetSender::logToFile()
+{
+    if (m_logFile.isWritable())
+    {
+        m_logFile.write(tcpSocket.readAll());
+        m_logFile.flush();
+    }
+}
+
+void TelnetSender::tryCreateFile()
+{
+    if (!connected() || !m_hostGotChanged)
+        return;
+
+    m_hostGotChanged = false;
+    m_logFile.close();
+
+    if (!QDir(LOGS_PATH).exists())
+    {
+        QDir().mkdir(LOGS_PATH);
+    }
+    const auto hostAddress = !m_host.isEmpty() ? m_host : DEFAULT_HOST;
+    const auto fileName = QString(LOGS_PATH) + "/" + QString(LOG_FILE_NAME_TEMPLATE).arg(hostAddress);
+    m_logFile.setFileName(fileName);
+    m_logFile.open(QIODevice::WriteOnly);
 }
