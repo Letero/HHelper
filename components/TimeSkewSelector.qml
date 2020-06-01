@@ -14,16 +14,49 @@ Column {
         TextField {
             id: sliderValue
 
-            width: 0.3 * slider.width
+            width: 0.4 * slider.width
             height: 40
             selectByMouse: true
             font.pointSize: 9
+            maximumLength: 6
             horizontalAlignment: Text.AlignHCenter
-            text: slider.value.toFixed(1)
             verticalAlignment: Text.AlignVCenter
             renderType: Text.QtRendering
             onTextChanged: {
-                slider.value = parseFloat(text)
+                var value = parseFloat(text)
+                if (value >= slider.from)
+                {
+                    var fixed = value < 0.1 ? 4 : 1
+                    slider.value = parseFloat(text).toFixed(fixed)
+                }
+                else if(value > 0)
+                {
+                    text = slider.from
+                    slider.value = slider.from
+                }
+            }
+
+            onActiveFocusChanged: {
+                if (!activeFocus)
+                {
+                    if (text == "")
+                    {
+                        slider.onValueChanged()
+                        return
+                    }
+
+                    var value = parseFloat(text)
+                    if (value < slider.from)
+                    {
+                        text = slider.from
+                    }
+                    else
+                    {
+                        var fixed = value < 0.1 ? 4 : 1
+                        text = value.toFixed(fixed)
+                    }
+
+                }
             }
         }
 
@@ -33,13 +66,23 @@ Column {
             height: 45
             width: 140
             snapMode: "SnapAlways"
-            from: 0.1
+            from: 0.0001
             to: 5
             stepSize: 0.1
             value: 1.0
 
             onValueChanged: {
-                telnetSender.send(['9 ' + value.toFixed(1)])
+                var fixed = value < 0.1 ? 4 : 1
+                telnetSender.send(["9 " + value.toFixed(fixed)])
+                var fixedValue = value.toFixed(fixed)
+                if (fixedValue !== parseFloat(sliderValue.text).toFixed(fixed))
+                {
+                    sliderValue.text = fixedValue
+                }
+            }
+
+            Component.onCompleted: {
+                sliderValue.text = value.toFixed(1)
             }
         }
 
@@ -50,6 +93,7 @@ Column {
 
             onClicked: {
                 slider.value = parseFloat(1)
+                telnetSender.send(["9 1"])
             }
         }
     }
