@@ -110,7 +110,7 @@ QStringList JsonParser::toStringList(const QJsonArray &list)
 
 QString JsonParser::getSlotName() const
 {
-    m_mainSettings[SLOT_NAME_NODE].toString();
+    return m_mainSettings[SLOT_NAME_NODE].toString();
 }
 
 void JsonParser::setHost(const QString &host)
