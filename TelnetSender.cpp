@@ -4,8 +4,8 @@
 
 namespace
 {
-    constexpr auto PORT = 1337;
     constexpr auto DEFAULT_HOST = "localhost";
+    constexpr auto DEFAULT_PORT = 1337;
     constexpr auto LOGS_PATH = "logs";
     constexpr auto LOG_FILE_NAME_TEMPLATE = "logs(%1).txt";
 }
@@ -44,8 +44,14 @@ void TelnetSender::setHost(const QString &host)
 void TelnetSender::connectToTelnet()
 {
     tcpSocket.abort();
-    const auto hostAddress = !m_host.isEmpty() ? m_host : DEFAULT_HOST;
-    tcpSocket.connectToHost(hostAddress, PORT, QTcpSocket::ReadWrite);
+    QRegExp reg("(.*):(.*)");
+    reg.exactMatch(m_host);
+    auto hostAddress = reg.exactMatch(m_host) ? reg.cap(1) : m_host;
+    const auto portString = reg.cap(2);
+
+    hostAddress = !hostAddress.isEmpty() ? hostAddress : DEFAULT_HOST;
+    const auto port = !portString.isEmpty() ? portString.toInt() : DEFAULT_PORT;
+    tcpSocket.connectToHost(hostAddress, port, QTcpSocket::ReadWrite);
 }
 
 void TelnetSender::logToFile()
