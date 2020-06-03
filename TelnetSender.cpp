@@ -62,8 +62,12 @@ void TelnetSender::logToFile()
 {
     if (m_logFile.isWritable())
     {
-        m_logFile.write(tcpSocket.readAll());
-        m_logFile.flush();
+        const auto data = tcpSocket.readAll();
+        if (data.size() > 2)
+        {
+            m_logFile.write(data);
+            m_logFile.flush();
+        }
     }
 }
 
