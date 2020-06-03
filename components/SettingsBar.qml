@@ -39,7 +39,7 @@ Column {
         tooltipText: qsTr("Open log file.")
 
 
-        onClicked: controller.openExternal("logs/logs(" + controller.getHost() + ").txt")
+        onClicked: controller.openExternal("logs/logs(" + controller.getHost().replace(':', '-') + ").txt")
     }
 
     IconButton {
