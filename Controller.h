@@ -31,6 +31,7 @@ public:
     Q_INVOKABLE int getWidth() const;
     Q_INVOKABLE void setHeight(const int &height);
     Q_INVOKABLE void setWidth(const int &width);
+    Q_INVOKABLE void openExternal(const QString& path);
 
 private:
     QScopedPointer<ButtonModel> m_buttonModel;

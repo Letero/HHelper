@@ -28,6 +28,21 @@ Column {
     }
 
     IconButton {
+        id: logButton
+
+        enabled: telnetSender.connected
+
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        image: "qrc:/res/text-box-outline.png"
+
+        tooltipText: qsTr("Open log file.")
+
+
+        onClicked: controller.openExternal("logs/logs(" + controller.getHost() + ").txt")
+    }
+
+    IconButton {
         id: closeButton
 
         anchors.horizontalCenter: parent.horizontalCenter

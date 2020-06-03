@@ -10,5 +10,6 @@
         <file>check.png</file>
         <file>disconnect.png</file>
         <file>minus.png</file>
+        <file>text-box-outline.png</file>
     </qresource>
 </RCC>
