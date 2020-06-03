@@ -1,5 +1,8 @@
 #include "Controller.h"
 
+#include <QDesktopServices>
+#include <QUrl>
+
 Controller::Controller(QObject *parent)
     : QObject(parent)
     , m_buttonModel(new ButtonModel)
@@ -77,5 +80,10 @@ int Controller::getHeight() const { return m_jsonParser.getHeight(); }
 void Controller::setHeight(const int &height) { m_jsonParser.setHeight(height); }
 
 void Controller::setWidth(const int &width) { m_jsonParser.setWidth(width); }
+
+void Controller::openExternal(const QString& path)
+{
+    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+}
 
 

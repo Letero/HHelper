@@ -38,12 +38,16 @@ void TelnetSender::setHost(const QString &host)
 
     m_host = host;
     m_hostGotChanged = true;
+    m_logFile.close();
     emit hostChanged();
 }
 
 void TelnetSender::connectToTelnet()
 {
     tcpSocket.abort();
+    if (m_host.endsWith(':'))
+        return;
+
     QRegExp reg("(.*):(.*)");
     reg.exactMatch(m_host);
     auto hostAddress = reg.exactMatch(m_host) ? reg.cap(1) : m_host;
@@ -58,8 +62,12 @@ void TelnetSender::logToFile()
 {
     if (m_logFile.isWritable())
     {
-        m_logFile.write(tcpSocket.readAll());
-        m_logFile.flush();
+        const auto data = tcpSocket.readAll();
+        if (data.size() > 2)
+        {
+            m_logFile.write(data);
+            m_logFile.flush();
+        }
     }
 }
 
@@ -69,14 +77,13 @@ void TelnetSender::tryCreateFile()
         return;
 
     m_hostGotChanged = false;
-    m_logFile.close();
 
     if (!QDir(LOGS_PATH).exists())
     {
         QDir().mkdir(LOGS_PATH);
     }
-    const auto hostAddress = !m_host.isEmpty() ? m_host : DEFAULT_HOST;
-    const auto fileName = QString(LOGS_PATH) + "/" + QString(LOG_FILE_NAME_TEMPLATE).arg(hostAddress);
+    auto hostAddress = !m_host.isEmpty() ? m_host : DEFAULT_HOST;
+    const auto fileName = QString(LOGS_PATH) + "/" + QString(LOG_FILE_NAME_TEMPLATE).arg(hostAddress.replace(':', '-'));
     m_logFile.setFileName(fileName);
     m_logFile.open(QIODevice::WriteOnly);
 }

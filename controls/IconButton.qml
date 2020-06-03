@@ -21,7 +21,7 @@ Button {
     background: Rectangle {
         color: "transparent"
         border.width: parent.hovered ? 2 : 1
-        border.color: Universal.foreground
+        border.color: control.enabled ? Universal.foreground : "gray"
     }
 
     Image {
@@ -36,6 +36,6 @@ Button {
         ColorOverlay {
             anchors.fill: pic
             source: pic
-            color: Universal.foreground
+            color: control.enabled ? Universal.foreground : "gray"
         }
     }
