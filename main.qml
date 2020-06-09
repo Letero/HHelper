@@ -31,7 +31,7 @@ Window {
     flags: settingsBar.pinned ? (Qt.Window | Qt.WindowStaysOnTopHint) : Qt.Window
 
     visible: true
-    title: qsTr("Huuuge Telnet Helper")
+    title: qsTr("Telnet Helper")
 
     color: Universal.background
     Universal.theme: Universal.Light

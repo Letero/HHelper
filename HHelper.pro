@@ -26,8 +26,6 @@ RESOURCES += \
             Icons.qrc \
             qml.qrc
 
-RC_FILE = hhelper.rc
-
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
