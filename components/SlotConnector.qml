@@ -56,6 +56,7 @@ Column {
             onTextChanged: {
                 controller.setSlotName(text)
             }
+            onAccepted: goSlotButton.onClicked()
         }
     }
 }
