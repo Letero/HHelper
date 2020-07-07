@@ -272,6 +272,7 @@ Window {
         }
     }
 
+    // @disable-check M16
     onClosing: {
         controller.saveCurrentConfig()
     }
