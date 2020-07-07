@@ -189,16 +189,5 @@ Column {
                 color: telnetSender.connected ? "green" : "red"
             }
         }
-
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            width: saveHostButton.width
-            height: 30
-            text: qsTr("Retry")
-            font.pixelSize: 14
-            onClicked: {
-                telnetSender.connectToTelnet()
-            }
-        }
     }
 }

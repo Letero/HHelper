@@ -54,6 +54,18 @@ Window {
         telnetSender.connectToTelnet()
     }
 
+    Item {
+        Timer {
+            interval: 50; running: true; repeat: true
+            onTriggered:
+            {
+                if (!telnetSender.connected) {
+                    telnetSender.connectToTelnet()
+                }
+            }
+        }
+    }
+
     MouseArea {
         anchors.fill: parent
 
