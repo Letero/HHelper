@@ -56,7 +56,7 @@ Window {
 
     Item {
         Timer {
-            interval: 50; running: true; repeat: true
+            interval: 500; running: true; repeat: true
             onTriggered:
             {
                 if (!telnetSender.connected) {
