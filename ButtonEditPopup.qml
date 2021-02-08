@@ -57,14 +57,13 @@ Popup {
 
         Image {
             anchors.centerIn: parent.Center
-            source: "res/plus.png"
+            source: "/icons/plus"
 
             ColorOverlay {
                 anchors.fill: parent
                 source: parent
                 color: addCommandButton.pressed ? Universal.background : Universal.foreground
             }
-
         }
 
         onClicked: {
@@ -180,7 +179,7 @@ Popup {
                             verticalCenter: parent.verticalCenter
                         }
 
-                        image: "qrc:/res/minus.png"
+                        image: "/icons/minus"
 
                         height: parent.height
                         width: height

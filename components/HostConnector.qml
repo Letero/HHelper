@@ -169,7 +169,7 @@ Column {
                 id: statusIcon
                 height: statusText.height
                 width: height
-                source: telnetSender.connected ? "qrc:/res/check.png" : "qrc:/res/disconnect.png"
+                source: telnetSender.connected ? "/icons/check" : "/icons/disconnect"
 
                 ColorOverlay {
                     anchors.fill: parent
