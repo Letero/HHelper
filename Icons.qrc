@@ -1,15 +1,15 @@
 <RCC>
-    <qresource prefix="/res">
-        <file>pin.png</file>
-        <file>pin-outline.png</file>
-        <file>close.png</file>
-        <file>content-save-cog.png</file>
-        <file>content-save-cog-outline.png</file>
-        <file>plus.png</file>
-        <file>nyan.gif</file>
-        <file>check.png</file>
-        <file>disconnect.png</file>
-        <file>minus.png</file>
-        <file>text-box-outline.png</file>
+    <qresource prefix="/icons">
+        <file alias="check">assets/icons/check.png</file>
+        <file alias="close">assets/icons/close.png</file>
+        <file alias="save-alert-outline">assets/icons/content-save-alert-outline.png</file>
+        <file alias="save-cog">assets/icons/content-save-cog.png</file>
+        <file alias="save-cog-outline">assets/icons/content-save-cog-outline.png</file>
+        <file alias="disconnect">assets/icons/disconnect.png</file>
+        <file alias="minus">assets/icons/minus.png</file>
+        <file alias="pin">assets/icons/pin.png</file>
+        <file alias="pin-outline">assets/icons/pin-outline.png</file>
+        <file alias="plus">assets/icons/plus.png</file>
+        <file alias="text-box-outline">assets/icons/text-box-outline.png</file>
     </qresource>
 </RCC>

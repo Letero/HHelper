@@ -21,8 +21,8 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
 
         checkable: true
-        image: "qrc:/res/pin-outline.png"
-        imagePressed: "qrc:/res/pin.png"
+        image: "/icons/pin-outline"
+        imagePressed: "/icons/pin"
 
         tooltipText: qsTr("Pin application to stay always on top.")
     }
@@ -34,7 +34,7 @@ Column {
 
         anchors.horizontalCenter: parent.horizontalCenter
 
-        image: "qrc:/res/text-box-outline.png"
+        image: "/icons/text-box-outline"
 
         tooltipText: qsTr("Open log file.")
 
@@ -48,7 +48,7 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
 
         visible: pinButton.checked
-        image: "qrc:/res/close.png"
+        image: "/icons/close"
 
         tooltipText: qsTr("Close application.")
 
