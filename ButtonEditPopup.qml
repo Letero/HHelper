@@ -82,6 +82,7 @@ Popup {
 
     ColumnLayout {
         id: layout
+
         anchors {
             left: parent.left
             right: parent.right
@@ -238,8 +239,9 @@ Popup {
 
             Button {
                 id: saveButton
+
                 Layout.fillWidth: true
-                text: root.editMode ? "Save" : "Add"
+                text: root.editMode ? qsTr("Save") : qsTr("Add")
                 enabled: root.editMode || buttonsList.anyText && popupBtnName.text !== ""
 
                 onClicked: {
@@ -247,23 +249,23 @@ Popup {
                     {
                         if (root.editMode) {
                             controller.buttonModel.editButton(root.currentButtonIndex, popupBtnName.text, buttonsList.stringArray)
-                            root.close()
                         } else {
                             controller.buttonModel.addButton(popupBtnName.text, buttonsList.stringArray)
                         }
+                        root.close()
                     }
                 }
             }
 
             Button {
                 Layout.fillWidth: true
-                text: "Reset"
+                text: qsTr("Reset")
                 onClicked: root.clearPopup()
             }
 
             Button {
                 Layout.fillWidth: true
-                text: "Cancel"
+                text: qsTr("Cancel")
                 onClicked: popup.close()
             }
         }
