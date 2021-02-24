@@ -57,14 +57,13 @@ Popup {
 
         Image {
             anchors.centerIn: parent.Center
-            source: "res/plus.png"
+            source: "/icons/plus"
 
             ColorOverlay {
                 anchors.fill: parent
                 source: parent
                 color: addCommandButton.pressed ? Universal.background : Universal.foreground
             }
-
         }
 
         onClicked: {
@@ -82,6 +81,7 @@ Popup {
 
     ColumnLayout {
         id: layout
+
         anchors {
             left: parent.left
             right: parent.right
@@ -180,7 +180,7 @@ Popup {
                             verticalCenter: parent.verticalCenter
                         }
 
-                        image: "qrc:/res/minus.png"
+                        image: "/icons/minus"
 
                         height: parent.height
                         width: height
@@ -238,8 +238,9 @@ Popup {
 
             Button {
                 id: saveButton
+
                 Layout.fillWidth: true
-                text: root.editMode ? "Save" : "Add"
+                text: root.editMode ? qsTr("Save") : qsTr("Add")
                 enabled: root.editMode || buttonsList.anyText && popupBtnName.text !== ""
 
                 onClicked: {
@@ -247,23 +248,23 @@ Popup {
                     {
                         if (root.editMode) {
                             controller.buttonModel.editButton(root.currentButtonIndex, popupBtnName.text, buttonsList.stringArray)
-                            root.close()
                         } else {
                             controller.buttonModel.addButton(popupBtnName.text, buttonsList.stringArray)
                         }
+                        root.close()
                     }
                 }
             }
 
             Button {
                 Layout.fillWidth: true
-                text: "Reset"
+                text: qsTr("Reset")
                 onClicked: root.clearPopup()
             }
 
             Button {
                 Layout.fillWidth: true
-                text: "Cancel"
+                text: qsTr("Cancel")
                 onClicked: popup.close()
             }
         }
