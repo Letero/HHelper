@@ -59,6 +59,7 @@ Column {
             ListElement { key: "Dutch";        value: "nl" }
             ListElement { key: "Norwegian";    value: "no" }
             ListElement { key: "Turkish";      value: "tr" }
+            ListElement { key: "Korean";       value: "ko" }
         }
     }
 
