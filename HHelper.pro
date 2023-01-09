@@ -1,5 +1,5 @@
 QT += quick quickcontrols2
-
+greaterThan(QT_MAJOR_VERSION,5): QT += core5compat
 CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
