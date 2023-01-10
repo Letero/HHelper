@@ -1,7 +1,7 @@
 #include "TelnetSender.h"
 
 #include <QDir>
-
+#include <QRegExp>
 namespace
 {
     constexpr auto DEFAULT_HOST = "localhost";

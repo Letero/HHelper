@@ -49,6 +49,7 @@ Column {
             ListElement { key: "Spanish";      value: "es" }
             ListElement { key: "German";       value: "de" }
             ListElement { key: "Russian";      value: "ru" }
+            ListElement { key: "Swedish";      value: "sv" }
             ListElement { key: "Polish";       value: "pl" }
             ListElement { key: "French";       value: "fr" }
             ListElement { key: "Japanese";     value: "ja" }
