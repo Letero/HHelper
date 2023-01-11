@@ -10,8 +10,6 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<TelnetSender>("com.company.TelnetSender", 1, 0, "TelnetSender");

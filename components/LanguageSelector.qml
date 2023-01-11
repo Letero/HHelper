@@ -95,7 +95,7 @@ Column {
             Timer {
                 id: clickTimer
                 running: false
-                interval: 100
+                interval: 300
 
                 onTriggered: parent.clickCounter = 0
             }
