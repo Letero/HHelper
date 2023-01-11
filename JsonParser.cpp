@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QJsonDocument>
+#include <QDateTime>
 
 #include <algorithm>
 
@@ -33,6 +34,13 @@ JsonParser::JsonParser(QObject *parent) : QObject(parent)
     loadConfig(CONFIG_FILE);
 }
 
+void JsonParser::backupConfigFile()
+{
+    QDateTime date = QDateTime::currentDateTime();
+    QString formattedTime = date.toString("dd.MM.yyyy_hh_mm_ss");
+    QFile::copy(CONFIG_FILE, "config_backup_" + formattedTime + ".json");
+}
+
 bool JsonParser::loadConfig(QString filename)
 {
     QFile file(filename);
@@ -47,6 +55,9 @@ bool JsonParser::loadConfig(QString filename)
     QJsonDocument doc = QJsonDocument::fromJson(ba, &err);
     qDebug() << err.errorString();
     qDebug() << err.offset;
+    if (err.offset != 0) {
+        backupConfigFile();
+    }
 
     m_config = doc.object();
 

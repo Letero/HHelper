@@ -33,6 +33,7 @@ private:
     QJsonArray m_commandHistory;
     QJsonArray m_hostSettings;
     void writeToFile();
+    void backupConfigFile();
     bool loadConfig(QString filename);
     QStringList toStringList(const QJsonArray &list);
 
