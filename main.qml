@@ -131,7 +131,7 @@ Window {
                     id: settingsBar
 
                     anchors.horizontalCenter: parent.horizontalCenter
-                    onThemeChanged: {
+                    onThemeChanged: function( checked ) {
                         if (checked) {
                             root.Universal.theme = Universal.Dark
                         } else {
@@ -216,13 +216,13 @@ Window {
                             model: controller.buttonModel
 
                             delegate: MaterialButton {
-                            text: buttonName
+                                text: buttonName
 
-                            tooltip: {
-                                var tip = "Commands:"
-                                buttonArgs.forEach(function(arg) { tip +=  "\n• " + arg })
-                                return tip
-                            }
+                                tooltip: {
+                                    var tip = "Commands:"
+                                    buttonArgs.forEach(function(arg) { tip +=  "\n• " + arg })
+                                    return tip
+                                }
 
                                 onLeftClicked: telnetSender.send(buttonArgs)
                                 onRightClicked: contextMenu.popup()
