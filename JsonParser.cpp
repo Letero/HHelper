@@ -4,12 +4,13 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QDateTime>
-
+#include <Qdir>
 #include <algorithm>
 
-namespace
-{
-    const auto CONFIG_FILE = "config.json";
+namespace {
+    const auto BACKUPS_AMOUNT = 15;
+    const auto CONFIG_FILE = "config/config.json";
+    const auto CONFIG_BACKUP = "config/config_backup_";
 
     const auto SETTINGS_NODE = "main_settings";
     const auto SLOT_NAME_NODE = "slot_name";
@@ -38,7 +39,21 @@ void JsonParser::backupConfigFile()
 {
     QDateTime date = QDateTime::currentDateTime();
     QString formattedTime = date.toString("dd.MM.yyyy_hh_mm_ss");
-    QFile::copy(CONFIG_FILE, "config_backup_" + formattedTime + ".json");
+    QFile::copy(CONFIG_FILE, CONFIG_BACKUP + formattedTime + ".json");
+
+    QDir directory(QDir::currentPath() + "/config");
+    auto backups = directory.entryList(QStringList(), QDir::Files);
+    backups = backups.filter("config_backup_");
+    while (backups.size() > BACKUPS_AMOUNT) {
+        auto fileToRemove = QDir::currentPath() + "/config/" + backups[0];
+        qDebug() << fileToRemove;
+        QFile file( fileToRemove );
+        if (!file.open(QIODevice::ReadOnly)) {
+            qDebug() << file.errorString();
+        }
+        file.remove();
+        backups.removeAt(0);
+    }
 }
 
 bool JsonParser::loadConfig(QString filename)
@@ -51,14 +66,9 @@ bool JsonParser::loadConfig(QString filename)
     const QByteArray ba = file.readAll();
     file.close();
 
+    backupConfigFile();
     QJsonParseError err;
     QJsonDocument doc = QJsonDocument::fromJson(ba, &err);
-    qDebug() << err.errorString();
-    qDebug() << err.offset;
-    if (err.offset != 0) {
-        backupConfigFile();
-    }
-
     m_config = doc.object();
 
     if (!m_config.isEmpty()) {
