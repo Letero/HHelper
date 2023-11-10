@@ -3,7 +3,7 @@ import QtQuick 2.0
 AnimatedImage {
     id: cat
 
-    source: "res/nyan.gif"
+    source: "/assets/nyan.gif"
     visible: false
 
     height: 120

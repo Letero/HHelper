@@ -95,7 +95,7 @@ Row {
 
                 Connections {
                     target: quickCommand
-                    onCurrentIndexChanged: {
+                    function onCurrentIndexChanged() {
                         if (quickCommand.currentIndex * itemHeight < commandsList.contentY)
                         {
                             commandsList.contentY -= itemHeight

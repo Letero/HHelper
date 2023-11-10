@@ -24,6 +24,7 @@ SOURCES += \
 
 RESOURCES += \
             Icons.qrc \
+            Nyan.qrc \
             qml.qrc
 
 RC_ICONS = hhelper.ico
@@ -46,3 +47,5 @@ HEADERS += \
     HostModel.h \
     JsonParser.h \
     TelnetSender.h
+
+DISTFILES +=
