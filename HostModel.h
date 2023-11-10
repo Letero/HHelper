@@ -35,6 +35,5 @@ public:
 
 private:
     QVector<HostData> mHostData;
-
 };
 

@@ -42,8 +42,8 @@ Rectangle {
         hoverEnabled: true
         acceptedButtons: Qt.AllButtons
         onPressed: parent.forceActiveFocus()
-        onClicked: {
-            if (mouse.button == Qt.LeftButton) {
+        onClicked: function( mouse ) {
+            if (mouse.button === Qt.LeftButton) {
                 leftClicked()
             }
 
