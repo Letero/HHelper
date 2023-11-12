@@ -66,7 +66,7 @@ Column {
         enabled: count > 0
         property string option: qsTr("option")
         property string options: qsTr("options")
-        property string defaultText: count == 0
+        property string defaultText: count === 0
                                      ? qsTr("Not any saved")
                                      : qsTr("Choose saved") + " (" + count + " " + (count > 1 ? options : option) + ")"
 

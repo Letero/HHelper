@@ -29,7 +29,7 @@ Row {
         popup: Popup {}
 
         onEditTextChanged: {
-            if (currentIndex == count - 1 && editText == "" && allowRestore)
+            if (currentIndex == count - 1 && editText === "" && allowRestore)
             {
                 editText = savedText
                 allowRestore = false
@@ -44,7 +44,7 @@ Row {
 
         Keys.onUpPressed: {
             event.accepted = false
-            if (currentIndex == count - 1)
+            if (currentIndex === count - 1)
             {
                 savedText = editText
             }
@@ -52,7 +52,7 @@ Row {
 
         Keys.onDownPressed: {
             event.accepted = false
-            if (currentIndex == count - 2)
+            if (currentIndex === count - 2)
             {
                 allowRestore = true
             }

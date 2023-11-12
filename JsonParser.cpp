@@ -9,6 +9,8 @@
 
 namespace {
     const auto BACKUPS_AMOUNT = 15;
+    const auto CONFIG_DIR = "config";
+
     const auto CONFIG_FILE = "config/config.json";
     const auto CONFIG_BACKUP = "config/config_backup_";
 
@@ -58,6 +60,10 @@ void JsonParser::backupConfigFile()
 
 bool JsonParser::loadConfig(QString filename)
 {
+    if (!QDir(CONFIG_DIR).exists()) {
+        QDir().mkdir(CONFIG_DIR);
+    }
+
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << file.errorString();

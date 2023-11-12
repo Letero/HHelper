@@ -19,6 +19,7 @@ Window {
     minimumHeight: 600
     width: controller.getWidth()
     height: controller.getHeight()
+    flags: settingsBar.pinned ? (Qt.WindowMaximizeButtonHint | Qt.Window | Qt.WindowStaysOnTopHint | Qt.WindowTitleHint | Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint) : Qt.Window
 
     onWidthChanged: {
         controller.setWidth(root.width)
@@ -27,8 +28,6 @@ Window {
     onHeightChanged: {
         controller.setHeight(root.height)
     }
-
-    flags: settingsBar.pinned ? (Qt.Window | Qt.WindowStaysOnTopHint) : Qt.Window
 
     visible: true
     title: qsTr("Telnet Helper")
