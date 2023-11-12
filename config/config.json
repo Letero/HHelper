@@ -1,5 +1,113 @@
 {
     "button_settings": [
+        {
+            "commands": [
+                "server playerchange level 800",
+                "server playerchange diamonds 1000",
+                "skipRewardPopups true",
+                "disconnect"
+            ],
+            "name": "Skip tutorial"
+        },
+        {
+            "commands": [
+                "disconnect"
+            ],
+            "name": "Disconnect"
+        },
+        {
+            "commands": [
+                "hold"
+            ],
+            "name": "Hold"
+        },
+        {
+            "commands": [
+                "server game freespins",
+                "spin"
+            ],
+            "name": "F. freespins"
+        },
+        {
+            "commands": [
+                "server game bonus",
+                "spin"
+            ],
+            "name": "F. Bonus"
+        },
+        {
+            "commands": [
+                "server game jackpot",
+                "spin"
+            ],
+            "name": "F. Jackpot"
+        },
+        {
+            "commands": [
+                "server game bigwin",
+                "spin"
+            ],
+            "name": "F. Big win"
+        },
+        {
+            "commands": [
+                "server game megawin"
+            ],
+            "name": "F. mega win"
+        },
+        {
+            "commands": [
+                "server game hugewin"
+            ],
+            "name": "F. huge win"
+        },
+        {
+            "commands": [
+                "server playerchange diamonds 10000",
+                "disconnect"
+            ],
+            "name": "+10000 diamonds"
+        },
+        {
+            "commands": [
+                "server playerchange level 800",
+                "skipRewardPopups true",
+                "disconnect"
+            ],
+            "name": "Level +800"
+        },
+        {
+            "commands": [
+                "server playerchange chips 5000000000",
+                "disconnect"
+            ],
+            "name": "+5B chips"
+        },
+        {
+            "commands": [
+                "server game jackpotIncr 150000000000000"
+            ],
+            "name": "Jackpot Increase"
+        },
+        {
+            "commands": [
+                "lua_eval winmgr:CloseAll() "
+            ],
+            "name": "close_popups"
+        },
+        {
+            "commands": [
+                "spin"
+            ],
+            "name": "spin"
+        },
+        {
+            "commands": [
+                "server game 5ofakind",
+                "spin"
+            ],
+            "name": "5oak"
+        }
     ],
     "command_history": [
     ],
