@@ -39,7 +39,7 @@ Column {
             onActiveFocusChanged: {
                 if (!activeFocus)
                 {
-                    if (text == "")
+                    if (text === "")
                     {
                         slider.onValueChanged()
                         return
@@ -67,7 +67,7 @@ Column {
             width: 140
             snapMode: "SnapAlways"
             from: 0.0001
-            to: 5
+            to: 50
             stepSize: 0.1
             value: 1.0
 
